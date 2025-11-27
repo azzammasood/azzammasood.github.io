@@ -1,288 +1,866 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8" />
   <title>Ahmad Uzzam Masood — Data Engineer</title>
-  <meta name="description" content="Data Engineer with experience in Spark, Airflow, Kafka, PostgreSQL, and AWS. Building real-time pipelines, anomaly detection, and outage prediction systems." />
-  <meta property="og:title" content="Ahmad Uzzam Masood — Data Engineer & ML" />
-  <meta property="og:description" content="Real-time data pipelines • Spark • Airflow • Kafka • PostgreSQL • AWS" />
-  <meta property="og:type" content="website" />
-  <meta name="theme-color" content="#0ea5e9">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta
+    name="description"
+    content="Ahmad Uzzam Masood — Data Engineer specializing in real-time data platforms, cloud ETL, and metadata-driven pipelines across AWS, Azure, and GCP."
+  />
   <style>
     :root {
-      --bg: #0b0f17;        /* page bg */
-      --panel: #0f1724;     /* card bg */
-      --muted: #9aa5b1;     /* text secondary */
-      --text: #e4e8ee;      /* text primary */
-      --brand: #0ea5e9;     /* cyan */
-      --brand-2: #8b5cf6;   /* violet */
-      --ring: rgba(14, 165, 233, .35);
-      --radius: 18px;
+      --bg: #05060a;
+      --bg-alt: #0c0f18;
+      --card: #101321;
+      --accent: #4f46e5;
+      --accent-soft: rgba(79, 70, 229, 0.15);
+      --accent-strong: rgba(129, 140, 248, 0.4);
+      --text: #e5e7eb;
+      --text-soft: #9ca3af;
+      --border-subtle: rgba(156, 163, 175, 0.2);
+      --radius-lg: 18px;
+      --radius-full: 999px;
+      --shadow-soft: 0 18px 45px rgba(0, 0, 0, 0.55);
+      --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        "Segoe UI", sans-serif;
     }
-    * { box-sizing: border-box }
-    html, body { margin:0; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Apple Color Emoji', 'Segoe UI Emoji'; background: var(--bg); color: var(--text); }
-    a { color: var(--text); text-decoration: none }
-    a:hover { color: #fff }
-    .container { width: min(1100px, 92%); margin: 0 auto; }
-    .pill { display:inline-flex; align-items:center; gap:.5rem; padding:.5rem .85rem; border-radius:999px; background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)); border: 1px solid rgba(255,255,255,.06); color:#cfe7ff; font-weight:600; letter-spacing:.2px; }
-    .nav { position: sticky; top: 0; z-index: 50; backdrop-filter: saturate(180%) blur(12px); background: linear-gradient(180deg, rgba(11,15,23,.85), rgba(11,15,23,.55)); border-bottom: 1px solid rgba(255,255,255,.06); }
-    .nav-inner { display:flex; align-items:center; justify-content:space-between; padding: .8rem 0; }
-    .nav a { opacity:.9 }
-    .btn { display:inline-flex; align-items:center; gap:.6rem; padding:.7rem 1rem; border-radius: 12px; background: linear-gradient(180deg, #0ea5e9, #0284c7); color:#fff; font-weight:700; border: none; box-shadow: 0 10px 30px rgba(14,165,233,.25); transition: transform .15s ease, box-shadow .15s ease; }
-    .btn:hover { transform: translateY(-1px); box-shadow: 0 14px 34px rgba(14,165,233,.32); }
-    .btn.secondary { background: linear-gradient(180deg, #8b5cf6, #6d28d9); box-shadow: 0 10px 30px rgba(139,92,246,.25); }
-    .hero { position: relative; padding: 5.5rem 0 3rem; }
-    .glow { position:absolute; inset: -10% -20% auto -20%; height: 380px; background: radial-gradient(60% 60% at 30% 50%, rgba(14,165,233,.45), transparent 60%), radial-gradient(50% 50% at 70% 30%, rgba(139,92,246,.35), transparent 60%); filter: blur(35px); opacity:.55; pointer-events:none; }
-    .hero h1 { font-size: clamp(2rem, 2.4rem + 1.5vw, 3.2rem); line-height:1.07; margin: .25rem 0 .8rem; letter-spacing:.2px }
-    .hero p { color: var(--muted); max-width: 850px; font-size: clamp(1rem, .98rem + .4vw, 1.1rem); }
-    .hero-grid { display:grid; grid-template-columns: 1.1fr .9fr; gap: 22px; margin-top: 2.8rem; }
-    @media (max-width: 940px){ .hero-grid{ grid-template-columns: 1fr; } }
-    .card { background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015)); border: 1px solid rgba(255,255,255,.08); border-radius: var(--radius); padding: 1.1rem; }
-    .card h3 { margin: .25rem 0 .8rem; font-size: 1.05rem; letter-spacing:.3px }
-    .tag { display:inline-flex; align-items:center; padding:.4rem .6rem; border-radius:10px; border:1px solid rgba(255,255,255,.1); color:#c9d7ff; background: rgba(255,255,255,.03); font-size:.86rem; margin:.3rem .35rem .3rem 0 }
-    .grid { display:grid; gap: 16px; }
-    .grid.cols-2 { grid-template-columns: repeat(2, minmax(0,1fr)); }
-    .grid.cols-3 { grid-template-columns: repeat(3, minmax(0,1fr)); }
-    @media (max-width: 860px){ .grid.cols-2, .grid.cols-3 { grid-template-columns: 1fr; } }
-    .section { padding: 2.2rem 0; }
-    .section h2 { font-size: 1.5rem; margin: 0 0 1rem; letter-spacing:.2px }
-    .kpi { display:flex; gap:10px; align-items:center; padding:.65rem .8rem; border-radius:12px; background: linear-gradient(180deg, rgba(14,165,233,.08), rgba(14,165,233,.04)); border:1px solid rgba(14,165,233,.2); }
-    .muted { color: var(--muted); }
-    .list { padding-left: 1.05rem; }
-    .list li { margin:.35rem 0; }
-    .footer { padding: 2.2rem 0 3rem; color: var(--muted); font-size:.95rem; }
-    .link { color:#cde9ff; border-bottom:1px dashed rgba(205,233,255,.6); }
-    .hdr { display:flex; align-items:center; justify-content:space-between; gap:10px }
-    .role { color:#b9d6ff; font-weight:700; letter-spacing:.3px; text-transform:uppercase; font-size:.82rem }
-    .row { display:flex; gap:10px; align-items:center; flex-wrap: wrap }
-    .sep { opacity:.5; margin: 0 .35rem }
-    .soft { opacity:.85 }
-    .avatar { width:56px; height:56px; border-radius:50%; background: linear-gradient(180deg, #60a5fa, #0ea5e9); display:grid; place-items:center; font-weight:800; letter-spacing:.5px; }
-    .resume-btn { border:1px solid rgba(255,255,255,.1); background: rgba(255,255,255,.04); }
-    .cta-row { display:flex; gap:.8rem; flex-wrap:wrap; margin-top: 1.1rem }
-    .icon { width:18px; height:18px; display:inline-block; }
-    .small { font-size:.92rem }
-    .chip { padding:.35rem .6rem; border-radius:999px; border:1px solid rgba(255,255,255,.1); color:#a8ffef; background: rgba(10, 193, 163, .08) }
-    .shadow-xl { box-shadow: 0 20px 60px rgba(0,0,0,.35) }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      height: 100%;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background: radial-gradient(circle at top, #111827 0, #020617 45%, #000 100%);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    main {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 32px 16px 64px;
+    }
+
+    header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 32px;
+      margin-bottom: 40px;
+    }
+
+    .logo-mark {
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
+      border: 1px solid var(--accent-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 18px;
+      background: radial-gradient(circle at 0 0, var(--accent-strong), #020617);
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.9);
+      flex-shrink: 0;
+    }
+
+    nav {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      font-size: 14px;
+    }
+
+    nav a {
+      padding: 6px 10px;
+      border-radius: 999px;
+      color: var(--text-soft);
+      border: 1px solid transparent;
+      transition: color 0.18s ease, border-color 0.18s ease,
+        background 0.18s ease, transform 0.18s ease;
+    }
+
+    nav a:hover {
+      color: var(--text);
+      border-color: var(--accent-soft);
+      background: rgba(15, 23, 42, 0.85);
+      transform: translateY(-1px);
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 12px;
+      border-radius: var(--radius-full);
+      background: rgba(15, 23, 42, 0.84);
+      border: 1px solid var(--accent-soft);
+      font-size: 12px;
+      color: var(--accent);
+      margin-bottom: 12px;
+      backdrop-filter: blur(10px);
+    }
+
+    .pill-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 14px rgba(34, 197, 94, 0.95);
+    }
+
+    .hero {
+      margin: 32px 0 24px;
+      display: grid;
+      grid-template-columns: minmax(0, 2.2fr) minmax(0, 1.6fr);
+      gap: 32px;
+      align-items: flex-start;
+    }
+
+    @media (max-width: 800px) {
+      header {
+        flex-direction: column;
+        gap: 18px;
+      }
+      nav {
+        flex-wrap: wrap;
+      }
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    h1 {
+      font-size: clamp(30px, 4vw, 38px);
+      letter-spacing: -0.03em;
+      margin-bottom: 6px;
+    }
+
+    .hero-role {
+      font-size: 15px;
+      color: var(--text-soft);
+      margin-bottom: 14px;
+    }
+
+    .hero-title-line {
+      font-size: 20px;
+      color: var(--text-soft);
+      margin-bottom: 14px;
+    }
+
+    .hero-title-line span {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    .hero-text {
+      font-size: 14px;
+      color: var(--text-soft);
+      max-width: 37rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .btn-primary,
+    .btn-ghost {
+      border-radius: var(--radius-full);
+      padding: 9px 16px;
+      font-size: 13px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: transform 0.16s ease, box-shadow 0.16s ease,
+        background 0.16s ease, border-color 0.16s ease, color 0.16s ease;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: radial-gradient(circle at top left, #4f46e5, #1d2438);
+      border-color: rgba(129, 140, 248, 0.7);
+      box-shadow: 0 16px 40px rgba(15, 23, 42, 0.8);
+      color: #f9fafb;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px) scale(1.01);
+      box-shadow: 0 18px 48px rgba(15, 23, 42, 0.95);
+      background: radial-gradient(circle at top left, #6366f1, #111827);
+    }
+
+    .btn-ghost {
+      background: rgba(15, 23, 42, 0.9);
+      border-color: var(--border-subtle);
+      color: var(--text-soft);
+    }
+
+    .btn-ghost:hover {
+      color: var(--text);
+      border-color: var(--accent-soft);
+      background: rgba(15, 23, 42, 0.96);
+      transform: translateY(-1px);
+    }
+
+    .hero-metrics {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      font-size: 12px;
+      color: var(--text-soft);
+    }
+
+    .metric-card {
+      border-radius: 14px;
+      padding: 10px 12px;
+      border: 1px solid rgba(31, 41, 55, 0.9);
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.9), #020617);
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.9);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .metric-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top, rgba(129, 140, 248, 0.28), transparent 55%);
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .metric-card:hover::before {
+      opacity: 1;
+    }
+
+    .metric-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-soft);
+    }
+
+    .metric-value {
+      font-size: 16px;
+      font-weight: 600;
+      margin-top: 2px;
+    }
+
+    .metric-sub {
+      font-size: 11px;
+      color: var(--text-soft);
+      margin-top: 2px;
+    }
+
+    .section {
+      margin-top: 42px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .section-title {
+      font-size: 18px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--text-soft);
+    }
+
+    .section-title span {
+      color: var(--accent);
+    }
+
+    .section-tagline {
+      font-size: 12px;
+      color: var(--text-soft);
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    @media (max-width: 800px) {
+      .projects-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .card {
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-subtle);
+      background: rgba(15, 23, 42, 0.92);
+      padding: 16px 16px 14px;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55);
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s ease, box-shadow 0.2s ease,
+        border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background: radial-gradient(circle at top left, rgba(79, 70, 229, 0.12), transparent 60%);
+      opacity: 0;
+      transition: opacity 0.22s ease;
+      pointer-events: none;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 22px 60px rgba(0, 0, 0, 0.8);
+      border-color: var(--accent-soft);
+      background: rgba(15, 23, 42, 0.98);
+    }
+
+    .card:hover::before {
+      opacity: 1;
+    }
+
+    .card-tech {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-soft);
+      margin-bottom: 6px;
+    }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .card-body {
+      font-size: 13px;
+      color: var(--text-soft);
+      margin-bottom: 10px;
+    }
+
+    .card-list {
+      font-size: 12px;
+      color: var(--text-soft);
+      list-style: disc;
+      padding-left: 16px;
+    }
+
+    .experience-item {
+      display: grid;
+      grid-template-columns: minmax(0, 1.7fr) minmax(0, 2.3fr);
+      gap: 18px;
+      padding: 16px 16px 12px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-subtle);
+      background: rgba(15, 23, 42, 0.9);
+      box-shadow: 0 14px 38px rgba(0, 0, 0, 0.6);
+      margin-bottom: 14px;
+    }
+
+    @media (max-width: 800px) {
+      .experience-item {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .exp-role {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .exp-company {
+      font-size: 13px;
+      color: var(--text-soft);
+    }
+
+    .exp-meta {
+      font-size: 11px;
+      color: var(--text-soft);
+      margin-top: 4px;
+    }
+
+    .exp-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .exp-tag {
+      border-radius: var(--radius-full);
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      padding: 2px 8px;
+      font-size: 11px;
+      color: var(--text-soft);
+      background: rgba(15, 23, 42, 0.96);
+    }
+
+    .exp-body {
+      font-size: 13px;
+      color: var(--text-soft);
+    }
+
+    .exp-body ul {
+      list-style: disc;
+      padding-left: 18px;
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    @media (max-width: 800px) {
+      .skills-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .skills-heading {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-soft);
+      margin-bottom: 4px;
+    }
+
+    .skills-list {
+      font-size: 13px;
+      color: var(--text-soft);
+    }
+
+    .education-card {
+      padding: 14px 14px 12px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-subtle);
+      background: rgba(15, 23, 42, 0.9);
+      box-shadow: 0 14px 35px rgba(0, 0, 0, 0.65);
+      margin-bottom: 12px;
+      font-size: 13px;
+      color: var(--text-soft);
+    }
+
+    .education-title {
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 4px;
+      color: var(--text);
+    }
+
+    .education-meta {
+      font-size: 12px;
+    }
+
+    .cert-list {
+      list-style: disc;
+      padding-left: 18px;
+      font-size: 13px;
+      color: var(--text-soft);
+    }
+
+    .contact-card {
+      padding: 16px 16px 14px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--accent-soft);
+      background: radial-gradient(circle at top left, rgba(79, 70, 229, 0.3), #020617);
+      box-shadow: 0 18px 50px rgba(15, 23, 42, 1);
+      font-size: 13px;
+      color: var(--text-soft);
+    }
+
+    .contact-row {
+      margin-bottom: 10px;
+    }
+
+    .contact-label {
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(209, 213, 219, 0.9);
+      margin-bottom: 2px;
+    }
+
+    .contact-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    .chip-link {
+      border-radius: var(--radius-full);
+      padding: 5px 10px;
+      font-size: 12px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      background: rgba(15, 23, 42, 0.9);
+      color: var(--text-soft);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: border-color 0.18s ease, background 0.18s ease,
+        color 0.18s ease, transform 0.18s ease;
+    }
+
+    .chip-link:hover {
+      border-color: rgba(129, 140, 248, 0.95);
+      color: var(--text);
+      background: rgba(15, 23, 42, 0.98);
+      transform: translateY(-1px);
+    }
+
+    footer {
+      margin-top: 28px;
+      font-size: 11px;
+      color: var(--text-soft);
+      text-align: center;
+      padding-top: 16px;
+      border-top: 1px solid rgba(31, 41, 55, 0.85);
+    }
+
+    /*
+      Simple entrance animation – runs when the page loads.
+      No JS dependency, just CSS keyframes and delays.
+    */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fade-in {
+      opacity: 0;
+      animation: fadeInUp 0.55s ease-out forwards;
+    }
+
+    .fade-in.delay-1 {
+      animation-delay: 0.12s;
+    }
+
+    .fade-in.delay-2 {
+      animation-delay: 0.22s;
+    }
+
+    .fade-in.delay-3 {
+      animation-delay: 0.32s;
+    }
+
+    .fade-in.delay-4 {
+      animation-delay: 0.42s;
+    }
   </style>
 </head>
 <body>
-  <header class="nav">
-    <div class="container nav-inner">
-      <div class="row">
-        <div class="avatar">AM</div>
-        <div>
-          <strong style="display:block; letter-spacing:.2px;">Ahmad Uzzam Masood</strong>
-          <span class="muted small">Data Engineer • ML</span>
-        </div>
-      </div>
-      <nav class="row small">
-        <a href="#projects">Projects</a><span class="sep">·</span>
-        <a href="#experience">Experience</a><span class="sep">·</span>
-        <a href="#skills">Skills</a><span class="sep">·</span>
-        <a href="#education">Education</a><span class="sep">·</span>
+  <main>
+    <header class="fade-in">
+      <div class="logo-mark">AM</div>
+      <nav>
+        <a href="#projects">Projects</a>
+        <a href="#experience">Experience</a>
+        <a href="#skills">Skills</a>
+        <a href="#education">Education</a>
         <a href="#contact">Contact</a>
       </nav>
-    </div>
-  </header>
+    </header>
 
-  <section class="hero container">
-    <div class="glow" aria-hidden="true"></div>
-    <span class="pill">Real‑time Data • Spark • Airflow • Kafka • AWS</span>
-    <h1>Building reliable, real‑time data systems and ML pipelines.</h1>
-    <p>
-      Data Engineer with 2+ years of experience building scalable ETL pipelines with Apache Spark and PostgreSQL, orchestrating workflows with Apache Airflow, and deploying cloud‑native solutions on AWS (S3, EC2, Lambda, DynamoDB). I’ve delivered anomaly detection and site outage prediction systems, and real‑time monitoring with Kafka, FastAPI, and PostgreSQL.
-    </p>
-    <div class="cta-row">
-      <a class="btn" href="#projects" aria-label="View projects">
-        <!-- Play Icon -->
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M8 5v14l11-7-11-7z"/></svg>
-        View Projects
-      </a>
-      <a class="btn secondary resume-btn" href="Ahmad Masood Resume.pdf" download>Download Résumé (PDF)</a>
-      <span class="chip">Open to opportunities</span>
-    </div>
-
-    <div class="hero-grid">
-      <div class="card shadow-xl">
-        <div class="hdr"><h3>Highlights</h3></div>
-        <ul class="list muted">
-          <li>Real‑time <strong>Anomaly Detection</strong> & <strong>Outage Prediction</strong> with Spark + Kafka</li>
-          <li>Built data APIs with <strong>FastAPI</strong>; automated pipelines in <strong>Airflow</strong></li>
-          <li>Deployed on <strong>AWS</strong>: S3, EC2, Lambda, DynamoDB, CloudWatch</li>
-        </ul>
-        <div class="row" style="margin-top:.7rem">
-          <div class="kpi"><strong>2,500+</strong>&nbsp;<span class="muted">sites monitored</span></div>
-          <div class="kpi"><strong>24/7</strong>&nbsp;<span class="muted">stream processing</span></div>
+    <section class="hero fade-in delay-1">
+      <div>
+        <div class="pill">
+          <span class="pill-dot"></span>
+          Real-time Data · Cloud ETL · Streaming
+        </div>
+        <h1>Ahmad Uzzam Masood</h1>
+        <div class="hero-role">Data Engineer</div>
+        <p class="hero-title-line">
+          Designing <span>cloud-native data platforms</span> and metadata-driven pipelines across AWS, Azure, and GCP.
+        </p>
+        <p class="hero-text">
+          3+ years of experience building large-scale ETL and streaming data systems: real-time ingestion with Kafka and Spark,
+          metadata-driven orchestration in Airflow and Azure Data Factory, and production-grade CI/CD with Terraform and Git-based
+          workflows. Focused on low-latency ingestion, pipeline reliability, and analytics-ready warehouses on Redshift, Snowflake,
+          BigQuery, and PostgreSQL.
+        </p>
+        <div class="hero-actions">
+          <!-- Update the href below to the correct path of your PDF in the repo -->
+          <a class="btn-primary" href="Ahmad%20Masood%20Resume.pdf" target="_blank" rel="noopener">
+            Download Résumé (PDF)
+          </a>
+          <a class="btn-ghost" href="#projects">
+            View Projects
+          </a>
         </div>
       </div>
-      <div class="card shadow-xl">
-        <div class="hdr"><h3>Links</h3></div>
-        <div class="grid cols-2">
-          <a class="tag" href="https://github.com/azzammasood" target="_blank" rel="noreferrer">GitHub</a>
-          <a class="tag" href="https://www.linkedin.com/in/azzammasood/" target="_blank" rel="noreferrer">LinkedIn</a>
-          <a class="tag" href="http://stackoverflow.com/users/19572074" target="_blank" rel="noreferrer">Stack Overflow</a>
-          <a class="tag" href="#contact">Email</a>
+      <aside>
+        <div class="hero-metrics">
+          <div class="metric-card">
+            <div class="metric-label">Scale</div>
+            <div class="metric-value">2,500+ sites</div>
+            <div class="metric-sub">Real-time telemetry & outage monitoring</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Latency</div>
+            <div class="metric-value">Near real-time</div>
+            <div class="metric-sub">Streaming pipelines on Spark & Kafka</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Cloud</div>
+            <div class="metric-value">AWS · Azure · GCP</div>
+            <div class="metric-sub">Redshift, Snowflake, BigQuery, Data Lake</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Automation</div>
+            <div class="metric-value">CI/CD + IaC</div>
+            <div class="metric-sub">Terraform, GitHub Actions, Azure DevOps</div>
+          </div>
         </div>
+      </aside>
+    </section>
+
+    <section id="projects" class="section fade-in delay-2">
+      <div class="section-header">
+        <h2 class="section-title"><span>Selected</span> Projects</h2>
+        <div class="section-tagline">Systems built around streaming, analytics, and automation.</div>
       </div>
-    </div>
-  </section>
-
-  <section id="projects" class="section container">
-    <h2>Selected Projects</h2>
-    <div class="grid cols-3">
-      <article class="card">
-        <div class="role">Spark • Kafka • FastAPI • PostgreSQL</div>
-        <h3>Predictive Site Outage Monitoring</h3>
-        <p class="muted">Real‑time monitoring system that ingests streaming energy/environmental metrics, performs parallel processing with Spark, and serves predictions/alerts via FastAPI.</p>
-        <ul class="list muted">
-          <li>Accurate outage alerts for distributed sites</li>
-          <li>Scales with Spark structured streaming</li>
-          <li>Backed by PostgreSQL for reliability</li>
-        </ul>
-      </article>
-
-      <article class="card">
-        <div class="role">AWS EC2 • Lambda • DynamoDB • Flask</div>
-        <h3>Automated Crypto Trading Bot</h3>
-        <p class="muted">Scalable trading bot with JWT auth and strategy execution via Lambda. Configs & user data in DynamoDB; scheduled runs via CloudWatch Events.</p>
-        <ul class="list muted">
-          <li>Strategy orchestration on serverless</li>
-          <li>Secure auth & logging</li>
-        </ul>
-      </article>
-
-      <article class="card">
-        <div class="role">OpenCV • Raspberry Pi</div>
-        <h3>Seed Analysis Prototype</h3>
-        <p class="muted">Deployed on Raspberry Pi 3; OpenCV‑based rule classification to analyze rice seeds.</p>
-        <ul class="list muted">
-          <li>Edge deployment</li>
-          <li>Deterministic processing</li>
-        </ul>
-      </article>
-    </div>
-  </section>
-
-  <section id="experience" class="section container">
-    <h2>Experience</h2>
-    <div class="grid cols-2">
-      <article class="card">
-        <div class="hdr">
-          <h3>Data Engineer — PLC Group</h3>
-          <span class="muted">Aug 2023 — Present</span>
-        </div>
-        <ul class="list muted">
-          <li>Built real‑time <strong>Anomaly Detection</strong> and <strong>Site Outage Prediction</strong> pipelines with Kafka, Spark, Airflow, and PostgreSQL.</li>
-          <li>Processed streaming data for site performance monitoring; exposed insights via <strong>FastAPI</strong>.</li>
-          <li>Developed hourly/monthly performance tracking for <strong>2500+ sites</strong> with Pandas + PostgreSQL.</li>
-          <li>Optimized data pipelines for large‑scale processing and operational alerting.</li>
-        </ul>
-        <div class="row small soft">
-          <span class="tag">Kafka</span><span class="tag">Spark</span><span class="tag">Airflow</span><span class="tag">PostgreSQL</span><span class="tag">FastAPI</span>
-        </div>
-      </article>
-
-      <article class="card">
-        <div class="hdr">
-          <h3>Machine Learning Engineer — Intern, Quixel</h3>
-          <span class="muted">May 2022 — Oct 2022</span>
-        </div>
-        <ul class="list muted">
-          <li>Developed Python color‑segmentation aligned with human perception for texture clean‑up.</li>
-          <li>Automated ML workflows by integrating ML tools in Photoshop via JavaScript.</li>
-        </ul>
-        <div class="row small soft">
-          <span class="tag">Python</span><span class="tag">OpenCV</span><span class="tag">Automation</span>
-        </div>
-      </article>
-
-      <article class="card">
-        <div class="hdr">
-          <h3>Embedded Systems Engineer — Intern</h3>
-          <span class="muted">Jan 2022 — Mar 2022</span>
-        </div>
-        <ul class="list muted">
-          <li>Center of Advance Studies in Telecommunication — prototyped embedded solutions.</li>
-        </ul>
-        <div class="row small soft">
-          <span class="tag">Raspberry Pi</span><span class="tag">C/C++</span>
-        </div>
-      </article>
-    </div>
-  </section>
-
-  <section id="skills" class="section container">
-    <h2>Skills</h2>
-    <div class="grid cols-3">
-      <article class="card">
-        <h3>Data & Pipelines</h3>
-        <p class="muted">Spark (batch/streaming), Airflow, Kafka, PostgreSQL, Hadoop, Docker</p>
-      </article>
-      <article class="card">
-        <h3>Cloud & APIs</h3>
-        <p class="muted">AWS (S3, EC2, Lambda, DynamoDB, CloudWatch), FastAPI, Django</p>
-      </article>
-      <article class="card">
-        <h3>ML / DL</h3>
-        <p class="muted">TensorFlow, PyTorch, OpenCV, Anomaly Detection</p>
-      </article>
-    </div>
-  </section>
-
-  <section id="education" class="section container">
-    <h2>Education & Certifications</h2>
-    <div class="grid cols-2">
-      <article class="card">
-        <h3>COMSATS University Islamabad — BSc Computer Engineering</h3>
-        <p class="muted">Graduated Aug 2022 • CGPA: 3.09</p>
-      </article>
-      <article class="card">
-        <h3>Certifications</h3>
-        <ul class="list muted">
-          <li>Deep Learning Specialization — DeepLearning.AI (2021)</li>
-          <li>Machine Learning — IBM (2023)</li>
-        </ul>
-      </article>
-    </div>
-  </section>
-
-  <section id="contact" class="section container">
-    <h2>Contact</h2>
-    <div class="card">
-      <div class="row">
-        <div>
-          <p class="muted">Let’s talk about data platforms, streaming, or ML systems.</p>
-          <p>
-            <strong>Email:</strong> <a class="link" href="mailto:ahmaduzzammasood@gmail.com">ahmaduzzammasood@gmail.com</a>
-            <span class="sep">·</span>
-            <strong>Phone:</strong> <a class="link" href="tel:+923165279665">+92 316 5279665</a>
+      <div class="projects-grid">
+        <article class="card">
+          <div class="card-tech">Spark · Kafka · FastAPI · PostgreSQL</div>
+          <h3 class="card-title">Predictive Site Outage Monitoring System</h3>
+          <p class="card-body">
+            Real-time monitoring platform for distributed telecom sites. Streams energy and environmental metrics via Kafka,
+            processes them in Spark, and serves predictions and alerts through FastAPI.
           </p>
+          <ul class="card-list">
+            <li>Parallel processing with Spark for high-throughput streaming data.</li>
+            <li>Outage prediction and alerting for 2,500+ sites backed by PostgreSQL.</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <div class="card-tech">Azure Data Factory · Databricks · SQL · Power BI</div>
+          <h3 class="card-title">Covid Reporting Data Platform</h3>
+          <p class="card-body">
+            End-to-end Azure data platform for automated COVID-19 trend reporting. Ingests from APIs and Blob Storage into
+            Data Lake Gen2 and Azure SQL for BI analytics.
+          </p>
+          <ul class="card-list">
+            <li>Metadata-driven ADF pipelines with Mapping Data Flows and Databricks.</li>
+            <li>Automated CI/CD via Azure DevOps and integrated monitoring with Azure Monitor.</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <div class="card-tech">Airflow · YAML · Python</div>
+          <h3 class="card-title">Metadata-Driven ETL Framework</h3>
+          <p class="card-body">
+            Configurable ETL framework using YAML metadata for dynamic parameter mapping, validation, and logging in Airflow.
+          </p>
+          <ul class="card-list">
+            <li>Source-to-destination mapping without code changes.</li>
+            <li>Onboarded new data sources in hours instead of days.</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <div class="card-tech">AWS S3 · Glue · Lambda · Redshift</div>
+          <h3 class="card-title">Cloud Data Pipeline for Service Analytics</h3>
+          <p class="card-body">
+            Serverless data pipeline processing large-scale service usage logs into Redshift for analytics and reporting.
+          </p>
+          <ul class="card-list">
+            <li>Data refresh improved from daily to hourly for near real-time insights.</li>
+            <li>Orchestration & monitoring with Airflow and CloudWatch.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="experience" class="section fade-in delay-3">
+      <div class="section-header">
+        <h2 class="section-title"><span>Experience</span></h2>
+        <div class="section-tagline">Designing, operating, and automating data platforms.</div>
+      </div>
+
+      <article class="experience-item">
+        <div>
+          <div class="exp-role">Data Engineer</div>
+          <div class="exp-company">Nayatel</div>
+          <div class="exp-meta">Jan 2025 — Present · Islamabad, PK</div>
+          <div class="exp-tags">
+            <span class="exp-tag">dbt</span>
+            <span class="exp-tag">BigQuery</span>
+            <span class="exp-tag">Snowflake</span>
+            <span class="exp-tag">Azure Data Factory</span>
+            <span class="exp-tag">Databricks</span>
+            <span class="exp-tag">Airflow (Composer)</span>
+            <span class="exp-tag">Terraform</span>
+            <span class="exp-tag">PostgreSQL</span>
+          </div>
         </div>
-        <div class="row">
-          <a class="btn" href="http://github.com/azzammasood" target="_blank" rel="noreferrer">GitHub</a>
-          <a class="btn secondary" href="http://linkedin.com/in/azzammasood" target="_blank" rel="noreferrer">LinkedIn</a>
+        <div class="exp-body">
+          <ul>
+            <li>Built and maintained dbt models on BigQuery and Snowflake, optimizing incremental pipelines with partitioning and clustering.</li>
+            <li>Used Terraform to provision and manage BigQuery datasets, Composer environments, and service accounts as code.</li>
+            <li>Designed metadata-driven ETL pipelines in Azure Data Factory and Databricks to ingest data from Oracle and REST APIs into PostgreSQL for churn analytics.</li>
+            <li>Created parameterized Airflow DAGs driven by YAML configuration for dynamic pipeline parameters and validation rules.</li>
+            <li>Implemented automated validation, logging, alerting, and fully integrated CI/CD deployment workflows.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="experience-item">
+        <div>
+          <div class="exp-role">Data Engineer</div>
+          <div class="exp-company">PLC Group</div>
+          <div class="exp-meta">Jul 2023 — Jan 2025 · Islamabad, PK</div>
+          <div class="exp-tags">
+            <span class="exp-tag">PySpark</span>
+            <span class="exp-tag">Kafka</span>
+            <span class="exp-tag">AWS Glue</span>
+            <span class="exp-tag">Redshift</span>
+            <span class="exp-tag">Docker</span>
+            <span class="exp-tag">Streaming ETL</span>
+          </div>
+        </div>
+        <div class="exp-body">
+          <ul>
+            <li>Developed large-scale ETL pipelines using PySpark for batch and streaming transformations across telemetry and energy metrics.</li>
+            <li>Implemented Kafka-based ingestion to stream data from 2,500+ telecom sites into AWS S3 and Redshift.</li>
+            <li>Built AWS Glue jobs resilient to schema drift and automated data cataloging for downstream analytics.</li>
+            <li>Designed Redshift warehouse tables and tuned distribution/sort keys to reduce query latency.</li>
+            <li>Containerized Spark jobs, Kafka consumers, and services using Docker for reproducible deployments.</li>
+          </ul>
+        </div>
+      </article>
+    </section>
+
+    <section id="skills" class="section fade-in delay-4">
+      <div class="section-header">
+        <h2 class="section-title"><span>Core</span> Skills</h2>
+        <div class="section-tagline">Breadth across data platforms, depth in pipelines and automation.</div>
+      </div>
+
+      <div class="skills-grid">
+        <div class="card">
+          <div class="skills-heading">ETL & Data Integration</div>
+          <div class="skills-list">
+            dbt, Apache Airflow, Apache Spark (batch & streaming), Kafka, Azure Data Factory, AWS Glue, AWS Lambda
+          </div>
+        </div>
+        <div class="card">
+          <div class="skills-heading">Data Warehousing & Storage</div>
+          <div class="skills-list">
+            BigQuery, Amazon Redshift, Snowflake, PostgreSQL, Azure SQL Database, Azure Data Lake Gen2, S3
+          </div>
+        </div>
+        <div class="card">
+          <div class="skills-heading">DevOps & Automation</div>
+          <div class="skills-list">
+            CI/CD (Azure DevOps, GitHub Actions), Docker, Terraform, YAML-driven configuration, automated validation & alerting
+          </div>
+        </div>
+        <div class="card">
+          <div class="skills-heading">Monitoring & Orchestration</div>
+          <div class="skills-list">
+            Cloud Composer, CloudWatch, Azure Monitor, logging pipelines, metrics dashboards for data quality and pipeline health
+          </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <footer class="footer container">
-    <div class="row">
-      <span>© <span id="year"></span> Ahmad Uzzam Masood</span>
-      <span class="sep">·</span>
-      <span class="muted">Built with vanilla HTML/CSS</span>
-    </div>
-  </footer>
+    <section id="education" class="section fade-in">
+      <div class="section-header">
+        <h2 class="section-title"><span>Education</span> & Certs</h2>
+        <div class="section-tagline">Engineering foundation with focused data engineering training.</div>
+      </div>
+      <div class="education-card">
+        <div class="education-title">
+          BSc Computer Engineering — COMSATS University Islamabad
+        </div>
+        <div class="education-meta">
+          Graduated Aug 2022 · CGPA: 3.09
+        </div>
+      </div>
+
+      <div class="education-card">
+        <div class="education-title">Certifications</div>
+        <ul class="cert-list">
+          <li>IBM Data Engineering — Coursera, 2025</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="contact" class="section fade-in">
+      <div class="section-header">
+        <h2 class="section-title"><span>Contact</span></h2>
+        <div class="section-tagline">For roles around data platforms, streaming, and analytics.</div>
+      </div>
+      <div class="contact-card">
+        <div class="contact-row">
+          <div class="contact-label">Email</div>
+          <div>ahmaduzzammasood@gmail.com</div>
+        </div>
+        <div class="contact-row">
+          <div class="contact-label">Phone</div>
+          <div>+92 316 5279665</div>
+        </div>
+        <div class="contact-row">
+          <div class="contact-label">Links</div>
+          <div class="contact-links">
+            <a class="chip-link" href="https://azzammasood.github.io" target="_blank" rel="noopener">
+              Portfolio
+            </a>
+            <a class="chip-link" href="https://github.com/azzammasood" target="_blank" rel="noopener">
+              GitHub
+            </a>
+            <a class="chip-link" href="https://www.linkedin.com/in/ahmad-uzzam-masood" target="_blank" rel="noopener">
+              LinkedIn
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      © <span id="year"></span> Ahmad Uzzam Masood · Built with vanilla HTML & CSS
+    </footer>
+  </main>
 
   <script>
-    // Year
-    document.getElementById('year').textContent = new Date().getFullYear();
+    // Keep footer year current without any external dependencies.
+    document.getElementById("year").textContent = new Date().getFullYear();
   </script>
 </body>
 </html>
