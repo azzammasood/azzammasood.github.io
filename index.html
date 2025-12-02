@@ -133,6 +133,21 @@
       align-items: flex-start;
     }
 
+    .hero-portrait-wrapper {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+
+    .hero-portrait {
+      width: 120px;
+      height: 120px;
+      border-radius: var(--radius-full);
+      object-fit: cover;
+      border: 2px solid var(--accent-soft);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.8);
+    }
+
     @media (max-width: 800px) {
       header {
         flex-direction: column;
@@ -546,10 +561,6 @@
       border-top: 1px solid rgba(31, 41, 55, 0.85);
     }
 
-    /*
-      Simple entrance animation – runs when the page loads.
-      No JS dependency, just CSS keyframes and delays.
-    */
     @keyframes fadeInUp {
       from {
         opacity: 0;
@@ -614,7 +625,6 @@
           BigQuery, and PostgreSQL.
         </p>
         <div class="hero-actions">
-          <!-- Update the href below to the correct path of your PDF in the repo -->
           <a class="btn-primary" href="Ahmad%20Masood%20Resume.pdf" target="_blank" rel="noopener">
             Download Résumé (PDF)
           </a>
@@ -624,6 +634,9 @@
         </div>
       </div>
       <aside>
+        <div class="hero-portrait-wrapper">
+          <img src="Portrait.jpg" alt="Portrait of Ahmad Uzzam Masood" class="hero-portrait" />
+        </div>
         <div class="hero-metrics">
           <div class="metric-card">
             <div class="metric-label">Scale</div>
@@ -859,7 +872,6 @@
   </main>
 
   <script>
-    // Keep footer year current without any external dependencies.
     document.getElementById("year").textContent = new Date().getFullYear();
   </script>
 </body>
