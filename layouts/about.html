@@ -4,7 +4,18 @@
       <div class="row justify-center">
         <div class="md:col-10 lg:col-8">
           {{ if .Params.image }}
-            {{ partial "image" (dict "Src" .Params.image "Context" .Page "Alt" .Title "Class" "mx-auto rounded mb-6" ) }}
+            {{ $img := .Params.image }}
+            {{ if or (strings.HasPrefix $img `http`) (strings.HasPrefix $img `/images/`) }}
+              <img
+                src="{{ $img | relURL }}"
+                alt="{{ .Title }}"
+                class="mx-auto mb-6 max-h-80 w-auto rounded-2xl border border-border object-cover shadow-md dark:border-darkmode-border"
+                width="320"
+                height="320"
+                loading="eager" />
+            {{ else }}
+              {{ partial "image" (dict "Src" $img "Context" .Page "Alt" .Title "Class" "mx-auto rounded mb-6" ) }}
+            {{ end }}
           {{ end }}
           <h2 class="h3 mb-6">{{ .Title }}</h2>
           <div class="content">{{ .Content }}</div>

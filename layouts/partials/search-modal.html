@@ -1,0 +1,45 @@
+{{/* Command palette: hidden until opened from header; replaces gethugothemes search modal layout */}}
+<div
+  id="command-palette"
+  class="command-palette fixed inset-0 z-[100] hidden"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="command-palette-title"
+  aria-hidden="true">
+  <div
+    id="command-palette-backdrop"
+    class="absolute inset-0 bg-black/60 backdrop-blur-sm"
+    data-command-palette-close></div>
+  <div class="relative mx-auto mt-[8vh] w-[min(100%,32rem)] px-4">
+    <div
+      class="overflow-hidden rounded-xl border border-border bg-body shadow-xl dark:border-darkmode-border dark:bg-darkmode-body">
+      <div class="border-b border-border px-4 py-3 dark:border-darkmode-border">
+        <h2 id="command-palette-title" class="sr-only">Search and commands</h2>
+        <div class="flex items-center gap-3">
+          <i class="fa-solid fa-magnifying-glass text-text-light dark:text-darkmode-text-light shrink-0"></i>
+          <input
+            id="command-palette-input"
+            type="search"
+            autocomplete="off"
+            spellcheck="false"
+            placeholder="Search for anything or type a command"
+            class="w-full border-0 bg-transparent py-1 text-text-dark placeholder:text-text-light focus:outline-none focus:ring-0 dark:text-white dark:placeholder:text-darkmode-text-light" />
+        </div>
+        <p class="mt-2 text-xs text-text-light dark:text-darkmode-text-light">
+          Try
+          <kbd class="rounded bg-light px-1 dark:bg-darkmode-light">/projects</kbd>
+          <kbd class="rounded bg-light px-1 dark:bg-darkmode-light">/home</kbd>
+          <kbd class="rounded bg-light px-1 dark:bg-darkmode-light">/dark</kbd>
+          <kbd class="rounded bg-light px-1 dark:bg-darkmode-light">/light</kbd>
+          — or press
+          <kbd class="rounded bg-light px-1 dark:bg-darkmode-light">Esc</kbd>
+          to close
+        </p>
+      </div>
+      <ul
+        id="command-palette-results"
+        class="max-h-[min(50vh,24rem)] overflow-y-auto p-2 text-sm"
+        role="listbox"></ul>
+    </div>
+  </div>
+</div>

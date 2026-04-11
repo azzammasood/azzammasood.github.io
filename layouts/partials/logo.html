@@ -1,0 +1,6 @@
+{{/* Single brand line — avoids duplicate light/dark logo images from the images module */}}
+<a
+  href="{{ site.Home.RelPermalink }}"
+  class="navbar-brand-link inline-flex shrink-0 items-center font-semibold tracking-tight text-text-dark no-underline hover:text-primary dark:text-white dark:hover:text-darkmode-primary text-lg lg:text-xl lg:mr-10 xl:mr-14">
+  {{ site.Params.logo_text | default site.Title }}
+</a>

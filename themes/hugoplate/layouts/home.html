@@ -1,21 +1,10 @@
 {{ define "main" }}
+  <!-- Banner -->
   {{ with .Params.banner }}
     <section class="section pt-14">
       <div class="container">
-        <div class="row items-center justify-center">
-          {{ with .headshot }}
-            <div class="mb-8 text-center md:col-10 lg:col-4 lg:mb-0 lg:text-left">
-              <img
-                src="{{ . | relURL }}"
-                alt="{{ site.Params.logo_text | default `Profile photo` }}"
-                class="mx-auto h-auto w-full max-w-[220px] rounded-2xl border border-border object-cover shadow-lg dark:border-darkmode-border sm:max-w-[260px] lg:mx-0"
-                width="260"
-                height="260"
-                loading="eager" />
-            </div>
-          {{ end }}
-          <div
-            class="mb-8 text-center {{ if .headshot }}md:col-10 lg:col-8 lg:text-left{{ else }}md:col-9 lg:col-7 mx-auto{{ end }}">
+        <div class="row justify-center">
+          <div class="lg:col-7 md:col-9 mb-8 text-center">
             <h1 class="mb-4 text-h3 lg:text-h1">
               {{ .title | markdownify }}
             </h1>
@@ -35,28 +24,17 @@
               {{ end }}
             {{ end }}
           </div>
-        </div>
-        {{ with .image }}
-          <div class="row justify-center">
-            <div class="col-12 mt-4">
-              {{ if or (strings.HasPrefix . `http`) (strings.HasPrefix . `/images/`) }}
-                <img
-                  src="{{ . | relURL }}"
-                  alt="Banner"
-                  class="mx-auto w-full max-w-[800px] rounded-lg shadow-md dark:shadow-none"
-                  loading="eager"
-                  width="800"
-                  height="450" />
-              {{ else }}
-                {{ partial "image" (dict "Src" . "Alt" "Banner image" "Loading" "eager" "Class" "mx-auto lg:!max-w-[800px]" "DisplayXL" "800x" ) }}
-              {{ end }}
-            </div>
+          <div class="col-12">
+            {{/* image modules comes from https://github.com/gethugothemes/hugo-modules/tree/master/images */}}
+            {{ partial "image" (dict "Src" .image "Alt" "Banner image" "Loading" "eager" "Class" "mx-auto lg:!max-w-[800px]" "DisplayXL" "800x" ) }}
           </div>
-        {{ end }}
+        </div>
       </div>
     </section>
   {{ end }}
+  <!-- /Banner -->
 
+  <!-- Features -->
   {{ range $i, $e:= .Params.features }}
     <section class="section-sm {{ if (modBool $i 2) }}bg-gradient{{ end }}">
       <div class="container">
@@ -65,54 +43,27 @@
             class="mb:md-0 {{ if not (modBool $i 2) }}
               md:order-2
             {{ end }} md:col-5 mb-6">
-            {{ with $e.icon_row }}
-              <div class="flex flex-wrap items-center justify-center gap-8 md:justify-end">
-                {{ range . }}
-                  <img
-                    src="{{ .src }}"
-                    alt="{{ .name }}"
-                    title="{{ .name }}"
-                    class="h-14 w-auto max-w-[120px] object-contain opacity-90 transition hover:opacity-100 dark:brightness-95"
-                    loading="lazy"
-                    width="120"
-                    height="56"
-                    referrerpolicy="no-referrer" />
-                {{ end }}
-              </div>
-            {{ else }}
-              {{ $img := $e.image }}
-              {{ if or (strings.HasPrefix $img `http`) (strings.HasPrefix $img `/images/`) }}
-                <img
-                  src="{{ $img | relURL }}"
-                  alt="{{ $e.title | plainify }}"
-                  class="mx-auto w-full max-w-[520px] rounded-lg object-cover shadow-sm"
-                  loading="lazy"
-                  width="520"
-                  height="360" />
-              {{ else }}
-                {{ partial "image" (dict "Src" $img "Alt" "feature image" "DisplayXL" "520x" "DisplayLG" "425x" "DisplayMD" "360x") }}
-              {{ end }}
-            {{ end }}
+            {{ partial "image" (dict "Src" .image "Alt" "feature image" "DisplayXL" "520x" "DisplayLG" "425x" "DisplayMD" "360x") }}
           </div>
           <div
             class="{{ if not (modBool $i 2) }}
               md:order-1
             {{ end }} md:col-7 lg:col-6">
             <h2 class="mb-4">
-              {{ $e.title | markdownify }}
+              {{ .title | markdownify }}
             </h2>
             <p class="mb-8 text-lg">
-              {{ $e.content | markdownify }}
+              {{ .content | markdownify }}
             </p>
             <ul>
-              {{ range $e.bulletpoints }}
+              {{ range .bulletpoints }}
                 <li class="relative mb-4 pl-6">
                   <i class="fa fa-check absolute left-0 top-1.5"></i>
                   {{ . | markdownify }}
                 </li>
               {{ end }}
             </ul>
-            {{ with $e.button }}
+            {{ with .button }}
               {{ if .enable }}
                 <a class="btn btn-primary mt-6" href="{{ .link | absURL }}">
                   {{ .label }}
@@ -125,7 +76,9 @@
       </div>
     </section>
   {{ end }}
+  <!-- /Features -->
 
+  <!-- Testimonials -->
   {{ with site.GetPage "sections/testimonial" }}
     {{ if .Params.enable }}
       <section class="section">
@@ -187,6 +140,9 @@
       </section>
     {{ end }}
   {{ end }}
+  <!-- /Testimonials -->
 
+  <!-- Call to action -->
   {{ partial "call-to-action" . }}
+  <!-- /Call to action -->
 {{ end }}

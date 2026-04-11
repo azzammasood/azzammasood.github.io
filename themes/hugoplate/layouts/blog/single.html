@@ -3,39 +3,28 @@
     <div class="container">
       <div class="row justify-center">
         <article class="lg:col-10">
-          {{ $image := .Params.image }}
+          {{ $image:= .Params.image }}
           {{ if $image }}
             <div class="mb-10">
-              {{ if or (strings.HasPrefix $image "http") (strings.HasPrefix $image "/images/") }}
-                <img
-                  src="{{ $image | relURL }}"
-                  alt="{{ .Title }}"
-                  class="w-full rounded object-cover"
-                  width="1200"
-                  height="630" />
-              {{ else }}
-                {{ partial "image" (dict "Src" $image "Context" .Page "Alt" .Title "Class" "w-full rounded") }}
-              {{ end }}
+              {{ partial "image" (dict "Src" $image "Context" .Page "Alt" .Title "Class" "w-full rounded") }}
             </div>
           {{ end }}
           <h1 class="h2 mb-4">
             {{ .Title }}
           </h1>
           <ul class="mb-4">
-            {{ if .Params.author }}
-              <li class="mr-4 inline-block">
-                <a
-                  href="{{ `authors/` | relLangURL }}{{ .Params.author | urlize }}/">
-                  <i class="fa-regular fa-circle-user mr-2"></i
-                  >{{ .Params.author }}
-                </a>
-              </li>
-            {{ end }}
-            {{ $categories := .Params.categories }}
+            <li class="mr-4 inline-block">
+              <a
+                href="{{ `authors/` | relLangURL }}{{ .Params.Author | urlize }}/">
+                <i class="fa-regular fa-circle-user mr-2"></i
+                >{{ .Params.author }}
+              </a>
+            </li>
+            {{ $categories:= .Params.categories }}
             {{ if $categories }}
               <li class="mr-4 inline-block">
                 <i class="fa-regular fa-folder mr-2"></i>
-                {{ range $i, $p := $categories }}
+                {{ range $i,$p:= $categories }}
                   <a
                     href="{{ `categories/` | relLangURL }}{{ . | urlize | lower }}/"
                     class=""
@@ -56,12 +45,12 @@
             {{ .Content }}
           </div>
           <div class="row items-start justify-between">
-            {{ $tags := .Params.tags }}
+            {{ $tags:= .Params.tags }}
             {{ if $tags }}
               <div class="lg:col-6 mb-10 flex items-center lg:mb-0">
                 <h5 class="mr-3">{{ T "tags" | default "Tags" }} :</h5>
                 <ul>
-                  {{ range $i, $p := $tags }}
+                  {{ range $i,$p:= $tags }}
                     <li class="inline-block">
                       <a
                         class="bg-light hover:bg-primary dark:bg-darkmode-light dark:hover:bg-darkmode-primary dark:hover:text-text-dark m-1 block rounded px-3 py-1 hover:text-white"
@@ -78,6 +67,7 @@
               {{ partial "social-share" (dict "Context" . "Class" "share-icons" "Title" .Title "Whatsapp" false "Telegram" false "Linkedin" false "Pinterest" false "Tumblr" false "Vk" false "Reddit" false) }}
             </div>
           </div>
+          <!-- comments -->
           {{ if site.Config.Services.Disqus.Shortname }}
             <div class="mt-20">
               {{ partial "disqus.html" . }}
@@ -86,6 +76,7 @@
         </article>
       </div>
 
+      <!-- Related posts -->
       {{ $related := .Site.RegularPages.Related . | first 10 }}
       {{ $related = $related | shuffle | first 3 }}
       {{ with $related }}

@@ -1,0 +1,8 @@
+{{- $out := slice -}}
+{{- range site.RegularPages -}}
+  {{- if and (not .Draft) .RelPermalink (ne .Section "sections") -}}
+    {{- $summary := .Description | default .Summary | plainify | truncate 200 -}}
+    {{- $out = $out | append (dict "title" .Title "url" .RelPermalink "summary" $summary) -}}
+  {{- end -}}
+{{- end -}}
+{{- $out | jsonify -}}

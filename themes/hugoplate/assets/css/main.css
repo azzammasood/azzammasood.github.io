@@ -1,0 +1,38 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/forms";
+@plugin "@tailwindcss/typography";
+@plugin 'tailwind-bootstrap-grid';
+@source "hugo_stats.json";
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Auto-generated theme from "data/theme.json"*/
+@import "./generated-theme.css";
+
+@import "./safe.css";
+@import "./utilities.css";
+
+@layer base {
+  @import "./base.css";
+}
+
+@layer components {
+  @import "./components.css";
+  @import "./navigation.css";
+  @import "./buttons.css";
+}
+
+/* Module CSS imports below are provided by Hugo module mounts.
+   Tailwind CLI on Windows with space-containing paths cannot reliably resolve them.
+   They are optional for this portfolio setup, so they are disabled. */
+/* @import "search.css"; */
+/* @import "social-share.css"; */
+/* @import "gallery-slider.css"; */
+/* @import "images.css"; */
+/* @import "toc.css"; */
+/* @import "tab.css"; */
+/* @import "accordion.css"; */
+/* @import "modal.css"; */
+/* @import "notice.css"; */
+
+@import "./module-overrides.css";
+@import "./custom.css";
