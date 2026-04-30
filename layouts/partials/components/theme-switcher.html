@@ -1,24 +1,30 @@
 {{ $class := .Class }}
 {{ if site.Params.theme_switcher }}
+  {{ $themes := slice
+    (dict "name" "Andromeda" "id" "andromeda" "colors" (slice "#00e8c6" "#82aaff" "#c792ea" "#d6deeb"))
+    (dict "name" "Dracula" "id" "dracula" "colors" (slice "#ff79c6" "#bd93f9" "#50fa7b" "#f1fa8c"))
+    (dict "name" "Monokai" "id" "monokai" "colors" (slice "#f92672" "#a6e22e" "#66d9ef" "#f8f8f2"))
+    (dict "name" "Gruvbox Dark" "id" "gruvbox-dark" "colors" (slice "#fb4934" "#b8bb26" "#fabd2f" "#ebdbb2"))
+    (dict "name" "Solarized Dark" "id" "solarized-dark" "colors" (slice "#268bd2" "#b58900" "#2aa198" "#839496"))
+    (dict "name" "VSCode Dark" "id" "vscode-dark" "colors" (slice "#569cd6" "#dcdcaa" "#9cdcfe" "#d4d4d4"))
+    (dict "name" "Abyss" "id" "abyss" "colors" (slice "#001b44" "#005eff" "#00c2ff" "#d7e7ff"))
+    (dict "name" "Neo Brutal" "id" "neo-brutal" "colors" (slice "#ff3b30" "#ffd60a" "#00c7be" "#111111"))
+    (dict "name" "Cyberpunk" "id" "cyberpunk" "colors" (slice "#ff007c" "#faff00" "#00f0ff" "#120024"))
+    (dict "name" "Tokyo Night" "id" "tokyo-night" "colors" (slice "#7aa2f7" "#bb9af7" "#9ece6a" "#c0caf5"))
+    (dict "name" "Mono" "id" "mono" "colors" (slice "#1f2328" "#6e7781" "#afb8c1" "#f6f8fa"))
+  }}
+  {{ $styles := slice
+    (dict "name" "Minimal" "id" "minimal")
+    (dict "name" "Material" "id" "material")
+    (dict "name" "NeoBrutalism" "id" "neobrutalism")
+    (dict "name" "Terminal" "id" "terminal")
+    (dict "name" "Glassmorphism" "id" "glassmorphism")
+  }}
   <div class="code-theme-switcher {{ $class }}" data-code-theme-switcher>
-    <button type="button" class="code-theme-switcher__button" aria-haspopup="true" aria-expanded="false" aria-label="Switch theme" data-code-theme-toggle>
-      <i class="fa-solid fa-sun"></i>
-      <span data-code-theme-current>Theme</span>
+    <button type="button" class="code-theme-switcher__button" aria-haspopup="true" aria-expanded="false" aria-label="Switch theme" title="Theme" data-code-theme-toggle>
+      <i class="fa-solid fa-sun"></i><span class="sr-only" data-code-theme-current>Theme</span>
     </button>
     <div class="code-theme-switcher__menu" role="menu" aria-label="Switch theme">
-      {{ $themes := slice
-        (dict "name" "Andromeda" "id" "andromeda" "colors" (slice "#00e8c6" "#82aaff" "#c792ea" "#d6deeb"))
-        (dict "name" "Dracula" "id" "dracula" "colors" (slice "#ff79c6" "#bd93f9" "#50fa7b" "#f1fa8c"))
-        (dict "name" "Monokai" "id" "monokai" "colors" (slice "#f92672" "#a6e22e" "#66d9ef" "#f8f8f2"))
-        (dict "name" "Gruvbox Dark" "id" "gruvbox-dark" "colors" (slice "#fb4934" "#b8bb26" "#fabd2f" "#ebdbb2"))
-        (dict "name" "Solarized Dark" "id" "solarized-dark" "colors" (slice "#268bd2" "#b58900" "#2aa198" "#839496"))
-        (dict "name" "VSCode Dark" "id" "vscode-dark" "colors" (slice "#569cd6" "#dcdcaa" "#9cdcfe" "#d4d4d4"))
-        (dict "name" "Abyss" "id" "abyss" "colors" (slice "#001b44" "#005eff" "#00c2ff" "#d7e7ff"))
-        (dict "name" "Neo Brutal" "id" "neo-brutal" "colors" (slice "#ff3b30" "#ffd60a" "#00c7be" "#111111"))
-        (dict "name" "Cyberpunk" "id" "cyberpunk" "colors" (slice "#ff007c" "#faff00" "#00f0ff" "#120024"))
-        (dict "name" "Tokyo Night" "id" "tokyo-night" "colors" (slice "#7aa2f7" "#bb9af7" "#9ece6a" "#c0caf5"))
-        (dict "name" "Mono" "id" "mono" "colors" (slice "#1f2328" "#6e7781" "#afb8c1" "#f6f8fa"))
-      }}
       {{ range $themes }}
         <button type="button" class="code-theme-option" role="menuitem" data-code-theme-option="{{ .id }}">
           <span>{{ .name }}</span><span class="code-theme-option__swatches" aria-hidden="true">{{ range .colors }}<i style="background: {{ . }}"></i>{{ end }}</span>
@@ -26,65 +32,41 @@
       {{ end }}
     </div>
   </div>
-  <button type="button" class="code-theme-switcher__button style-switcher-button" aria-label="Switch style" data-style-picker-open>
-    <i class="fa-solid fa-layer-group"></i>
-    <span data-ui-style-current>Minimal</span>
-  </button>
+  <div class="code-theme-switcher style-switcher mr-2" data-style-switcher>
+    <button type="button" class="code-theme-switcher__button" aria-haspopup="true" aria-expanded="false" aria-label="Switch style" title="Style" data-style-toggle>
+      <i class="fa-solid fa-layer-group"></i><span class="sr-only" data-ui-style-current>Minimal</span>
+    </button>
+    <div class="code-theme-switcher__menu" role="menu" aria-label="Switch style">
+      {{ range $styles }}
+        <button type="button" class="code-theme-option" role="menuitem" data-ui-style-option="{{ .id }}">{{ .name }}</button>
+      {{ end }}
+    </div>
+  </div>
   <script>
     (function () {
-      var themes = {
-        "andromeda": ["Andromeda", true], "dracula": ["Dracula", true], "monokai": ["Monokai", true],
-        "gruvbox-dark": ["Gruvbox Dark", true], "solarized-dark": ["Solarized Dark", true], "vscode-dark": ["VSCode Dark", true],
-        "abyss": ["Abyss", true], "neo-brutal": ["Neo Brutal", false], "cyberpunk": ["Cyberpunk", true], "tokyo-night": ["Tokyo Night", true], "mono": ["Mono", false]
-      };
-      var styles = { "minimal": "Minimal", "material": "Material", "neobrutalism": "NeoBrutalism", "terminal": "Terminal", "glassmorphism": "Glassmorphism" };
-      function animateThemeChange(fn) {
-        if (document.startViewTransition) document.startViewTransition(fn);
-        else fn();
-      }
-      window.portfolioThemes = { apply: function (id) {
-        var t = themes[id] || themes.andromeda, key = themes[id] ? id : "andromeda";
-        animateThemeChange(function () {
-          document.documentElement.dataset.codeTheme = key;
-          document.documentElement.classList.toggle("dark", !!t[1]);
-          localStorage.setItem("theme", t[1] ? "dark" : "light");
-          localStorage.setItem("code-theme", key);
-          document.querySelectorAll("[data-code-theme-current]").forEach(function (el) { el.textContent = t[0]; });
-          document.querySelectorAll("[data-code-theme-option]").forEach(function (el) { el.setAttribute("aria-current", el.dataset.codeThemeOption === key ? "true" : "false"); });
-        });
-      }, names: themes };
-      window.portfolioStyles = { apply: function (id) {
-        var key = styles[id] ? id : "minimal";
-        animateThemeChange(function () {
-          document.documentElement.dataset.uiStyle = key;
-          localStorage.setItem("ui-style", key);
-          document.querySelectorAll("[data-ui-style-current]").forEach(function (el) { el.textContent = styles[key]; });
-        });
-      }, names: styles };
+      var themes = {"andromeda":["Andromeda",true],"dracula":["Dracula",true],"monokai":["Monokai",true],"gruvbox-dark":["Gruvbox Dark",true],"solarized-dark":["Solarized Dark",true],"vscode-dark":["VSCode Dark",true],"abyss":["Abyss",true],"neo-brutal":["Neo Brutal",false],"cyberpunk":["Cyberpunk",true],"tokyo-night":["Tokyo Night",true],"mono":["Mono",false]};
+      var styles = {"minimal":"Minimal","material":"Material","neobrutalism":"NeoBrutalism","terminal":"Terminal","glassmorphism":"Glassmorphism"};
+      function transition(fn) { if (document.startViewTransition) document.startViewTransition(fn); else fn(); }
+      window.portfolioThemes = { apply: function (id) { var t = themes[id] || themes.andromeda, key = themes[id] ? id : "andromeda"; transition(function () {
+        document.documentElement.dataset.codeTheme = key; document.documentElement.classList.toggle("dark", !!t[1]);
+        localStorage.setItem("theme", t[1] ? "dark" : "light"); localStorage.setItem("code-theme", key);
+        document.querySelectorAll("[data-code-theme-current]").forEach(function (el) { el.textContent = t[0]; });
+        document.querySelectorAll("[data-code-theme-option]").forEach(function (el) { el.setAttribute("aria-current", el.dataset.codeThemeOption === key ? "true" : "false"); });
+      }); }, names: themes };
+      window.portfolioStyles = { apply: function (id) { var key = styles[id] ? id : "minimal"; transition(function () {
+        document.documentElement.dataset.uiStyle = key; localStorage.setItem("ui-style", key);
+        document.querySelectorAll("[data-ui-style-current]").forEach(function (el) { el.textContent = styles[key]; });
+        document.querySelectorAll("[data-ui-style-option]").forEach(function (el) { el.setAttribute("aria-current", el.dataset.uiStyleOption === key ? "true" : "false"); });
+      }); }, names: styles };
       window.portfolioThemes.apply(localStorage.getItem("code-theme") || (localStorage.getItem("theme") === "light" ? "mono" : "andromeda"));
       window.portfolioStyles.apply(localStorage.getItem("ui-style") || "minimal");
       document.addEventListener("DOMContentLoaded", function () {
-        document.querySelectorAll("[data-code-theme-toggle]").forEach(function (button) {
-          button.addEventListener("click", function () {
-            var sw = button.closest("[data-code-theme-switcher]"), open = sw.classList.toggle("is-open");
-            button.setAttribute("aria-expanded", open ? "true" : "false");
-          });
+        document.querySelectorAll("[data-code-theme-toggle],[data-style-toggle]").forEach(function (button) {
+          button.addEventListener("click", function () { var sw = button.closest(".code-theme-switcher"), open = sw.classList.toggle("is-open"); button.setAttribute("aria-expanded", open ? "true" : "false"); });
         });
-        document.querySelectorAll("[data-code-theme-option]").forEach(function (button) {
-          button.addEventListener("click", function () {
-            window.portfolioThemes.apply(button.dataset.codeThemeOption);
-            button.closest("[data-code-theme-switcher]").classList.remove("is-open");
-          });
-        });
-        document.addEventListener("click", function (event) {
-          document.querySelectorAll("[data-code-theme-switcher].is-open").forEach(function (sw) { if (!sw.contains(event.target)) sw.classList.remove("is-open"); });
-        });
-        document.querySelectorAll("[data-style-picker-open]").forEach(function (button) {
-          button.addEventListener("click", function (event) {
-            event.preventDefault();
-            if (window.dispatchEvent) window.dispatchEvent(new CustomEvent("portfolio:open-style-picker"));
-          });
-        });
+        document.querySelectorAll("[data-code-theme-option]").forEach(function (button) { button.addEventListener("click", function () { window.portfolioThemes.apply(button.dataset.codeThemeOption); button.closest(".code-theme-switcher").classList.remove("is-open"); }); });
+        document.querySelectorAll("[data-ui-style-option]").forEach(function (button) { button.addEventListener("click", function () { window.portfolioStyles.apply(button.dataset.uiStyleOption); button.closest(".code-theme-switcher").classList.remove("is-open"); }); });
+        document.addEventListener("click", function (event) { document.querySelectorAll(".code-theme-switcher.is-open").forEach(function (sw) { if (!sw.contains(event.target)) sw.classList.remove("is-open"); }); });
       });
     })();
   </script>

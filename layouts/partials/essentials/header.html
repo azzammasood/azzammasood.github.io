@@ -118,7 +118,7 @@
             data-command-palette-open
             aria-label="Open search and commands">
             <i class="fa-solid fa-magnifying-glass shrink-0 opacity-70"></i>
-            <span class="truncate">Search for anything or type a command</span>
+            <span class="search-button-label">Search for anything or type a command</span>
             <kbd class="ml-auto hidden shrink-0 rounded border border-border bg-body px-1.5 py-0.5 text-[10px] font-medium text-text-light xl:inline dark:border-darkmode-border dark:bg-darkmode-body">Ctrl K</kbd>
           </button>
           <button
@@ -132,14 +132,15 @@
       {{ end }}
 
       {{ partial "components/language-switcher" (dict "Context" . "Class" "mr-5 pl-2 py-1 dark:bg-darkmode-light rounded") }}
-      {{ partial "components/theme-switcher" (dict "Class" "mr-5") }}
+          {{ partial "components/theme-switcher" (dict "Class" "mr-2") }}
 
       {{ if site.Params.navigation_button.enable }}
         <a
           href="{{ site.Params.navigation_button.link | relLangURL }}"
           class="btn btn-outline-primary btn-sm hidden lg:inline-block"
           {{ if (hasPrefix site.Params.navigation_button.link `http`) }}target="_blank" rel="noopener"{{ end }}>
-          {{ site.Params.navigation_button.label }}
+          <i class="fab fa-github" aria-hidden="true"></i>
+          <span class="sr-only">{{ site.Params.navigation_button.label }}</span>
         </a>
       {{ end }}
     </div>
