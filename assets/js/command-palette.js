@@ -165,6 +165,7 @@
   document.querySelectorAll("[data-code-theme-toggle]").forEach(function (el) {
     el.addEventListener("dblclick", function (e) { e.preventDefault(); open("themes"); });
   });
+  window.addEventListener("portfolio:open-style-picker", function () { open("styles"); });
   if (backdrop) backdrop.addEventListener("click", close);
   document.querySelectorAll("[data-command-palette-close]").forEach(function (el) { el.addEventListener("click", close); });
   document.addEventListener("keydown", function (e) {

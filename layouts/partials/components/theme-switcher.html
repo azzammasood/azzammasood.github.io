@@ -2,7 +2,7 @@
 {{ if site.Params.theme_switcher }}
   <div class="code-theme-switcher {{ $class }}" data-code-theme-switcher>
     <button type="button" class="code-theme-switcher__button" aria-haspopup="true" aria-expanded="false" aria-label="Switch theme" data-code-theme-toggle>
-      <i class="fa-solid fa-palette"></i>
+      <i class="fa-solid fa-sun"></i>
       <span data-code-theme-current>Theme</span>
     </button>
     <div class="code-theme-switcher__menu" role="menu" aria-label="Switch theme">
@@ -26,6 +26,10 @@
       {{ end }}
     </div>
   </div>
+  <button type="button" class="code-theme-switcher__button style-switcher-button" aria-label="Switch style" data-style-picker-open>
+    <i class="fa-solid fa-layer-group"></i>
+    <span data-ui-style-current>Minimal</span>
+  </button>
   <script>
     (function () {
       var themes = {
@@ -47,6 +51,7 @@
         var key = styles[id] ? id : "minimal";
         document.documentElement.dataset.uiStyle = key;
         localStorage.setItem("ui-style", key);
+        document.querySelectorAll("[data-ui-style-current]").forEach(function (el) { el.textContent = styles[key]; });
       }, names: styles };
       window.portfolioThemes.apply(localStorage.getItem("code-theme") || (localStorage.getItem("theme") === "light" ? "mono" : "andromeda"));
       window.portfolioStyles.apply(localStorage.getItem("ui-style") || "minimal");
@@ -65,6 +70,12 @@
         });
         document.addEventListener("click", function (event) {
           document.querySelectorAll("[data-code-theme-switcher].is-open").forEach(function (sw) { if (!sw.contains(event.target)) sw.classList.remove("is-open"); });
+        });
+        document.querySelectorAll("[data-style-picker-open]").forEach(function (button) {
+          button.addEventListener("click", function (event) {
+            event.preventDefault();
+            if (window.dispatchEvent) window.dispatchEvent(new CustomEvent("portfolio:open-style-picker"));
+          });
         });
       });
     })();

@@ -3124,23 +3124,23 @@ input#nav-toggle:checked ~ #nav-menu {
 }
 :root[data-code-theme="neo-brutal"] {
   --color-primary: #ff3b30;
-  --color-body: #fff7d6;
+  --color-body: #050505;
   --color-border: #111111;
   --color-light: #ffffff;
-  --color-dark: #111111;
-  --color-text: #111111;
-  --color-text-dark: #111111;
-  --color-text-light: #343434;
+  --color-dark: #ffffff;
+  --color-text: #f8f8f8;
+  --color-text-dark: #ffffff;
+  --color-text-light: #d5d5d5;
   --color-darkmode-primary: #ff3b30;
-  --color-darkmode-body: #fff7d6;
+  --color-darkmode-body: #050505;
   --color-darkmode-border: #111111;
   --color-darkmode-light: #ffffff;
-  --color-darkmode-dark: #111111;
-  --color-darkmode-text: #111111;
-  --color-darkmode-text-dark: #111111;
-  --color-darkmode-text-light: #343434;
+  --color-darkmode-dark: #ffffff;
+  --color-darkmode-text: #f8f8f8;
+  --color-darkmode-text-dark: #ffffff;
+  --color-darkmode-text-light: #d5d5d5;
   --landing-stripe: rgba(255, 59, 48, 0.16);
-  --landing-muted-band: #ffd60a;
+  --landing-muted-band: #050505;
 }
 :root[data-code-theme="cyberpunk"] {
   --color-primary: #faff00;
@@ -3378,6 +3378,12 @@ input#nav-toggle:checked ~ #nav-menu {
   font-weight: 700;
   padding: 0 0.7rem;
 }
+.style-switcher-button {
+  margin-right: 1.25rem;
+}
+html, body, .header, .landing-hero, .landing-links, .landing-button, .landing-stack span, .code-theme-switcher__button, .code-theme-switcher__menu, .command-palette > div > div {
+  transition: background-color 220ms ease, background 220ms ease, border-color 220ms ease, color 220ms ease, box-shadow 220ms ease, transform 220ms ease;
+}
 .code-theme-switcher__menu {
   position: absolute;
   top: calc(100% + 0.6rem);
@@ -3428,9 +3434,14 @@ input#nav-toggle:checked ~ #nav-menu {
   box-shadow: 0 8px 24px color-mix(in srgb, #000 24%, transparent);
 }
 :root[data-ui-style="neobrutalism"] .landing-button, :root[data-ui-style="neobrutalism"] .code-theme-switcher__button, :root[data-ui-style="neobrutalism"] .code-theme-switcher__menu, :root[data-ui-style="neobrutalism"] .landing-stack span, :root[data-ui-style="neobrutalism"] .command-palette > div > div {
+  background: #000 !important;
+  color: #fff !important;
   border: 3px solid var(--color-text-dark) !important;
   border-radius: 0 !important;
-  box-shadow: 6px 6px 0 var(--color-text-dark) !important;
+  box-shadow: 3px 3px 0 var(--color-text-dark) !important;
+}
+:root[data-ui-style="neobrutalism"] .landing-hero, :root[data-ui-style="neobrutalism"] .landing-links {
+  background: #000 !important;
 }
 :root[data-ui-style="terminal"] body, :root[data-ui-style="terminal"] input, :root[data-ui-style="terminal"] button, :root[data-ui-style="terminal"] kbd {
   font-family: var(--font-mono);
