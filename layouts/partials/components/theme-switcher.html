@@ -38,20 +38,28 @@
         "abyss": ["Abyss", true], "neo-brutal": ["Neo Brutal", false], "cyberpunk": ["Cyberpunk", true], "tokyo-night": ["Tokyo Night", true], "mono": ["Mono", false]
       };
       var styles = { "minimal": "Minimal", "material": "Material", "neobrutalism": "NeoBrutalism", "terminal": "Terminal", "glassmorphism": "Glassmorphism" };
+      function animateThemeChange(fn) {
+        if (document.startViewTransition) document.startViewTransition(fn);
+        else fn();
+      }
       window.portfolioThemes = { apply: function (id) {
         var t = themes[id] || themes.andromeda, key = themes[id] ? id : "andromeda";
-        document.documentElement.dataset.codeTheme = key;
-        document.documentElement.classList.toggle("dark", !!t[1]);
-        localStorage.setItem("theme", t[1] ? "dark" : "light");
-        localStorage.setItem("code-theme", key);
-        document.querySelectorAll("[data-code-theme-current]").forEach(function (el) { el.textContent = t[0]; });
-        document.querySelectorAll("[data-code-theme-option]").forEach(function (el) { el.setAttribute("aria-current", el.dataset.codeThemeOption === key ? "true" : "false"); });
+        animateThemeChange(function () {
+          document.documentElement.dataset.codeTheme = key;
+          document.documentElement.classList.toggle("dark", !!t[1]);
+          localStorage.setItem("theme", t[1] ? "dark" : "light");
+          localStorage.setItem("code-theme", key);
+          document.querySelectorAll("[data-code-theme-current]").forEach(function (el) { el.textContent = t[0]; });
+          document.querySelectorAll("[data-code-theme-option]").forEach(function (el) { el.setAttribute("aria-current", el.dataset.codeThemeOption === key ? "true" : "false"); });
+        });
       }, names: themes };
       window.portfolioStyles = { apply: function (id) {
         var key = styles[id] ? id : "minimal";
-        document.documentElement.dataset.uiStyle = key;
-        localStorage.setItem("ui-style", key);
-        document.querySelectorAll("[data-ui-style-current]").forEach(function (el) { el.textContent = styles[key]; });
+        animateThemeChange(function () {
+          document.documentElement.dataset.uiStyle = key;
+          localStorage.setItem("ui-style", key);
+          document.querySelectorAll("[data-ui-style-current]").forEach(function (el) { el.textContent = styles[key]; });
+        });
       }, names: styles };
       window.portfolioThemes.apply(localStorage.getItem("code-theme") || (localStorage.getItem("theme") === "light" ? "mono" : "andromeda"));
       window.portfolioStyles.apply(localStorage.getItem("ui-style") || "minimal");

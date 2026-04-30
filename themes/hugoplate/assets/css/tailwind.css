@@ -3229,7 +3229,7 @@ input#nav-toggle:checked ~ #nav-menu {
   margin: 0;
   color: var(--color-text-dark);
   font-family: var(--font-secondary);
-  font-size: clamp(5rem, 12vw, 11rem);
+  font-size: 9rem;
   font-weight: 700;
   line-height: 0.84;
   letter-spacing: 0;
@@ -3381,8 +3381,30 @@ input#nav-toggle:checked ~ #nav-menu {
 .style-switcher-button {
   margin-right: 1.25rem;
 }
+.header .navbar {
+  flex-wrap: nowrap;
+  max-width: none;
+  gap: 1rem;
+  padding-inline: clamp(1rem, 3vw, 3rem);
+}
+.header #nav-menu {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+.header .order-1.ml-auto {
+  flex: 1 1 auto;
+  min-width: 0;
+  flex-wrap: nowrap;
+}
+.header [data-command-palette-open] {
+  max-width: 34rem;
+}
 html, body, .header, .landing-hero, .landing-links, .landing-button, .landing-stack span, .code-theme-switcher__button, .code-theme-switcher__menu, .command-palette > div > div {
-  transition: background-color 220ms ease, background 220ms ease, border-color 220ms ease, color 220ms ease, box-shadow 220ms ease, transform 220ms ease;
+  transition: background-color 680ms cubic-bezier(0.22, 1, 0.36, 1), background 680ms cubic-bezier(0.22, 1, 0.36, 1), border-color 680ms cubic-bezier(0.22, 1, 0.36, 1), color 520ms ease, box-shadow 680ms cubic-bezier(0.22, 1, 0.36, 1), backdrop-filter 680ms ease;
+}
+::view-transition-old(root), ::view-transition-new(root) {
+  animation-duration: 720ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
 }
 .code-theme-switcher__menu {
   position: absolute;
@@ -3430,26 +3452,36 @@ html, body, .header, .landing-hero, .landing-links, .landing-button, .landing-st
 }
 :root[data-ui-style="material"] .landing-button, :root[data-ui-style="material"] .code-theme-switcher__button, :root[data-ui-style="material"] .code-theme-switcher__menu, :root[data-ui-style="material"] .landing-stack span {
   border: 0;
-  border-radius: 4px;
-  box-shadow: 0 8px 24px color-mix(in srgb, #000 24%, transparent);
+  border-radius: 10px;
+  box-shadow: 0 2px 5px color-mix(in srgb, #000 22%, transparent), 0 10px 24px color-mix(in srgb, #000 18%, transparent);
+}
+:root[data-ui-style="material"] .landing-button--primary {
+  border-radius: 999px;
+}
+:root[data-ui-style="material"] .landing-hero__proof {
+  padding: 1.25rem;
+  border-radius: 16px;
+  background: color-mix(in srgb, #f6f6f6 68%, transparent);
+  @supports (color: color-mix(in lab, red, red)) {
+    background: color-mix(in srgb, var(--color-light) 68%, transparent);
+  }
+  box-shadow: 0 18px 45px color-mix(in srgb, #000 18%, transparent);
 }
 :root[data-ui-style="neobrutalism"] .landing-button, :root[data-ui-style="neobrutalism"] .code-theme-switcher__button, :root[data-ui-style="neobrutalism"] .code-theme-switcher__menu, :root[data-ui-style="neobrutalism"] .landing-stack span, :root[data-ui-style="neobrutalism"] .command-palette > div > div {
   background: #000 !important;
   color: #fff !important;
   border: 3px solid var(--color-text-dark) !important;
   border-radius: 0 !important;
-  box-shadow: 3px 3px 0 var(--color-text-dark) !important;
+  box-shadow: 3px 3px 0 #000 !important;
 }
-:root[data-ui-style="neobrutalism"] .landing-hero, :root[data-ui-style="neobrutalism"] .landing-links {
+:root[data-ui-style="neobrutalism"] .landing-hero, :root[data-ui-style="neobrutalism"] .landing-links, :root[data-ui-style="neobrutalism"] body {
   background: #000 !important;
 }
 :root[data-ui-style="terminal"] body, :root[data-ui-style="terminal"] input, :root[data-ui-style="terminal"] button, :root[data-ui-style="terminal"] kbd {
   font-family: var(--font-mono);
 }
 :root[data-ui-style="terminal"] .landing-hero__name h1 {
-  font-family: var(--font-mono);
   font-weight: 800;
-  line-height: 0.95;
 }
 :root[data-ui-style="terminal"] .landing-button, :root[data-ui-style="terminal"] .landing-stack span, :root[data-ui-style="terminal"] .code-theme-switcher__button {
   border-radius: 0;
@@ -3467,6 +3499,33 @@ html, body, .header, .landing-hero, .landing-links, .landing-button, .landing-st
   backdrop-filter: blur(18px);
   box-shadow: 0 20px 60px color-mix(in srgb, #000 22%, transparent);
 }
+:root[data-ui-style="glassmorphism"] .landing-hero, :root[data-ui-style="glassmorphism"] .landing-links {
+  background: radial-gradient(circle at 75% 20%, color-mix(in srgb, #121212 18%, transparent), transparent 28%), linear-gradient(135deg, color-mix(in srgb, #fff 88%, transparent), color-mix(in srgb, #f6f6f6 76%, transparent)) !important;
+  @supports (color: color-mix(in lab, red, red)) {
+    background: radial-gradient(circle at 75% 20%, color-mix(in srgb, var(--color-primary) 18%, transparent), transparent 28%), linear-gradient(135deg, color-mix(in srgb, var(--color-body) 88%, transparent), color-mix(in srgb, var(--color-light) 76%, transparent)) !important;
+  }
+}
+:root[data-ui-style="glassmorphism"] .landing-hero__proof {
+  padding: 1.2rem;
+  border-radius: 18px;
+  background: color-mix(in srgb, #f6f6f6 48%, transparent);
+  @supports (color: color-mix(in lab, red, red)) {
+    background: color-mix(in srgb, var(--color-light) 48%, transparent);
+  }
+  backdrop-filter: blur(22px);
+  box-shadow: 0 24px 70px color-mix(in srgb, #000 28%, transparent);
+}
+:root[data-ui-style="glassmorphism"] .landing-button--primary {
+  background: color-mix(in srgb, #121212 82%, #000 18%) !important;
+  @supports (color: color-mix(in lab, red, red)) {
+    background: color-mix(in srgb, var(--color-primary) 82%, #000 18%) !important;
+  }
+  color: var(--color-body) !important;
+  border-color: color-mix(in srgb, #121212 80%, #fff 20%) !important;
+  @supports (color: color-mix(in lab, red, red)) {
+    border-color: color-mix(in srgb, var(--color-primary) 80%, #fff 20%) !important;
+  }
+}
 @media (max-width: 1023px) {
   .landing-hero__inner {
     grid-template-columns: 1fr;
@@ -3474,7 +3533,7 @@ html, body, .header, .landing-hero, .landing-links, .landing-button, .landing-st
   }
   .landing-hero__name h1 {
     max-width: 8ch;
-    font-size: clamp(4.4rem, 18vw, 8rem);
+    font-size: 7rem;
   }
   .landing-hero__proof {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -3495,7 +3554,7 @@ html, body, .header, .landing-hero, .landing-links, .landing-button, .landing-st
   }
   .landing-hero__name h1 {
     max-width: 7.5ch;
-    font-size: clamp(3.7rem, 20vw, 5.2rem);
+    font-size: 4.5rem;
   }
   .landing-hero__summary {
     max-width: calc(100vw - 2.2rem);
