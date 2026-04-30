@@ -1,7 +1,11 @@
 <header
   class="header border-b border-border bg-body/95 shadow-sm backdrop-blur-md dark:border-darkmode-border dark:bg-darkmode-body/95 {{ if site.Params.navbar_fixed }}sticky top-0{{ end }} z-30">
   <nav class="navbar container py-1">
-    <div class="order-0 flex items-center"></div>
+    <div class="order-0 flex items-center">
+      <a class="navbar-brand block min-w-0" href="{{ site.Home.RelPermalink }}">
+        {{ partial "logo" }}
+      </a>
+    </div>
     <input id="nav-toggle" type="checkbox" class="hidden" />
     <label
       for="nav-toggle"
@@ -133,7 +137,7 @@
       {{ if site.Params.navigation_button.enable }}
         <a
           href="{{ site.Params.navigation_button.link | relLangURL }}"
-          class="header-icon-button hidden lg:inline-flex"
+          class="btn btn-outline-primary btn-sm hidden lg:inline-block"
           {{ if (hasPrefix site.Params.navigation_button.link `http`) }}target="_blank" rel="noopener"{{ end }}>
           <i class="fab fa-github" aria-hidden="true"></i>
           <span class="sr-only">{{ site.Params.navigation_button.label }}</span>

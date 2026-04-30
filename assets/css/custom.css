@@ -157,7 +157,7 @@
 
 :root[data-code-theme="neo-brutal"] {
   --color-primary: #ff3b30; --color-body: #050505; --color-border: #111111; --color-light: #ffffff; --color-dark: #ffffff;
-  --color-text: #ffffff; --color-text-dark: #ffffff; --color-text-light: #f4f4f4;
+  --color-text: #f8f8f8; --color-text-dark: #ffffff; --color-text-light: #d5d5d5;
   --color-darkmode-primary: #ff3b30; --color-darkmode-body: #050505; --color-darkmode-border: #111111; --color-darkmode-light: #ffffff;
   --color-darkmode-dark: #ffffff; --color-darkmode-text: #f8f8f8; --color-darkmode-text-dark: #ffffff; --color-darkmode-text-light: #d5d5d5;
   --landing-stripe: rgba(255, 59, 48, 0.16); --landing-muted-band: #050505;
@@ -228,13 +228,13 @@
 }
 
 .landing-hero__name h1 {
-  max-width: 7.8ch;
+  max-width: 7.6ch;
   margin: 0;
   color: var(--color-text-dark);
-  font-family: "Arial Black", Impact, Haettenschweiler, var(--font-secondary), sans-serif;
-  font-size: 13rem;
-  font-weight: 900;
-  line-height: 0.78;
+  font-family: var(--font-secondary);
+  font-size: 11rem;
+  font-weight: 700;
+  line-height: 0.84;
   letter-spacing: 0;
 }
 
@@ -400,32 +400,12 @@
   padding: 0 0.7rem;
 }
 
-.header-icon-button,
-.code-theme-switcher__button {
-  width: 2.25rem;
-  min-width: 2.25rem;
-  border: 0 !important;
-  background: transparent !important;
-  box-shadow: none !important;
-  padding: 0 !important;
-  color: var(--color-text-dark);
-}
-
-.header-icon-button {
-  align-items: center;
-  justify-content: center;
-  height: 2.25rem;
-  font-size: 1.1rem;
-}
-
 .style-switcher-button { margin-right: 1.25rem; }
 
 .header .navbar {
   flex-wrap: nowrap;
   max-width: none;
   gap: 1rem;
-  min-height: 3.25rem;
-  padding-block: 0.2rem;
   padding-inline: clamp(1rem, 3vw, 3rem);
 }
 
@@ -441,7 +421,7 @@
 }
 
 .header [data-command-palette-open] {
-  min-width: 31rem;
+  min-width: 28rem;
   max-width: 40rem;
 }
 
@@ -548,8 +528,8 @@ body,
 }
 
 :root[data-ui-style="material"] .landing-hero__name h1 {
-  font-family: "Arial Black", Impact, Haettenschweiler, var(--font-secondary), sans-serif;
-  font-weight: 900;
+  font-family: Heebo, var(--font-primary);
+  font-weight: 800;
 }
 
 :root[data-ui-style="neobrutalism"] .landing-button,
@@ -570,7 +550,7 @@ body,
 }
 
 :root[data-ui-style="neobrutalism"] .landing-hero__name h1 {
-  font-family: "Arial Black", Impact, Haettenschweiler, var(--font-secondary), sans-serif;
+  font-family: Impact, Haettenschweiler, "Arial Black", var(--font-secondary);
   font-weight: 900;
 }
 
@@ -581,7 +561,7 @@ body,
   font-family: var(--font-mono);
 }
 :root[data-ui-style="terminal"] .landing-hero__name h1 {
-  font-family: "Arial Black", Impact, Haettenschweiler, var(--font-secondary), sans-serif;
+  font-family: var(--font-mono);
   font-weight: 800;
 }
 :root[data-ui-style="terminal"] .landing-button,
@@ -626,42 +606,8 @@ body,
 }
 
 :root[data-ui-style="glassmorphism"] .landing-hero__name h1 {
-  font-family: "Arial Black", Impact, Haettenschweiler, var(--font-secondary), sans-serif;
+  font-family: var(--font-primary);
   font-weight: 900;
-}
-
-.about-profile__grid {
-  display: grid;
-  grid-template-columns: minmax(220px, 340px) minmax(0, 1fr);
-  align-items: start;
-  gap: clamp(2rem, 5vw, 5rem);
-}
-
-.about-profile__media {
-  position: sticky;
-  top: 6rem;
-  display: flex;
-  justify-content: center;
-}
-
-.about-profile__media::before {
-  content: "";
-  position: absolute;
-  inset: 1.2rem 0 0 1.2rem;
-  border-radius: 999px;
-  background: var(--color-primary);
-  opacity: 0.22;
-}
-
-.about-profile__image {
-  position: relative;
-  z-index: 1;
-  width: min(320px, 72vw);
-  aspect-ratio: 1;
-  border-radius: 999px;
-  border: 1px solid var(--color-border);
-  object-fit: cover;
-  box-shadow: 0 24px 70px color-mix(in srgb, #000 24%, transparent);
 }
 
 @media (max-width: 1023px) {
@@ -672,7 +618,7 @@ body,
 
   .landing-hero__name h1 {
     max-width: 8ch;
-    font-size: 9rem;
+    font-size: 8.5rem;
   }
 
   .landing-hero__proof {
@@ -700,16 +646,7 @@ body,
 
   .landing-hero__name h1 {
     max-width: 7.5ch;
-    font-size: 5.8rem;
-  }
-
-  .about-profile__grid {
-    grid-template-columns: 1fr;
-  }
-
-  .about-profile__media {
-    position: relative;
-    top: auto;
+    font-size: 5rem;
   }
 
   .landing-hero__summary {
