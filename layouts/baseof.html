@@ -12,7 +12,7 @@
     {{ partialCached "essentials/style.html" . }}
   </head>
 
-  <body>
+  <body class="{{ if .IsHome }}is-home{{ end }}">
     {{ if hugo.IsProduction }}
       {{ partialCached "preloader.html" . }}
       {{ partialCached "gtm-noscript.html" . }}

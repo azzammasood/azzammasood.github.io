@@ -28,8 +28,13 @@
     { title: "About", url: withBase("/about/"), hint: "/about", cmd: "/about" },
     { title: "Projects", url: withBase("/blog/"), hint: "/projects", cmd: "/projects" },
     { title: "Contact", url: withBase("/contact/"), hint: "/contact", cmd: "/contact" },
-    { title: "Dark mode", url: "#theme-dark", hint: "/dark", cmd: "/dark" },
-    { title: "Light mode", url: "#theme-light", hint: "/light", cmd: "/light" },
+    { title: "Andromeda theme", url: "#theme-andromeda", hint: "/andromeda", cmd: "/andromeda" },
+    { title: "Dracula theme", url: "#theme-dracula", hint: "/dracula", cmd: "/dracula" },
+    { title: "Monokai theme", url: "#theme-monokai", hint: "/monokai", cmd: "/monokai" },
+    { title: "Gruvbox Dark theme", url: "#theme-gruvbox-dark", hint: "/gruvbox", cmd: "/gruvbox" },
+    { title: "Solarized Dark theme", url: "#theme-solarized-dark", hint: "/solarized", cmd: "/solarized" },
+    { title: "VSCode Dark theme", url: "#theme-vscode-dark", hint: "/vscode", cmd: "/vscode" },
+    { title: "Mono theme", url: "#theme-mono", hint: "/mono", cmd: "/mono" },
     { title: "GitHub profile", url: "https://github.com/azzammasood", hint: "/github", cmd: "/github" },
     {
       title: "LinkedIn",
@@ -39,18 +44,16 @@
     },
   ];
 
-  function setDark(on) {
-    var root = document.documentElement;
-    if (on) {
-      root.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-    } else {
-      root.classList.remove("dark");
-      localStorage.setItem("theme", "light");
+  function setCodeTheme(theme) {
+    if (window.portfolioThemes && window.portfolioThemes.apply) {
+      window.portfolioThemes.apply(theme);
+      return;
     }
-    document.querySelectorAll("[data-theme-switcher]").forEach(function (el) {
-      el.checked = on;
-    });
+    var darkThemes = ["andromeda", "dracula", "monokai", "gruvbox-dark", "solarized-dark", "vscode-dark"];
+    document.documentElement.dataset.codeTheme = theme;
+    document.documentElement.classList.toggle("dark", darkThemes.indexOf(theme) !== -1);
+    localStorage.setItem("code-theme", theme);
+    localStorage.setItem("theme", darkThemes.indexOf(theme) !== -1 ? "dark" : "light");
   }
 
   function loadIndex() {
@@ -119,13 +122,8 @@
 
   function go(url) {
     if (!url) return;
-    if (url === "#theme-dark") {
-      setDark(true);
-      close();
-      return;
-    }
-    if (url === "#theme-light") {
-      setDark(false);
+    if (url.indexOf("#theme-") === 0) {
+      setCodeTheme(url.replace("#theme-", ""));
       close();
       return;
     }
