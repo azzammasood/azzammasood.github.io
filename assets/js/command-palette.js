@@ -3,185 +3,144 @@
   var backdrop = document.getElementById("command-palette-backdrop");
   var input = document.getElementById("command-palette-input");
   var list = document.getElementById("command-palette-results");
+  var title = document.getElementById("command-palette-title");
   if (!modal || !input || !list) return;
 
+  var mode = "search";
   var index = [];
   var indexLoaded = false;
 
+  var themes = [
+    ["Andromeda", "andromeda", "/andromeda"],
+    ["Dracula", "dracula", "/dracula"],
+    ["Monokai", "monokai", "/monokai"],
+    ["Gruvbox Dark", "gruvbox-dark", "/gruvbox"],
+    ["Solarized Dark", "solarized-dark", "/solarized"],
+    ["VSCode Dark", "vscode-dark", "/vscode"],
+    ["Abyss", "abyss", "/abyss"],
+    ["Neo Brutal", "neo-brutal", "/neo-brutal"],
+    ["Cyberpunk", "cyberpunk", "/cyberpunk"],
+    ["Tokyo Night", "tokyo-night", "/tokyo"],
+    ["Mono", "mono", "/mono"],
+  ];
+  var styles = [
+    ["Minimal", "minimal", "/style-minimal"],
+    ["Material", "material", "/style-material"],
+    ["NeoBrutalism", "neobrutalism", "/style-neobrutal"],
+    ["Terminal", "terminal", "/style-terminal"],
+    ["Glassmorphism", "glassmorphism", "/style-glass"],
+  ];
+  var shortcuts = [
+    ["Command Palette (Global)", "Ctrl + Shift + P"],
+    ["Search", "Ctrl + K"],
+    ["Theme Picker", "Ctrl + P"],
+    ["Style Switcher", "Ctrl + S"],
+    ["Help / Shortcuts List", "Ctrl + /"],
+    ["View Source on GitHub", "Ctrl + Shift + G"],
+  ];
+
   function siteRoot() {
     var p = document.documentElement.getAttribute("data-site-path") || "";
-    if (p === "/" || !p) return "";
-    return p.replace(/\/$/, "");
+    return p === "/" || !p ? "" : p.replace(/\/$/, "");
   }
-
   function withBase(path) {
     if (!path) return "/";
     if (path.startsWith("http")) return path;
-    var root = siteRoot();
     var p = path.startsWith("/") ? path : "/" + path;
-    if (!root) return p;
-    return root + p;
+    return siteRoot() ? siteRoot() + p : p;
   }
 
   var commands = [
-    { title: "Home", url: withBase("/"), hint: "/home", cmd: "/home" },
-    { title: "About", url: withBase("/about/"), hint: "/about", cmd: "/about" },
-    { title: "Projects", url: withBase("/blog/"), hint: "/projects", cmd: "/projects" },
-    { title: "Contact", url: withBase("/contact/"), hint: "/contact", cmd: "/contact" },
-    { title: "Andromeda theme", url: "#theme-andromeda", hint: "/andromeda", cmd: "/andromeda" },
-    { title: "Dracula theme", url: "#theme-dracula", hint: "/dracula", cmd: "/dracula" },
-    { title: "Monokai theme", url: "#theme-monokai", hint: "/monokai", cmd: "/monokai" },
-    { title: "Gruvbox Dark theme", url: "#theme-gruvbox-dark", hint: "/gruvbox", cmd: "/gruvbox" },
-    { title: "Solarized Dark theme", url: "#theme-solarized-dark", hint: "/solarized", cmd: "/solarized" },
-    { title: "VSCode Dark theme", url: "#theme-vscode-dark", hint: "/vscode", cmd: "/vscode" },
-    { title: "Mono theme", url: "#theme-mono", hint: "/mono", cmd: "/mono" },
-    { title: "GitHub profile", url: "https://github.com/azzammasood", hint: "/github", cmd: "/github" },
-    {
-      title: "LinkedIn",
-      url: "https://www.linkedin.com/in/azzammasood/",
-      hint: "/linkedin",
-      cmd: "/linkedin",
-    },
-  ];
+    { title: "Home", url: withBase("/"), hint: "/home", cmd: "/home", summary: "Open the landing page" },
+    { title: "About", url: withBase("/about/"), hint: "/about", cmd: "/about", summary: "Open about" },
+    { title: "Projects", url: withBase("/blog/"), hint: "/projects", cmd: "/projects", summary: "Open projects" },
+    { title: "Contact", url: withBase("/contact/"), hint: "/contact", cmd: "/contact", summary: "Open contact" },
+    { title: "Search", url: "#mode-search", hint: "Ctrl + K", cmd: "/search", summary: "Search site content" },
+    { title: "Theme Picker", url: "#mode-themes", hint: "Ctrl + P", cmd: "/themes", summary: "Switch color theme" },
+    { title: "Style Switcher", url: "#mode-styles", hint: "Ctrl + S", cmd: "/styles", summary: "Switch UI style" },
+    { title: "Help / Shortcuts", url: "#mode-help", hint: "Ctrl + /", cmd: "/help", summary: "Show shortcuts" },
+    { title: "View Source on GitHub", url: "https://github.com/azzammasood/azzammasood.github.io", hint: "Ctrl + Shift + G", cmd: "/source", summary: "Open repository" },
+  ]
+    .concat(themes.map(function (t) { return { title: t[0] + " theme", url: "#theme-" + t[1], hint: t[2], cmd: t[2], summary: "Apply color theme" }; }))
+    .concat(styles.map(function (s) { return { title: s[0] + " style", url: "#style-" + s[1], hint: s[2], cmd: s[2], summary: "Apply UI style" }; }));
 
-  function setCodeTheme(theme) {
-    if (window.portfolioThemes && window.portfolioThemes.apply) {
-      window.portfolioThemes.apply(theme);
-      return;
+  function applyTheme(id) {
+    if (window.portfolioThemes && window.portfolioThemes.apply) window.portfolioThemes.apply(id);
+    else {
+      document.documentElement.dataset.codeTheme = id;
+      document.documentElement.classList.toggle("dark", id !== "mono" && id !== "neo-brutal");
+      localStorage.setItem("code-theme", id);
     }
-    var darkThemes = ["andromeda", "dracula", "monokai", "gruvbox-dark", "solarized-dark", "vscode-dark"];
-    document.documentElement.dataset.codeTheme = theme;
-    document.documentElement.classList.toggle("dark", darkThemes.indexOf(theme) !== -1);
-    localStorage.setItem("code-theme", theme);
-    localStorage.setItem("theme", darkThemes.indexOf(theme) !== -1 ? "dark" : "light");
   }
-
+  function applyStyle(id) {
+    if (window.portfolioStyles && window.portfolioStyles.apply) window.portfolioStyles.apply(id);
+    else {
+      document.documentElement.dataset.uiStyle = id;
+      localStorage.setItem("ui-style", id);
+    }
+  }
   function loadIndex() {
     if (indexLoaded) return Promise.resolve();
-    return fetch(withBase("/searchindex.json"))
-      .then(function (r) {
-        if (!r.ok) throw new Error("no index");
-        return r.json();
-      })
-      .then(function (data) {
-        index = Array.isArray(data) ? data : data.pages || data.items || [];
-        indexLoaded = true;
-      })
-      .catch(function () {
-        index = [];
-        indexLoaded = true;
-      });
+    return fetch(withBase("/searchindex.json")).then(function (r) { return r.ok ? r.json() : []; }).then(function (data) {
+      index = Array.isArray(data) ? data : data.pages || data.items || [];
+      indexLoaded = true;
+    }).catch(function () { index = []; indexLoaded = true; });
   }
-
-  function normalize(s) {
-    return (s || "").toLowerCase().trim();
-  }
-
-  function render(items) {
-    list.innerHTML = "";
-    if (!items.length) {
-      var empty = document.createElement("li");
-      empty.className = "px-3 py-6 text-center text-text-light dark:text-darkmode-text-light";
-      empty.textContent = "No matches. Try a command or different keywords.";
-      list.appendChild(empty);
-      return;
-    }
-    items.forEach(function (item, i) {
-      var li = document.createElement("li");
-      li.setAttribute("role", "option");
-      li.className =
-        "command-palette-item cursor-pointer rounded-lg px-3 py-2.5 text-text-dark hover:bg-light dark:text-white dark:hover:bg-darkmode-light";
-      li.dataset.url = item.url;
-      li.innerHTML =
-        '<div class="font-medium">' +
-        escapeHtml(item.title) +
-        "</div>" +
-        (item.summary
-          ? '<div class="mt-0.5 line-clamp-2 text-xs text-text-light dark:text-darkmode-text-light">' +
-            escapeHtml(item.summary) +
-            "</div>"
-          : "") +
-        (item.hint
-          ? '<div class="mt-1 text-xs text-primary dark:text-darkmode-primary">' +
-            escapeHtml(item.hint) +
-            "</div>"
-          : "");
-      li.addEventListener("mousedown", function (e) {
-        e.preventDefault();
-        go(item.url);
-      });
-      list.appendChild(li);
-    });
-  }
-
+  function normalize(s) { return (s || "").toLowerCase().trim(); }
   function escapeHtml(t) {
     var d = document.createElement("div");
     d.textContent = t;
     return d.innerHTML;
   }
-
-  function go(url) {
-    if (!url) return;
-    if (url.indexOf("#theme-") === 0) {
-      setCodeTheme(url.replace("#theme-", ""));
-      close();
-      return;
-    }
-    window.location.href = url;
+  function item(title, url, summary, hint) { return { title: title, url: url, summary: summary || "", hint: hint || "" }; }
+  function render(items) {
+    list.innerHTML = "";
+    if (!items.length) items = [item("No matches", "", "Try another command or keyword.", "")];
+    items.forEach(function (it) {
+      var li = document.createElement("li");
+      li.className = "command-palette-item cursor-pointer rounded-lg px-3 py-2.5 text-text-dark hover:bg-light dark:text-white dark:hover:bg-darkmode-light";
+      li.dataset.url = it.url || "";
+      li.innerHTML = '<div class="flex items-center justify-between gap-4"><span class="font-medium">' + escapeHtml(it.title) + '</span>' + (it.hint ? '<kbd class="shrink-0 rounded border border-border px-1.5 py-0.5 text-[10px] dark:border-darkmode-border">' + escapeHtml(it.hint) + "</kbd>" : "") + "</div>" + (it.summary ? '<div class="mt-0.5 text-xs text-text-light dark:text-darkmode-text-light">' + escapeHtml(it.summary) + "</div>" : "");
+      li.addEventListener("mousedown", function (e) { e.preventDefault(); go(it.url); });
+      list.appendChild(li);
+    });
   }
-
+  function setMode(next) {
+    mode = next;
+    var labels = { search: "Search", commands: "Command Palette", themes: "Theme Picker", styles: "Style Switcher", help: "Shortcuts" };
+    if (title) title.textContent = labels[mode] || "Command Palette";
+    input.placeholder = mode === "search" ? "Search site content" : mode === "themes" ? "Pick a theme" : mode === "styles" ? "Pick a UI style" : "Type a command";
+  }
+  function showDefault() {
+    if (mode === "themes") return render(themes.map(function (t) { return item(t[0], "#theme-" + t[1], "Apply color theme", t[2]); }));
+    if (mode === "styles") return render(styles.map(function (s) { return item(s[0], "#style-" + s[1], "Apply UI style", s[2]); }));
+    if (mode === "help") return render(shortcuts.map(function (s) { return item(s[0], "", "", s[1]); }));
+    if (mode === "commands") return render(commands.map(function (c) { return item(c.title, c.url, c.summary, c.hint); }));
+    render([]);
+  }
   function filter(q) {
     var n = normalize(q);
-    if (!n) {
-      render(
-        commands.map(function (c) {
-          return { title: c.title, url: c.url, summary: "", hint: c.hint };
-        })
-      );
-      return;
-    }
-
-    if (n.startsWith("/")) {
-      var hits = commands.filter(function (c) {
-        return normalize(c.cmd).startsWith(n) || normalize(c.hint).startsWith(n);
+    if (!n) return showDefault();
+    var source = mode === "themes" ? themes.map(function (t) { return item(t[0], "#theme-" + t[1], "Apply color theme", t[2]); })
+      : mode === "styles" ? styles.map(function (s) { return item(s[0], "#style-" + s[1], "Apply UI style", s[2]); })
+      : commands.map(function (c) { return item(c.title, c.url, c.summary, c.hint); });
+    var out = source.filter(function (x) { return normalize(x.title + " " + x.summary + " " + x.hint).indexOf(n) !== -1; });
+    if (mode === "search") {
+      index.forEach(function (p) {
+        var text = (p.title || "") + " " + (p.summary || p.description || "");
+        if (normalize(text).indexOf(n) !== -1) out.push(item(p.title, p.url || p.permalink || p.relpermalink, (p.summary || p.description || "").slice(0, 150), ""));
       });
-      render(
-        hits.map(function (c) {
-          return { title: c.title, url: c.url, summary: "", hint: c.hint };
-        })
-      );
-      return;
     }
-
-    var out = [];
-    commands.forEach(function (c) {
-      if (normalize(c.title).includes(n) || normalize(c.hint).includes(n)) {
-        out.push({ title: c.title, url: c.url, summary: "", hint: c.hint });
-      }
-    });
-    index.forEach(function (p) {
-      var title = p.title || "";
-      var summary = p.summary || p.description || "";
-      var url = p.url || p.permalink || p.relpermalink || "";
-      if (!url) return;
-      if (normalize(title).includes(n) || normalize(summary).includes(n)) {
-        out.push({ title: title, url: url, summary: summary.slice(0, 160), hint: "" });
-      }
-    });
-    render(out.slice(0, 20));
+    render(out.slice(0, 24));
   }
-
-  function open() {
+  function open(nextMode) {
+    setMode(nextMode || "search");
     modal.classList.remove("hidden");
     modal.setAttribute("aria-hidden", "false");
     input.value = "";
     document.body.style.overflow = "hidden";
-    loadIndex().then(function () {
-      filter("");
-      input.focus();
-    });
+    (mode === "search" ? loadIndex() : Promise.resolve()).then(function () { showDefault(); input.focus(); });
   }
-
   function close() {
     modal.classList.add("hidden");
     modal.setAttribute("aria-hidden", "true");
@@ -189,44 +148,36 @@
     input.value = "";
     list.innerHTML = "";
   }
-
-  document.querySelectorAll('[data-target="search-modal"]').forEach(function (el) {
-    el.addEventListener("click", function (e) {
-      e.preventDefault();
-      open();
-    });
-  });
-
-  document.querySelectorAll("[data-command-palette-open]").forEach(function (el) {
-    el.addEventListener("click", function (e) {
-      e.preventDefault();
-      open();
-    });
-  });
-
-  if (backdrop) {
-    backdrop.addEventListener("click", close);
+  function go(url) {
+    if (!url) return;
+    if (url === "#mode-search") return open("search");
+    if (url === "#mode-themes") return open("themes");
+    if (url === "#mode-styles") return open("styles");
+    if (url === "#mode-help") return open("help");
+    if (url.indexOf("#theme-") === 0) { applyTheme(url.replace("#theme-", "")); close(); return; }
+    if (url.indexOf("#style-") === 0) { applyStyle(url.replace("#style-", "")); close(); return; }
+    window.location.href = url;
   }
 
-  document.querySelectorAll("[data-command-palette-close]").forEach(function (el) {
-    el.addEventListener("click", close);
+  document.querySelectorAll('[data-target="search-modal"],[data-command-palette-open]').forEach(function (el) {
+    el.addEventListener("click", function (e) { e.preventDefault(); open(el.hasAttribute("data-command-palette-open") ? "commands" : "search"); });
   });
-
+  document.querySelectorAll("[data-code-theme-toggle]").forEach(function (el) {
+    el.addEventListener("dblclick", function (e) { e.preventDefault(); open("themes"); });
+  });
+  if (backdrop) backdrop.addEventListener("click", close);
+  document.querySelectorAll("[data-command-palette-close]").forEach(function (el) { el.addEventListener("click", close); });
   document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape" && !modal.classList.contains("hidden")) {
-      close();
-    }
-    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
-      e.preventDefault();
-      if (modal.classList.contains("hidden")) open();
-      else close();
-    }
+    var k = e.key.toLowerCase();
+    if (e.key === "Escape" && !modal.classList.contains("hidden")) close();
+    if ((e.ctrlKey || e.metaKey) && e.shiftKey && k === "p") { e.preventDefault(); open("commands"); }
+    else if ((e.ctrlKey || e.metaKey) && k === "k") { e.preventDefault(); open("search"); }
+    else if ((e.ctrlKey || e.metaKey) && k === "p") { e.preventDefault(); open("themes"); }
+    else if ((e.ctrlKey || e.metaKey) && k === "s") { e.preventDefault(); open("styles"); }
+    else if ((e.ctrlKey || e.metaKey) && k === "/") { e.preventDefault(); open("help"); }
+    else if ((e.ctrlKey || e.metaKey) && e.shiftKey && k === "g") { e.preventDefault(); window.location.href = "https://github.com/azzammasood/azzammasood.github.io"; }
   });
-
-  input.addEventListener("input", function () {
-    filter(input.value);
-  });
-
+  input.addEventListener("input", function () { filter(input.value); });
   input.addEventListener("keydown", function (e) {
     if (e.key === "Enter") {
       var first = list.querySelector(".command-palette-item");

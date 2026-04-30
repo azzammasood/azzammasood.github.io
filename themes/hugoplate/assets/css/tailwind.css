@@ -373,9 +373,6 @@
   .mt-0\.5 {
     margin-top: calc(var(--spacing) * 0.5);
   }
-  .mt-1 {
-    margin-top: calc(var(--spacing) * 1);
-  }
   .mt-2 {
     margin-top: calc(var(--spacing) * 2);
   }
@@ -545,12 +542,6 @@
       padding-bottom: 0;
     }
   }
-  .line-clamp-2 {
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-  }
   .block {
     display: block;
   }
@@ -702,6 +693,9 @@
   }
   .gap-3 {
     gap: calc(var(--spacing) * 3);
+  }
+  .gap-4 {
+    gap: calc(var(--spacing) * 4);
   }
   .space-y-3 {
     :where(& > :not(:last-child)) {
@@ -907,9 +901,6 @@
   }
   .py-3 {
     padding-block: calc(var(--spacing) * 3);
-  }
-  .py-6 {
-    padding-block: calc(var(--spacing) * 6);
   }
   .py-7 {
     padding-block: calc(var(--spacing) * 7);
@@ -3111,6 +3102,86 @@ input#nav-toggle:checked ~ #nav-menu {
   --landing-stripe: rgba(31, 35, 40, 0.09);
   --landing-muted-band: #dbe2e8;
 }
+:root[data-code-theme="abyss"] {
+  --color-primary: #00c2ff;
+  --color-body: #020817;
+  --color-border: #12325f;
+  --color-light: #071b35;
+  --color-dark: #e7f4ff;
+  --color-text: #bfd5f2;
+  --color-text-dark: #f4fbff;
+  --color-text-light: #7ea0ca;
+  --color-darkmode-primary: #00c2ff;
+  --color-darkmode-body: #020817;
+  --color-darkmode-border: #12325f;
+  --color-darkmode-light: #071b35;
+  --color-darkmode-dark: #e7f4ff;
+  --color-darkmode-text: #bfd5f2;
+  --color-darkmode-text-dark: #f4fbff;
+  --color-darkmode-text-light: #7ea0ca;
+  --landing-stripe: rgba(0, 94, 255, 0.16);
+  --landing-muted-band: #071b35;
+}
+:root[data-code-theme="neo-brutal"] {
+  --color-primary: #ff3b30;
+  --color-body: #fff7d6;
+  --color-border: #111111;
+  --color-light: #ffffff;
+  --color-dark: #111111;
+  --color-text: #111111;
+  --color-text-dark: #111111;
+  --color-text-light: #343434;
+  --color-darkmode-primary: #ff3b30;
+  --color-darkmode-body: #fff7d6;
+  --color-darkmode-border: #111111;
+  --color-darkmode-light: #ffffff;
+  --color-darkmode-dark: #111111;
+  --color-darkmode-text: #111111;
+  --color-darkmode-text-dark: #111111;
+  --color-darkmode-text-light: #343434;
+  --landing-stripe: rgba(255, 59, 48, 0.16);
+  --landing-muted-band: #ffd60a;
+}
+:root[data-code-theme="cyberpunk"] {
+  --color-primary: #faff00;
+  --color-body: #120024;
+  --color-border: #44205f;
+  --color-light: #22003d;
+  --color-dark: #ffffff;
+  --color-text: #ffe6ff;
+  --color-text-dark: #ffffff;
+  --color-text-light: #ff8bd7;
+  --color-darkmode-primary: #faff00;
+  --color-darkmode-body: #120024;
+  --color-darkmode-border: #44205f;
+  --color-darkmode-light: #22003d;
+  --color-darkmode-dark: #ffffff;
+  --color-darkmode-text: #ffe6ff;
+  --color-darkmode-text-dark: #ffffff;
+  --color-darkmode-text-light: #ff8bd7;
+  --landing-stripe: rgba(0, 240, 255, 0.14);
+  --landing-muted-band: #22003d;
+}
+:root[data-code-theme="tokyo-night"] {
+  --color-primary: #7aa2f7;
+  --color-body: #1a1b26;
+  --color-border: #343a52;
+  --color-light: #24283b;
+  --color-dark: #c0caf5;
+  --color-text: #a9b1d6;
+  --color-text-dark: #c0caf5;
+  --color-text-light: #7f849c;
+  --color-darkmode-primary: #7aa2f7;
+  --color-darkmode-body: #1a1b26;
+  --color-darkmode-border: #343a52;
+  --color-darkmode-light: #24283b;
+  --color-darkmode-dark: #c0caf5;
+  --color-darkmode-text: #a9b1d6;
+  --color-darkmode-text-dark: #c0caf5;
+  --color-darkmode-text-light: #7f849c;
+  --landing-stripe: rgba(187, 154, 247, 0.13);
+  --landing-muted-band: #24283b;
+}
 .is-home footer {
   display: none;
 }
@@ -3350,6 +3421,40 @@ input#nav-toggle:checked ~ #nav-menu {
   height: 0.55rem;
   width: 0.55rem;
   border-radius: 999px;
+}
+:root[data-ui-style="material"] .landing-button, :root[data-ui-style="material"] .code-theme-switcher__button, :root[data-ui-style="material"] .code-theme-switcher__menu, :root[data-ui-style="material"] .landing-stack span {
+  border: 0;
+  border-radius: 4px;
+  box-shadow: 0 8px 24px color-mix(in srgb, #000 24%, transparent);
+}
+:root[data-ui-style="neobrutalism"] .landing-button, :root[data-ui-style="neobrutalism"] .code-theme-switcher__button, :root[data-ui-style="neobrutalism"] .code-theme-switcher__menu, :root[data-ui-style="neobrutalism"] .landing-stack span, :root[data-ui-style="neobrutalism"] .command-palette > div > div {
+  border: 3px solid var(--color-text-dark) !important;
+  border-radius: 0 !important;
+  box-shadow: 6px 6px 0 var(--color-text-dark) !important;
+}
+:root[data-ui-style="terminal"] body, :root[data-ui-style="terminal"] input, :root[data-ui-style="terminal"] button, :root[data-ui-style="terminal"] kbd {
+  font-family: var(--font-mono);
+}
+:root[data-ui-style="terminal"] .landing-hero__name h1 {
+  font-family: var(--font-mono);
+  font-weight: 800;
+  line-height: 0.95;
+}
+:root[data-ui-style="terminal"] .landing-button, :root[data-ui-style="terminal"] .landing-stack span, :root[data-ui-style="terminal"] .code-theme-switcher__button {
+  border-radius: 0;
+  box-shadow: none;
+}
+:root[data-ui-style="glassmorphism"] .header, :root[data-ui-style="glassmorphism"] .landing-button, :root[data-ui-style="glassmorphism"] .code-theme-switcher__button, :root[data-ui-style="glassmorphism"] .code-theme-switcher__menu, :root[data-ui-style="glassmorphism"] .landing-stack span, :root[data-ui-style="glassmorphism"] .command-palette > div > div {
+  background: color-mix(in srgb, #f6f6f6 58%, transparent) !important;
+  @supports (color: color-mix(in lab, red, red)) {
+    background: color-mix(in srgb, var(--color-light) 58%, transparent) !important;
+  }
+  border-color: color-mix(in srgb, #121212 32%, #eaeaea) !important;
+  @supports (color: color-mix(in lab, red, red)) {
+    border-color: color-mix(in srgb, var(--color-primary) 32%, var(--color-border)) !important;
+  }
+  backdrop-filter: blur(18px);
+  box-shadow: 0 20px 60px color-mix(in srgb, #000 22%, transparent);
 }
 @media (max-width: 1023px) {
   .landing-hero__inner {
