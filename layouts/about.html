@@ -1,22 +1,24 @@
 {{ define "main" }}
-  <section class="section-sm">
+  <section class="section-sm about-profile">
     <div class="container">
-      <div class="row justify-center">
-        <div class="md:col-10 lg:col-8">
+      <div class="about-profile__grid">
+        <div class="about-profile__media">
           {{ if .Params.image }}
             {{ $img := .Params.image }}
             {{ if or (strings.HasPrefix $img `http`) (strings.HasPrefix $img `/images/`) }}
               <img
                 src="{{ $img | relURL }}"
                 alt="{{ .Title }}"
-                class="mx-auto mb-6 max-h-80 w-auto rounded-2xl border border-border object-cover shadow-md dark:border-darkmode-border"
+                class="about-profile__image"
                 width="320"
                 height="320"
                 loading="eager" />
             {{ else }}
-              {{ partial "image" (dict "Src" $img "Context" .Page "Alt" .Title "Class" "mx-auto rounded mb-6" ) }}
+              {{ partial "image" (dict "Src" $img "Context" .Page "Alt" .Title "Class" "about-profile__image" ) }}
             {{ end }}
           {{ end }}
+        </div>
+        <div class="about-profile__content">
           <h2 class="h3 mb-6">{{ .Title }}</h2>
           <div class="content">{{ .Content }}</div>
         </div>
