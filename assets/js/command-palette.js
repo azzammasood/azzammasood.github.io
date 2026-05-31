@@ -22,6 +22,7 @@
     ["Cyberpunk", "cyberpunk", "/cyberpunk"],
     ["Tokyo Night", "tokyo-night", "/tokyo"],
     ["Mono", "mono", "/mono"],
+    ["Mono Dark", "mono-dark", "/mono-dark"],
   ];
   var styles = [
     ["Minimal", "minimal", "/style-minimal"],
@@ -68,7 +69,7 @@
     if (window.portfolioThemes && window.portfolioThemes.apply) window.portfolioThemes.apply(id);
     else {
       document.documentElement.dataset.codeTheme = id;
-      document.documentElement.classList.toggle("dark", id !== "mono" && id !== "neo-brutal");
+      document.documentElement.classList.toggle("dark", id !== "mono");
       localStorage.setItem("code-theme", id);
     }
   }
@@ -116,7 +117,7 @@
     if (mode === "styles") return render(styles.map(function (s) { return item(s[0], "#style-" + s[1], "Apply UI style", s[2]); }));
     if (mode === "help") return render(shortcuts.map(function (s) { return item(s[0], "", "", s[1]); }));
     if (mode === "commands") return render(commands.map(function (c) { return item(c.title, c.url, c.summary, c.hint); }));
-    render([]);
+    return render(commands.slice(0, 9).map(function (c) { return item(c.title, c.url, c.summary, c.hint); }));
   }
   function filter(q) {
     var n = normalize(q);

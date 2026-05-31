@@ -12,6 +12,7 @@
     (dict "name" "Cyberpunk" "id" "cyberpunk" "colors" (slice "#ff007c" "#faff00" "#00f0ff" "#120024"))
     (dict "name" "Tokyo Night" "id" "tokyo-night" "colors" (slice "#7aa2f7" "#bb9af7" "#9ece6a" "#c0caf5"))
     (dict "name" "Mono" "id" "mono" "colors" (slice "#1f2328" "#6e7781" "#afb8c1" "#f6f8fa"))
+    (dict "name" "Mono Dark" "id" "mono-dark" "colors" (slice "#050505" "#1a1a1a" "#808080" "#ff5f66"))
   }}
   {{ $styles := slice
     (dict "name" "Minimal" "id" "minimal")
@@ -44,7 +45,7 @@
   </div>
   <script>
     (function () {
-      var themes = {"andromeda":["Andromeda",true],"dracula":["Dracula",true],"monokai":["Monokai",true],"gruvbox-dark":["Gruvbox Dark",true],"solarized-dark":["Solarized Dark",true],"vscode-dark":["VSCode Dark",true],"abyss":["Abyss",true],"neo-brutal":["Neo Brutal",false],"cyberpunk":["Cyberpunk",true],"tokyo-night":["Tokyo Night",true],"mono":["Mono",false]};
+      var themes = {"andromeda":["Andromeda",true],"dracula":["Dracula",true],"monokai":["Monokai",true],"gruvbox-dark":["Gruvbox Dark",true],"solarized-dark":["Solarized Dark",true],"vscode-dark":["VSCode Dark",true],"abyss":["Abyss",true],"neo-brutal":["Neo Brutal",true],"cyberpunk":["Cyberpunk",true],"tokyo-night":["Tokyo Night",true],"mono":["Mono",false],"mono-dark":["Mono Dark",true]};
       var styles = {"minimal":"Minimal","material":"Material","neobrutalism":"NeoBrutalism","terminal":"Terminal","glassmorphism":"Glassmorphism"};
       function transition(fn) { if (document.startViewTransition) document.startViewTransition(fn); else fn(); }
       window.portfolioThemes = { apply: function (id) { var t = themes[id] || themes.andromeda, key = themes[id] ? id : "andromeda"; transition(function () {
@@ -58,7 +59,7 @@
         document.querySelectorAll("[data-ui-style-current]").forEach(function (el) { el.textContent = styles[key]; });
         document.querySelectorAll("[data-ui-style-option]").forEach(function (el) { el.setAttribute("aria-current", el.dataset.uiStyleOption === key ? "true" : "false"); });
       }); }, names: styles };
-      window.portfolioThemes.apply(localStorage.getItem("code-theme") || (localStorage.getItem("theme") === "light" ? "mono" : "andromeda"));
+      window.portfolioThemes.apply(localStorage.getItem("code-theme") || "mono");
       window.portfolioStyles.apply(localStorage.getItem("ui-style") || "minimal");
       document.addEventListener("DOMContentLoaded", function () {
         document.querySelectorAll("[data-code-theme-toggle],[data-style-toggle]").forEach(function (button) {

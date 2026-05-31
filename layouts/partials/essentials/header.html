@@ -1,11 +1,7 @@
 <header
   class="header border-b border-border bg-body/95 shadow-sm backdrop-blur-md dark:border-darkmode-border dark:bg-darkmode-body/95 {{ if site.Params.navbar_fixed }}sticky top-0{{ end }} z-30">
   <nav class="navbar container py-1">
-    <div class="order-0 flex items-center">
-      <a class="navbar-brand block min-w-0" href="{{ site.Home.RelPermalink }}">
-        {{ partial "logo" }}
-      </a>
-    </div>
+    <div class="order-0 hidden lg:block"></div>
     <input id="nav-toggle" type="checkbox" class="hidden" />
     <label
       for="nav-toggle"

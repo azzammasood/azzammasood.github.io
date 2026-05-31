@@ -1,0 +1,50 @@
+{{ define "main" }}
+  <section class="projects-page">
+    <div class="container">
+      <header class="projects-page__header">
+        <p class="landing-hero__kicker">Selected Work</p>
+        <h1>{{ .Title }}</h1>
+        {{ with .Params.description }}
+          <p>{{ . }}</p>
+        {{ end }}
+      </header>
+
+      <div class="projects-list">
+        {{ $paginator := .Paginate .RegularPages }}
+        {{ range $paginator.Pages }}
+          {{ $project := . }}
+          <article class="project-row">
+            <a class="project-row__media" href="{{ .RelPermalink }}" aria-label="Open {{ .Title }}">
+              {{ with .Params.image }}
+                {{ if or (strings.HasPrefix . "http") (strings.HasPrefix . "/images/") }}
+                  <img src="{{ . | relURL }}" alt="{{ $project.Title }}" class="project-row__image" loading="lazy" width="960" height="600" />
+                {{ else }}
+                  {{ partial "image" (dict "Src" . "Context" $project "Alt" $project.Title "Class" "project-row__image") }}
+                {{ end }}
+              {{ else }}
+                <span>{{ $project.Title }}</span>
+              {{ end }}
+            </a>
+
+            <div class="project-row__body">
+              <h2>
+                <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+              </h2>
+              {{ with .Params.tags }}
+                <div class="project-row__stack" aria-label="Tech stack">
+                  {{ range . }}
+                    <span>{{ . }}</span>
+                  {{ end }}
+                </div>
+              {{ end }}
+              <p>{{ .Params.description | default .Summary | plainify }}</p>
+              <a class="project-row__link" href="{{ .RelPermalink }}">View project</a>
+            </div>
+          </article>
+        {{ end }}
+      </div>
+
+      {{ partial "components/pagination.html" . }}
+    </div>
+  </section>
+{{ end }}

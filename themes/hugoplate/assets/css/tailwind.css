@@ -63,8 +63,8 @@
     --color-darkmode-text: #B4AFB6;
     --color-darkmode-text-dark: #fff;
     --color-darkmode-text-light: #B4AFB6;
-    --font-primary: Heebo, sans-serif;
-    --font-secondary: Signika, sans-serif;
+    --font-primary: Inter, sans-serif;
+    --font-secondary: Inter, sans-serif;
     --text-base-sm: 12.8px;
     --text-h6: 1.2rem;
     --text-h5: 1.44rem;
@@ -2962,6 +2962,11 @@ input#nav-toggle:checked ~ #nav-menu {
 .gallery-slider {
   margin-left: calc(var(--spacing) * 0) !important;
 }
+:root {
+  --font-primary: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-secondary: Satoshi, Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
 :root, :root[data-code-theme="andromeda"] {
   --color-primary: #00e8c6;
   --color-body: #10131a;
@@ -3102,6 +3107,26 @@ input#nav-toggle:checked ~ #nav-menu {
   --landing-stripe: rgba(31, 35, 40, 0.09);
   --landing-muted-band: #dbe2e8;
 }
+:root[data-code-theme="mono-dark"] {
+  --color-primary: #808080;
+  --color-body: #050505;
+  --color-border: #2a2a2a;
+  --color-light: #191919;
+  --color-dark: #ffffff;
+  --color-text: #d8d8d8;
+  --color-text-dark: #ffffff;
+  --color-text-light: #a5a5a5;
+  --color-darkmode-primary: #808080;
+  --color-darkmode-body: #050505;
+  --color-darkmode-border: #2a2a2a;
+  --color-darkmode-light: #191919;
+  --color-darkmode-dark: #ffffff;
+  --color-darkmode-text: #d8d8d8;
+  --color-darkmode-text-dark: #ffffff;
+  --color-darkmode-text-light: #a5a5a5;
+  --landing-stripe: rgba(255, 255, 255, 0.08);
+  --landing-muted-band: #111111;
+}
 :root[data-code-theme="abyss"] {
   --color-primary: #00c2ff;
   --color-body: #020817;
@@ -3125,20 +3150,20 @@ input#nav-toggle:checked ~ #nav-menu {
 :root[data-code-theme="neo-brutal"] {
   --color-primary: #ff3b30;
   --color-body: #050505;
-  --color-border: #111111;
-  --color-light: #ffffff;
+  --color-border: #ffffff;
+  --color-light: #151515;
   --color-dark: #ffffff;
   --color-text: #f8f8f8;
   --color-text-dark: #ffffff;
-  --color-text-light: #d5d5d5;
+  --color-text-light: #e5e5e5;
   --color-darkmode-primary: #ff3b30;
   --color-darkmode-body: #050505;
-  --color-darkmode-border: #111111;
-  --color-darkmode-light: #ffffff;
+  --color-darkmode-border: #ffffff;
+  --color-darkmode-light: #151515;
   --color-darkmode-dark: #ffffff;
   --color-darkmode-text: #f8f8f8;
   --color-darkmode-text-dark: #ffffff;
-  --color-darkmode-text-light: #d5d5d5;
+  --color-darkmode-text-light: #e5e5e5;
   --landing-stripe: rgba(255, 59, 48, 0.16);
   --landing-muted-band: #050505;
 }
@@ -3404,6 +3429,15 @@ input#nav-toggle:checked ~ #nav-menu {
   overflow: visible;
   white-space: nowrap;
 }
+body, input, button, textarea, select {
+  font-family: var(--font-primary) !important;
+}
+h1, h2, h3, h4, h5, h6, .landing-hero__name h1 {
+  font-family: var(--font-secondary) !important;
+}
+code, kbd, pre, samp {
+  font-family: var(--font-mono) !important;
+}
 html, body, .header, .landing-hero, .landing-links, .landing-button, .landing-stack span, .code-theme-switcher__button, .code-theme-switcher__menu, .command-palette > div > div {
   transition: background-color 680ms cubic-bezier(0.22, 1, 0.36, 1), background 680ms cubic-bezier(0.22, 1, 0.36, 1), border-color 680ms cubic-bezier(0.22, 1, 0.36, 1), color 520ms ease, box-shadow 680ms cubic-bezier(0.22, 1, 0.36, 1), backdrop-filter 680ms ease;
 }
@@ -3472,10 +3506,6 @@ html, body, .header, .landing-hero, .landing-links, .landing-button, .landing-st
   }
   box-shadow: 0 18px 45px color-mix(in srgb, #000 18%, transparent);
 }
-:root[data-ui-style="material"] .landing-hero__name h1 {
-  font-family: Heebo, var(--font-primary);
-  font-weight: 800;
-}
 :root[data-ui-style="neobrutalism"] .landing-button, :root[data-ui-style="neobrutalism"] .code-theme-switcher__button, :root[data-ui-style="neobrutalism"] .code-theme-switcher__menu, :root[data-ui-style="neobrutalism"] .landing-stack span, :root[data-ui-style="neobrutalism"] .command-palette > div > div {
   border: 3px solid var(--color-text-dark) !important;
   border-radius: 0 !important;
@@ -3484,17 +3514,6 @@ html, body, .header, .landing-hero, .landing-links, .landing-button, .landing-st
 :root[data-ui-style="neobrutalism"] .landing-button, :root[data-ui-style="neobrutalism"] .code-theme-switcher__button, :root[data-ui-style="neobrutalism"] .landing-stack span {
   position: relative;
   z-index: 0;
-}
-:root[data-ui-style="neobrutalism"] .landing-hero__name h1 {
-  font-family: Impact, Haettenschweiler, "Arial Black", var(--font-secondary);
-  font-weight: 900;
-}
-:root[data-ui-style="terminal"] body, :root[data-ui-style="terminal"] input, :root[data-ui-style="terminal"] button, :root[data-ui-style="terminal"] kbd {
-  font-family: var(--font-mono);
-}
-:root[data-ui-style="terminal"] .landing-hero__name h1 {
-  font-family: var(--font-mono);
-  font-weight: 800;
 }
 :root[data-ui-style="terminal"] .landing-button, :root[data-ui-style="terminal"] .landing-stack span, :root[data-ui-style="terminal"] .code-theme-switcher__button {
   border-radius: 0;
@@ -3540,11 +3559,127 @@ html, body, .header, .landing-hero, .landing-links, .landing-button, .landing-st
   }
   text-shadow: none;
 }
-:root[data-ui-style="glassmorphism"] .landing-hero__name h1 {
-  font-family: var(--font-primary);
-  font-weight: 900;
+.projects-page {
+  background: var(--color-body);
+  color: var(--color-text);
+  padding: clamp(3rem, 7vw, 6rem) 0;
+}
+.projects-page__header {
+  max-width: 48rem;
+  margin-bottom: clamp(2rem, 5vw, 4rem);
+}
+.projects-page__header h1 {
+  margin: 0;
+  color: var(--color-text-dark);
+  font-size: clamp(3rem, 9vw, 8rem);
+  line-height: 0.9;
+  letter-spacing: 0;
+}
+.projects-page__header p:not(.landing-hero__kicker) {
+  margin-top: 1rem;
+  color: var(--color-text);
+  font-size: 1.08rem;
+}
+.projects-list {
+  display: grid;
+  gap: clamp(2rem, 5vw, 4rem);
+}
+.project-row {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.95fr) minmax(0, 1.05fr);
+  align-items: center;
+  gap: clamp(1.5rem, 5vw, 4rem);
+  border-top: 1px solid var(--color-border);
+  padding-top: clamp(1.5rem, 4vw, 3rem);
+}
+.project-row__media {
+  display: flex;
+  aspect-ratio: 16 / 10;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: var(--color-light);
+  color: var(--color-text-dark);
+  font-weight: 800;
+  text-decoration: none;
+}
+.project-row__image {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+.project-row__body h2 {
+  margin: 0;
+  color: var(--color-text-dark);
+  font-size: clamp(2rem, 4.6vw, 4.6rem);
+  line-height: 0.94;
+}
+.project-row__body h2 a {
+  color: inherit;
+  text-decoration: none;
+}
+.project-row__body h2 a:hover, .project-row__body h2 a:focus {
+  color: var(--color-primary);
+}
+.project-row__stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin: 1rem 0;
+}
+.project-row__stack span {
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: color-mix(in srgb, #f6f6f6 86%, transparent);
+  @supports (color: color-mix(in lab, red, red)) {
+    background: color-mix(in srgb, var(--color-light) 86%, transparent);
+  }
+  color: var(--color-text-dark);
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 0.34rem 0.58rem;
+}
+.project-row__body p {
+  max-width: 44rem;
+  margin: 0;
+  color: var(--color-text);
+  line-height: 1.65;
+}
+.project-row__link {
+  display: inline-flex;
+  margin-top: 1.2rem;
+  color: var(--color-primary);
+  font-weight: 800;
+  text-decoration: none;
+}
+.project-row__link:hover, .project-row__link:focus {
+  text-decoration: underline;
+}
+:root[data-ui-style="neobrutalism"] .project-row__media, :root[data-ui-style="neobrutalism"] .project-row__stack span {
+  border: 3px solid var(--color-text-dark) !important;
+  border-radius: 0 !important;
+  box-shadow: 4px 4px 0 #000 !important;
+}
+:root[data-ui-style="material"] .project-row__media, :root[data-ui-style="material"] .project-row__stack span {
+  border: 0;
+  border-radius: 14px;
+  box-shadow: 0 14px 34px color-mix(in srgb, #000 18%, transparent);
+}
+body, input, button, textarea, select {
+  font-family: var(--font-primary) !important;
+}
+h1, h2, h3, h4, h5, h6, .landing-hero__name h1 {
+  font-family: var(--font-secondary) !important;
+}
+code, kbd, pre, samp {
+  font-family: var(--font-mono) !important;
 }
 @media (max-width: 1023px) {
+  .project-row {
+    grid-template-columns: 1fr;
+  }
   .landing-hero__inner {
     grid-template-columns: 1fr;
     align-content: center;
