@@ -17,7 +17,6 @@
     --color-black: #000;
     --color-white: #fff;
     --spacing: 0.25rem;
-    --container-md: 28rem;
     --container-4xl: 56rem;
     --text-xs: 0.75rem;
     --text-xs--line-height: calc(1 / 0.75);
@@ -3371,12 +3370,12 @@ input#nav-toggle:checked ~ #nav-menu {
 .header .site-side-nav {
   position: fixed !important;
   top: 50dvh;
-  right: clamp(1rem, 4vw, 4rem);
+  right: clamp(0.35rem, 2vw, 2rem);
   z-index: 45;
   display: flex !important;
   width: min(13rem, 34vw) !important;
   flex-direction: column;
-  align-items: center !important;
+  align-items: flex-end !important;
   gap: clamp(1.4rem, 4vh, 3rem) !important;
   padding: 0 !important;
   background: transparent !important;
@@ -3389,7 +3388,7 @@ input#nav-toggle:checked ~ #nav-menu {
 }
 .site-side-nav .nav-link {
   display: inline-flex;
-  justify-content: center;
+  justify-content: flex-end;
   width: 100%;
   background: transparent !important;
   color: var(--color-text-dark);
@@ -3398,7 +3397,7 @@ input#nav-toggle:checked ~ #nav-menu {
   font-weight: 300;
   line-height: 1;
   padding: 0 !important;
-  text-align: center;
+  text-align: right;
   text-decoration: none;
 }
 .site-side-nav .nav-link.active {
@@ -3509,6 +3508,12 @@ html, body, .header, .landing-hero, .landing-links, .landing-button, .landing-st
     outline: 1px solid color-mix(in srgb, var(--color-primary) 42%, var(--color-border));
   }
 }
+.command-palette-results {
+  scrollbar-width: none;
+}
+.command-palette-results::-webkit-scrollbar {
+  display: none;
+}
 html {
   scroll-behavior: smooth;
 }
@@ -3519,7 +3524,7 @@ html {
 .code-theme-switcher__menu {
   position: absolute;
   top: calc(100% + 0.6rem);
-  right: 3.25rem;
+  right: 7rem;
   z-index: 80;
   display: none;
   width: 16rem;
@@ -3533,7 +3538,7 @@ html {
   display: block;
 }
 .code-theme-switcher__menu--combined {
-  width: min(34rem, calc(100vw - 2rem));
+  width: min(30rem, calc(100vw - 2rem));
   grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
   gap: 0.75rem;
   background: color-mix(in srgb, #fff 98%, #000 2%) !important;
