@@ -481,11 +481,12 @@
 
 .site-side-nav .nav-item {
   position: relative;
+  width: 100%;
 }
 
 .site-side-nav .nav-link {
   display: inline-flex;
-  justify-content: center;
+  justify-content: flex-start;
   width: 100%;
   background: transparent !important;
   color: var(--color-text-dark);
@@ -493,8 +494,8 @@
   font-size: clamp(1.05rem, 1.45vw, 1.35rem);
   font-weight: 300;
   line-height: 1;
-  padding: 0 !important;
-  text-align: center;
+  padding: 0 0 0 clamp(1.75rem, 2vw, 2.35rem) !important;
+  text-align: left;
   text-decoration: none;
 }
 
@@ -1219,9 +1220,9 @@ samp {
   }
 
   .site-side-nav .nav-link {
-    justify-content: center;
+    justify-content: flex-start;
     width: 100%;
-    text-align: center;
+    text-align: left;
   }
 
   .code-theme-switcher__menu {
