@@ -631,12 +631,6 @@
   .max-w-4xl {
     max-width: var(--container-4xl);
   }
-  .max-w-md {
-    max-width: var(--container-md);
-  }
-  .min-w-0 {
-    min-width: calc(var(--spacing) * 0);
-  }
   .flex-1 {
     flex: 1;
   }
@@ -921,9 +915,6 @@
   .text-center {
     text-align: center;
   }
-  .text-left {
-    text-align: left;
-  }
   .font-primary {
     font-family: var(--font-primary);
   }
@@ -1044,6 +1035,13 @@
   .placeholder\:text-text-light {
     &::placeholder {
       color: var(--color-text-light);
+    }
+  }
+  .hover\:border-primary {
+    &:hover {
+      @media (hover: hover) {
+        border-color: var(--color-primary);
+      }
     }
   }
   .hover\:bg-light {
@@ -1610,6 +1608,15 @@
     &:where(.dark, .dark *) {
       &::placeholder {
         color: var(--color-darkmode-text-light);
+      }
+    }
+  }
+  .dark\:hover\:border-darkmode-primary {
+    &:where(.dark, .dark *) {
+      &:hover {
+        @media (hover: hover) {
+          border-color: var(--color-darkmode-primary);
+        }
       }
     }
   }
@@ -3367,9 +3374,9 @@ input#nav-toggle:checked ~ #nav-menu {
   right: clamp(1rem, 4vw, 4rem);
   z-index: 45;
   display: flex !important;
-  width: auto !important;
+  width: min(13rem, 34vw) !important;
   flex-direction: column;
-  align-items: flex-end !important;
+  align-items: center !important;
   gap: clamp(1.4rem, 4vh, 3rem) !important;
   padding: 0 !important;
   background: transparent !important;
@@ -3382,6 +3389,8 @@ input#nav-toggle:checked ~ #nav-menu {
 }
 .site-side-nav .nav-link {
   display: inline-flex;
+  justify-content: center;
+  width: 100%;
   background: transparent !important;
   color: var(--color-text-dark);
   font-family: var(--font-primary) !important;
@@ -3389,6 +3398,7 @@ input#nav-toggle:checked ~ #nav-menu {
   font-weight: 300;
   line-height: 1;
   padding: 0 !important;
+  text-align: center;
   text-decoration: none;
 }
 .site-side-nav .nav-link.active {
@@ -3425,27 +3435,15 @@ input#nav-toggle:checked ~ #nav-menu {
   opacity: 1;
   transform: translate(0, -50%) scale(1);
 }
-.header .site-search-field {
-  min-width: min(38rem, calc(100vw - 9rem));
-  max-width: 50rem;
+.header .site-search-trigger {
+  width: auto;
   min-height: 2.8rem;
+  flex: 0 0 auto;
   background: color-mix(in srgb, #f6f6f6 64%, transparent) !important;
   @supports (color: color-mix(in lab, red, red)) {
     background: color-mix(in srgb, var(--color-light) 64%, transparent) !important;
   }
   backdrop-filter: blur(14px);
-}
-.site-search-field__input {
-  min-width: 0;
-  flex: 1 1 auto;
-  border: 0;
-  background: transparent;
-  color: var(--color-text-dark);
-  outline: 0;
-}
-.site-search-field__input::placeholder {
-  color: var(--color-text-light);
-  opacity: 1;
 }
 .header .code-theme-switcher__button {
   border-color: transparent !important;
@@ -3555,6 +3553,10 @@ html {
   letter-spacing: 0;
   text-transform: uppercase;
 }
+.landing-hero .landing-hero__kicker {
+  font-size: clamp(1.05rem, 1.45vw, 1.35rem);
+  font-weight: 800;
+}
 .code-theme-option {
   display: flex;
   width: 100%;
@@ -3613,7 +3615,7 @@ html {
   border-radius: 0;
   box-shadow: none;
 }
-:root[data-ui-style="glassmorphism"] .header, :root[data-ui-style="glassmorphism"] .landing-button, :root[data-ui-style="glassmorphism"] .code-theme-switcher__button, :root[data-ui-style="glassmorphism"] .code-theme-switcher__menu, :root[data-ui-style="glassmorphism"] .landing-stack span, :root[data-ui-style="glassmorphism"] .command-palette > div > div {
+:root[data-ui-style="glassmorphism"] .landing-button, :root[data-ui-style="glassmorphism"] .code-theme-switcher__button, :root[data-ui-style="glassmorphism"] .code-theme-switcher__menu, :root[data-ui-style="glassmorphism"] .landing-stack span, :root[data-ui-style="glassmorphism"] .command-palette > div > div {
   background: color-mix(in srgb, #f6f6f6 58%, transparent) !important;
   @supports (color: color-mix(in lab, red, red)) {
     background: color-mix(in srgb, var(--color-light) 58%, transparent) !important;
@@ -3652,6 +3654,11 @@ html {
     border-color: color-mix(in srgb, var(--color-primary) 80%, #fff 20%) !important;
   }
   text-shadow: none;
+}
+.header.site-chrome, :root[data-ui-style="glassmorphism"] .header.site-chrome {
+  background: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
 }
 .header .code-theme-switcher__button, .header .code-theme-switcher__button:hover, .header .code-theme-switcher__button:focus-visible, .top-github-link, .top-github-link:hover, .top-github-link:focus-visible {
   border: 0 !important;

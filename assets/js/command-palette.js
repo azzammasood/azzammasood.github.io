@@ -181,7 +181,7 @@
     window.location.href = url;
   }
 
-  document.querySelectorAll('[data-target="search-modal"]').forEach(function (el) {
+  document.querySelectorAll('[data-target="search-modal"],[data-command-palette-open]').forEach(function (el) {
     el.addEventListener("click", function (e) { e.preventDefault(); open("search"); });
   });
   document.querySelectorAll("[data-code-theme-toggle]").forEach(function (el) {

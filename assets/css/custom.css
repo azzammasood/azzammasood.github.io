@@ -468,9 +468,9 @@
   right: clamp(1rem, 4vw, 4rem);
   z-index: 45;
   display: flex !important;
-  width: auto !important;
+  width: min(13rem, 34vw) !important;
   flex-direction: column;
-  align-items: flex-end !important;
+  align-items: center !important;
   gap: clamp(1.4rem, 4vh, 3rem) !important;
   padding: 0 !important;
   background: transparent !important;
@@ -485,6 +485,8 @@
 
 .site-side-nav .nav-link {
   display: inline-flex;
+  justify-content: center;
+  width: 100%;
   background: transparent !important;
   color: var(--color-text-dark);
   font-family: var(--font-primary) !important;
@@ -492,6 +494,7 @@
   font-weight: 300;
   line-height: 1;
   padding: 0 !important;
+  text-align: center;
   text-decoration: none;
 }
 
@@ -530,26 +533,12 @@
   transform: translate(0, -50%) scale(1);
 }
 
-.header .site-search-field {
-  min-width: min(38rem, calc(100vw - 9rem));
-  max-width: 50rem;
+.header .site-search-trigger {
+  width: auto;
   min-height: 2.8rem;
+  flex: 0 0 auto;
   background: color-mix(in srgb, var(--color-light) 64%, transparent) !important;
   backdrop-filter: blur(14px);
-}
-
-.site-search-field__input {
-  min-width: 0;
-  flex: 1 1 auto;
-  border: 0;
-  background: transparent;
-  color: var(--color-text-dark);
-  outline: 0;
-}
-
-.site-search-field__input::placeholder {
-  color: var(--color-text-light);
-  opacity: 1;
 }
 
 .header .code-theme-switcher__button {
@@ -701,6 +690,11 @@ html {
   text-transform: uppercase;
 }
 
+.landing-hero .landing-hero__kicker {
+  font-size: clamp(1.05rem, 1.45vw, 1.35rem);
+  font-weight: 800;
+}
+
 .code-theme-option {
   display: flex;
   width: 100%;
@@ -779,7 +773,6 @@ html {
   box-shadow: none;
 }
 
-:root[data-ui-style="glassmorphism"] .header,
 :root[data-ui-style="glassmorphism"] .landing-button,
 :root[data-ui-style="glassmorphism"] .code-theme-switcher__button,
 :root[data-ui-style="glassmorphism"] .code-theme-switcher__menu,
@@ -811,6 +804,13 @@ html {
   color: #111 !important;
   border-color: color-mix(in srgb, var(--color-primary) 80%, #fff 20%) !important;
   text-shadow: none;
+}
+
+.header.site-chrome,
+:root[data-ui-style="glassmorphism"] .header.site-chrome {
+  background: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
 }
 
 .header .code-theme-switcher__button,
