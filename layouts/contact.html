@@ -1,20 +1,10 @@
 {{ define "main" }}
-  <section class="projects-page section-page contact-page">
+  <section class="projects-page section-page contact-page section-page--plain">
     <div class="projects-page__shell">
-      <aside class="projects-page__rail" aria-label="Contact methods">
-        <a href="#email">Email</a>
-        <a href="#mobile">Mobile</a>
-        <a href="#linkedin">LinkedIn</a>
-        <a href="#github">GitHub</a>
-      </aside>
-
       <div class="projects-page__main">
         <header class="projects-page__header">
           <p class="landing-hero__kicker">Get in touch</p>
           <h1>{{ .Title }}</h1>
-          {{ with .Params.description }}
-            <p>{{ . }}</p>
-          {{ end }}
         </header>
 
         <div class="contact-list">
@@ -34,10 +24,6 @@
             <i class="fab fa-github" aria-hidden="true"></i>
             <span>github.com/azzammasood</span>
           </a>
-        </div>
-
-        <div class="content">
-          {{ .Content }}
         </div>
       </div>
     </div>

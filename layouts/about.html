@@ -1,19 +1,10 @@
 {{ define "main" }}
-  <section class="projects-page section-page about-layout">
+  <section class="projects-page section-page about-layout section-page--plain">
     <div class="projects-page__shell">
-      <aside class="projects-page__rail" aria-label="About sections">
-        <a href="#intro">Intro</a>
-        <a href="#interests">Interests</a>
-        <a href="#education">Education</a>
-      </aside>
-
       <div class="projects-page__main">
         <header class="projects-page__header">
           <p class="landing-hero__kicker">Profile</p>
           <h1>{{ .Title }}</h1>
-          {{ with .Params.description }}
-            <p>{{ . }}</p>
-          {{ end }}
         </header>
 
         <div class="about-layout__grid">
@@ -22,12 +13,7 @@
               {{ $img := .Params.image }}
               <div class="about-layout__image">
                 {{ if or (strings.HasPrefix $img `http`) (strings.HasPrefix $img `/images/`) }}
-                  <img
-                    src="{{ $img | relURL }}"
-                    alt="{{ .Title }}"
-                    width="320"
-                    height="320"
-                    loading="eager" />
+                  <img src="{{ $img | relURL }}" alt="{{ .Title }}" width="320" height="320" loading="eager" />
                 {{ else }}
                   {{ partial "image" (dict "Src" $img "Context" .Page "Alt" .Title ) }}
                 {{ end }}

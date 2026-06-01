@@ -16,12 +16,3 @@ I lead data platform work focused on reliable pipelines, governed datasets, and 
 **Data Engineering and Analytics**
 
 I built telemetry and service analytics pipelines serving high-volume operational data. The work involved ingestion, real-time processing, transformations, and dashboards used to understand service behavior across thousands of sites.
-
-## Focus Areas
-
-* Lakehouse and warehouse modernization
-* Batch and streaming data pipelines
-* Orchestration and DataOps
-* Cloud data platforms across AWS, Azure, and GCP
-* Data quality, observability, and governance
-* Analytics and ML-ready data modeling

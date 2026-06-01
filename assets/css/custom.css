@@ -479,11 +479,6 @@
   white-space: nowrap;
 }
 
-body:has(.projects-page) .header .site-side-nav {
-  top: 7rem;
-  transform: none;
-}
-
 .site-side-nav .nav-item {
   position: relative;
 }
@@ -536,8 +531,9 @@ body:has(.projects-page) .header .site-side-nav {
 }
 
 .header [data-command-palette-open] {
-  min-width: 28rem;
-  max-width: 40rem;
+  min-width: min(38rem, calc(100vw - 9rem));
+  max-width: 50rem;
+  min-height: 2.8rem;
   background: color-mix(in srgb, var(--color-light) 64%, transparent) !important;
   backdrop-filter: blur(14px);
 }
@@ -546,6 +542,31 @@ body:has(.projects-page) .header .site-side-nav {
   border-color: transparent !important;
   background: transparent !important;
   box-shadow: none !important;
+}
+
+.header .code-theme-switcher__button,
+.top-github-link {
+  display: inline-flex;
+  width: 2.8rem;
+  height: 2.8rem;
+  align-items: center;
+  justify-content: center;
+  border: 0 !important;
+  border-radius: 8px;
+  background: transparent !important;
+  color: var(--color-text-dark);
+  font-size: 1.18rem;
+  box-shadow: none !important;
+  transition: color 240ms ease, transform 240ms ease, background-color 240ms ease;
+}
+
+.header .code-theme-switcher__button:hover,
+.header .code-theme-switcher__button:focus-visible,
+.top-github-link:hover,
+.top-github-link:focus-visible {
+  background: color-mix(in srgb, var(--color-primary) 14%, transparent) !important;
+  color: var(--color-primary);
+  transform: translateY(-1px) rotate(10deg) scale(1.04);
 }
 
 .search-button-label {
@@ -617,6 +638,10 @@ body,
   outline: 1px solid color-mix(in srgb, var(--color-primary) 42%, var(--color-border));
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 ::view-transition-old(root),
 ::view-transition-new(root) {
   animation-duration: 720ms;
@@ -626,7 +651,7 @@ body,
 .code-theme-switcher__menu {
   position: absolute;
   top: calc(100% + 0.6rem);
-  right: 0;
+  right: 3.25rem;
   z-index: 80;
   display: none;
   width: 16rem;
@@ -639,6 +664,27 @@ body,
 
 .code-theme-switcher.is-open .code-theme-switcher__menu {
   display: block;
+}
+
+.code-theme-switcher__menu--combined {
+  width: min(34rem, calc(100vw - 2rem));
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+  gap: 0.75rem;
+  background: color-mix(in srgb, var(--color-body) 98%, #000 2%) !important;
+  backdrop-filter: none !important;
+}
+
+.code-theme-switcher.is-open .code-theme-switcher__menu--combined {
+  display: grid;
+}
+
+.code-theme-switcher__heading {
+  margin: 0 0 0.35rem;
+  color: var(--color-text-light);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: uppercase;
 }
 
 .code-theme-option {
@@ -769,15 +815,18 @@ body,
 }
 
 .projects-page__rail {
-  position: sticky;
-  top: 7rem;
+  position: fixed;
+  top: 50%;
+  left: clamp(1.5rem, 4vw, 4rem);
   display: flex;
-  max-height: calc(100svh - 9rem);
+  width: min(18rem, 18vw);
+  max-height: min(70svh, 38rem);
   flex-direction: column;
   gap: 1.15rem;
   overflow-y: auto;
   padding: 0 0.4rem 1rem 0;
   background: transparent;
+  transform: translateY(-50%);
   scrollbar-width: none;
 }
 
@@ -940,6 +989,11 @@ body,
   max-width: 56rem;
 }
 
+.section-page--plain .projects-page__shell {
+  grid-template-columns: minmax(0, 1fr);
+  margin-left: clamp(2rem, 10vw, 10rem);
+}
+
 .section-page .content h2 {
   scroll-margin-top: 7rem;
 }
@@ -1061,7 +1115,10 @@ samp {
   .projects-page__rail {
     position: relative;
     top: auto;
+    left: auto;
+    width: auto;
     max-height: 12rem;
+    transform: none;
     border-bottom: 1px solid var(--color-border);
     padding-bottom: 1rem;
   }
@@ -1133,5 +1190,11 @@ samp {
   .code-theme-switcher__menu {
     right: -3.2rem;
     width: min(16rem, calc(100vw - 1.5rem));
+  }
+
+  .code-theme-switcher__menu--combined {
+    right: -3.2rem;
+    width: min(22rem, calc(100vw - 1.5rem));
+    grid-template-columns: 1fr;
   }
 }

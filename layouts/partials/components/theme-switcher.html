@@ -21,26 +21,25 @@
     (dict "name" "Terminal" "id" "terminal")
     (dict "name" "Glassmorphism" "id" "glassmorphism")
   }}
-  <div class="code-theme-switcher {{ $class }}" data-code-theme-switcher>
-    <button type="button" class="code-theme-switcher__button" aria-haspopup="true" aria-expanded="false" aria-label="Switch theme" title="Theme" data-code-theme-toggle>
+  <div class="code-theme-switcher {{ $class }}" data-code-theme-switcher data-style-switcher>
+    <button type="button" class="code-theme-switcher__button" aria-haspopup="true" aria-expanded="false" aria-label="Switch theme and style" title="Theme and style" data-code-theme-toggle>
       <i class="fa-solid fa-sun"></i><span class="sr-only" data-code-theme-current>Theme</span>
     </button>
-    <div class="code-theme-switcher__menu" role="menu" aria-label="Switch theme">
-      {{ range $themes }}
-        <button type="button" class="code-theme-option" role="menuitem" data-code-theme-option="{{ .id }}">
-          <span>{{ .name }}</span><span class="code-theme-option__swatches" aria-hidden="true">{{ range .colors }}<i style="background: {{ . }}"></i>{{ end }}</span>
-        </button>
-      {{ end }}
-    </div>
-  </div>
-  <div class="code-theme-switcher style-switcher mr-2" data-style-switcher>
-    <button type="button" class="code-theme-switcher__button" aria-haspopup="true" aria-expanded="false" aria-label="Switch style" title="Style" data-style-toggle>
-      <i class="fa-solid fa-layer-group"></i><span class="sr-only" data-ui-style-current>Minimal</span>
-    </button>
-    <div class="code-theme-switcher__menu" role="menu" aria-label="Switch style">
-      {{ range $styles }}
-        <button type="button" class="code-theme-option" role="menuitem" data-ui-style-option="{{ .id }}">{{ .name }}</button>
-      {{ end }}
+    <div class="code-theme-switcher__menu code-theme-switcher__menu--combined" role="menu" aria-label="Switch theme and style">
+      <div>
+        <p class="code-theme-switcher__heading">Themes</p>
+        {{ range $themes }}
+          <button type="button" class="code-theme-option" role="menuitem" data-code-theme-option="{{ .id }}">
+            <span>{{ .name }}</span><span class="code-theme-option__swatches" aria-hidden="true">{{ range .colors }}<i style="background: {{ . }}"></i>{{ end }}</span>
+          </button>
+        {{ end }}
+      </div>
+      <div>
+        <p class="code-theme-switcher__heading">Styles</p>
+        {{ range $styles }}
+          <button type="button" class="code-theme-option" role="menuitem" data-ui-style-option="{{ .id }}">{{ .name }}</button>
+        {{ end }}
+      </div>
     </div>
   </div>
   <script>
@@ -66,7 +65,7 @@
       window.portfolioThemes.apply(localStorage.getItem("code-theme") || "mono");
       window.portfolioStyles.apply(localStorage.getItem("ui-style") || "minimal");
       document.addEventListener("DOMContentLoaded", function () {
-        document.querySelectorAll("[data-code-theme-toggle],[data-style-toggle]").forEach(function (button) {
+        document.querySelectorAll("[data-code-theme-toggle]").forEach(function (button) {
           button.addEventListener("click", function () { var sw = button.closest(".code-theme-switcher"), open = sw.classList.toggle("is-open"); button.setAttribute("aria-expanded", open ? "true" : "false"); });
         });
         document.querySelectorAll("[data-code-theme-option]").forEach(function (button) {
