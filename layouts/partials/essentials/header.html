@@ -1,6 +1,5 @@
-<header
-  class="header border-b border-border bg-body/95 shadow-sm backdrop-blur-md dark:border-darkmode-border dark:bg-darkmode-body/95 {{ if site.Params.navbar_fixed }}sticky top-0{{ end }} z-30">
-  <nav class="navbar container py-1">
+<header class="header site-chrome z-30">
+  <nav class="navbar container py-1" aria-label="Primary navigation">
     <div class="order-0 hidden lg:block"></div>
     <input id="nav-toggle" type="checkbox" class="hidden" />
     <label
@@ -20,7 +19,7 @@
 
     <ul
       id="nav-menu"
-      class="navbar-nav order-3 hidden w-full gap-1 pb-6 lg:order-1 lg:flex lg:w-auto lg:items-center lg:gap-0 lg:space-x-1 lg:pb-0 xl:space-x-6">
+      class="navbar-nav site-side-nav order-3 hidden w-full gap-1 pb-6 lg:order-1 lg:flex lg:w-auto lg:items-center lg:gap-0 lg:space-x-1 lg:pb-0 xl:space-x-6">
       {{ $currentPage := . }}
       {{ range site.Menus.main }}
         {{ $menuURL := .URL | absLangURL }}
@@ -76,6 +75,7 @@
           <li class="nav-item">
             <a
               class="nav-link {{ if $active }}active{{- end -}}"
+              data-nav-desc="{{ if eq .Name `Home` }}Go back to the landing page.{{ else if eq .Name `About` }}Read who I am and how I think.{{ else if eq .Name `Projects` }}See what projects I have built.{{ else if eq .Name `Experience` }}Review my professional experience.{{ else if eq .Name `Certifications` }}See my certifications and learning record.{{ else if eq .Name `Contact` }}Find ways to get in touch.{{ else }}Open {{ .Name }}.{{ end }}"
               {{ if findRE `^http` .URL }}
                 target="_blank" rel="noopener"
               {{ end }}
@@ -105,7 +105,7 @@
       {{ end }}
     </ul>
 
-    <div class="order-1 ml-auto flex flex-1 items-center justify-end gap-2 md:order-2 lg:ml-0 lg:max-w-none">
+    <div class="site-top-controls order-1 ml-auto flex flex-1 items-center justify-end gap-2 md:order-2 lg:ml-0 lg:max-w-none">
       {{ with site.Params.search }}
         {{ if .enable }}
           <button
@@ -114,7 +114,7 @@
             data-command-palette-open
             aria-label="Open search and commands">
             <i class="fa-solid fa-magnifying-glass shrink-0 opacity-70"></i>
-            <span class="search-button-label">Search for anything or type a command</span>
+            <span class="search-button-label" data-search-typed data-text="Search for anything or type a command"></span>
             <kbd class="ml-auto hidden shrink-0 rounded border border-border bg-body px-1.5 py-0.5 text-[10px] font-medium text-text-light xl:inline dark:border-darkmode-border dark:bg-darkmode-body">Ctrl K</kbd>
           </button>
           <button

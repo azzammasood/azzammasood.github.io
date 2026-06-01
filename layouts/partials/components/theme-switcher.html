@@ -48,25 +48,39 @@
       var themes = {"andromeda":["Andromeda",true],"dracula":["Dracula",true],"monokai":["Monokai",true],"gruvbox-dark":["Gruvbox Dark",true],"solarized-dark":["Solarized Dark",true],"vscode-dark":["VSCode Dark",true],"abyss":["Abyss",true],"neo-brutal":["Neo Brutal",true],"cyberpunk":["Cyberpunk",true],"tokyo-night":["Tokyo Night",true],"mono":["Mono",false],"mono-dark":["Mono Dark",true]};
       var styles = {"minimal":"Minimal","material":"Material","neobrutalism":"NeoBrutalism","terminal":"Terminal","glassmorphism":"Glassmorphism"};
       function transition(fn) { if (document.startViewTransition) document.startViewTransition(fn); else fn(); }
-      window.portfolioThemes = { apply: function (id) { var t = themes[id] || themes.andromeda, key = themes[id] ? id : "andromeda"; transition(function () {
+      function currentTheme() { return localStorage.getItem("code-theme") || document.documentElement.dataset.codeTheme || "mono"; }
+      function currentStyle() { return localStorage.getItem("ui-style") || document.documentElement.dataset.uiStyle || "minimal"; }
+      function paintTheme(id, save) { var t = themes[id] || themes.mono, key = themes[id] ? id : "mono"; transition(function () {
         document.documentElement.dataset.codeTheme = key; document.documentElement.classList.toggle("dark", !!t[1]);
-        localStorage.setItem("theme", t[1] ? "dark" : "light"); localStorage.setItem("code-theme", key);
+        if (save) { localStorage.setItem("theme", t[1] ? "dark" : "light"); localStorage.setItem("code-theme", key); }
         document.querySelectorAll("[data-code-theme-current]").forEach(function (el) { el.textContent = t[0]; });
         document.querySelectorAll("[data-code-theme-option]").forEach(function (el) { el.setAttribute("aria-current", el.dataset.codeThemeOption === key ? "true" : "false"); });
-      }); }, names: themes };
-      window.portfolioStyles = { apply: function (id) { var key = styles[id] ? id : "minimal"; transition(function () {
-        document.documentElement.dataset.uiStyle = key; localStorage.setItem("ui-style", key);
+      }); }
+      function paintStyle(id, save) { var key = styles[id] ? id : "minimal"; transition(function () {
+        document.documentElement.dataset.uiStyle = key; if (save) localStorage.setItem("ui-style", key);
         document.querySelectorAll("[data-ui-style-current]").forEach(function (el) { el.textContent = styles[key]; });
         document.querySelectorAll("[data-ui-style-option]").forEach(function (el) { el.setAttribute("aria-current", el.dataset.uiStyleOption === key ? "true" : "false"); });
-      }); }, names: styles };
+      }); }
+      window.portfolioThemes = { apply: function (id) { paintTheme(id, true); }, preview: function (id) { paintTheme(id, false); }, restore: function () { paintTheme(currentTheme(), false); }, names: themes };
+      window.portfolioStyles = { apply: function (id) { paintStyle(id, true); }, preview: function (id) { paintStyle(id, false); }, restore: function () { paintStyle(currentStyle(), false); }, names: styles };
       window.portfolioThemes.apply(localStorage.getItem("code-theme") || "mono");
       window.portfolioStyles.apply(localStorage.getItem("ui-style") || "minimal");
       document.addEventListener("DOMContentLoaded", function () {
         document.querySelectorAll("[data-code-theme-toggle],[data-style-toggle]").forEach(function (button) {
           button.addEventListener("click", function () { var sw = button.closest(".code-theme-switcher"), open = sw.classList.toggle("is-open"); button.setAttribute("aria-expanded", open ? "true" : "false"); });
         });
-        document.querySelectorAll("[data-code-theme-option]").forEach(function (button) { button.addEventListener("click", function () { window.portfolioThemes.apply(button.dataset.codeThemeOption); button.closest(".code-theme-switcher").classList.remove("is-open"); }); });
-        document.querySelectorAll("[data-ui-style-option]").forEach(function (button) { button.addEventListener("click", function () { window.portfolioStyles.apply(button.dataset.uiStyleOption); button.closest(".code-theme-switcher").classList.remove("is-open"); }); });
+        document.querySelectorAll("[data-code-theme-option]").forEach(function (button) {
+          button.addEventListener("mouseenter", function () { window.portfolioThemes.preview(button.dataset.codeThemeOption); });
+          button.addEventListener("focus", function () { window.portfolioThemes.preview(button.dataset.codeThemeOption); });
+          button.addEventListener("click", function () { window.portfolioThemes.apply(button.dataset.codeThemeOption); button.closest(".code-theme-switcher").classList.remove("is-open"); });
+        });
+        document.querySelectorAll("[data-ui-style-option]").forEach(function (button) {
+          button.addEventListener("mouseenter", function () { window.portfolioStyles.preview(button.dataset.uiStyleOption); });
+          button.addEventListener("focus", function () { window.portfolioStyles.preview(button.dataset.uiStyleOption); });
+          button.addEventListener("click", function () { window.portfolioStyles.apply(button.dataset.uiStyleOption); button.closest(".code-theme-switcher").classList.remove("is-open"); });
+        });
+        document.querySelectorAll("[data-code-theme-switcher]").forEach(function (sw) { sw.addEventListener("mouseleave", function () { window.portfolioThemes.restore(); }); });
+        document.querySelectorAll("[data-style-switcher]").forEach(function (sw) { sw.addEventListener("mouseleave", function () { window.portfolioStyles.restore(); }); });
         document.addEventListener("click", function (event) { document.querySelectorAll(".code-theme-switcher.is-open").forEach(function (sw) { if (!sw.contains(event.target)) sw.classList.remove("is-open"); }); });
       });
     })();

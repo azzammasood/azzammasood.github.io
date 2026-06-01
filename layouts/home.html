@@ -1,12 +1,10 @@
 {{ define "main" }}
   {{ $banner := .Params.banner }}
-  {{ $deliver := index .Params.features 0 }}
-  {{ $stack := index .Params.features 1 }}
   <section class="landing-hero" aria-label="Introduction">
     <div class="landing-hero__stripes" aria-hidden="true"></div>
     <div class="landing-hero__inner">
       <div class="landing-hero__name">
-        <p class="landing-hero__kicker">Principal Data Engineering</p>
+        <p class="landing-hero__kicker">Data Engineer</p>
         <h1>{{ site.Params.logo_text | default .Site.Title }}</h1>
         {{ with $banner.content }}
           <p class="landing-hero__summary">{{ . | markdownify }}</p>
@@ -23,32 +21,6 @@
         </div>
       </div>
 
-      <aside class="landing-hero__proof" aria-label="What I deliver and core stack">
-        {{ with $deliver }}
-          <section class="landing-proof-block">
-            <p class="landing-proof-block__label">What I Deliver</p>
-            <h2>{{ .content | plainify }}</h2>
-            <ul>
-              {{ range first 3 .bulletpoints }}
-                <li>{{ . | markdownify }}</li>
-              {{ end }}
-            </ul>
-          </section>
-        {{ end }}
-        {{ with $stack }}
-          <section class="landing-proof-block">
-            <p class="landing-proof-block__label">Core Stack</p>
-            <div class="landing-stack">
-              {{ range .icon_row }}
-                <span>{{ .name }}</span>
-              {{ end }}
-              <span>AWS</span>
-              <span>Azure</span>
-              <span>Terraform</span>
-            </div>
-          </section>
-        {{ end }}
-      </aside>
     </div>
   </section>
 
@@ -57,7 +29,6 @@
       <div class="landing-links__brand">
         <h2>{{ site.Params.logo_text | default .Site.Title }}</h2>
         <p>Reliable data systems, built for scale.</p>
-        <small>{{ site.Params.copyright | markdownify }}</small>
       </div>
 
       <nav class="landing-link-group" aria-label="Socials">

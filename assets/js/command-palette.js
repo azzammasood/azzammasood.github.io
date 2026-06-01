@@ -9,6 +9,7 @@
   var mode = "search";
   var index = [];
   var indexLoaded = false;
+  var activeIndex = 0;
 
   var themes = [
     ["Andromeda", "andromeda", "/andromeda"],
@@ -55,6 +56,8 @@
     { title: "Home", url: withBase("/"), hint: "/home", cmd: "/home", summary: "Open the landing page" },
     { title: "About", url: withBase("/about/"), hint: "/about", cmd: "/about", summary: "Open about" },
     { title: "Projects", url: withBase("/blog/"), hint: "/projects", cmd: "/projects", summary: "Open projects" },
+    { title: "Experience", url: withBase("/experience/"), hint: "/experience", cmd: "/experience", summary: "Open experience" },
+    { title: "Certifications", url: withBase("/certifications/"), hint: "/certifications", cmd: "/certifications", summary: "Open certifications" },
     { title: "Contact", url: withBase("/contact/"), hint: "/contact", cmd: "/contact", summary: "Open contact" },
     { title: "Search", url: "#mode-search", hint: "Ctrl + K", cmd: "/search", summary: "Search site content" },
     { title: "Theme Picker", url: "#mode-themes", hint: "Ctrl + P", cmd: "/themes", summary: "Switch color theme" },
@@ -73,12 +76,24 @@
       localStorage.setItem("code-theme", id);
     }
   }
+  function previewTheme(id) {
+    if (window.portfolioThemes && window.portfolioThemes.preview) window.portfolioThemes.preview(id);
+  }
+  function restoreTheme() {
+    if (window.portfolioThemes && window.portfolioThemes.restore) window.portfolioThemes.restore();
+  }
   function applyStyle(id) {
     if (window.portfolioStyles && window.portfolioStyles.apply) window.portfolioStyles.apply(id);
     else {
       document.documentElement.dataset.uiStyle = id;
       localStorage.setItem("ui-style", id);
     }
+  }
+  function previewStyle(id) {
+    if (window.portfolioStyles && window.portfolioStyles.preview) window.portfolioStyles.preview(id);
+  }
+  function restoreStyle() {
+    if (window.portfolioStyles && window.portfolioStyles.restore) window.portfolioStyles.restore();
   }
   function loadIndex() {
     if (indexLoaded) return Promise.resolve();
@@ -97,14 +112,36 @@
   function render(items) {
     list.innerHTML = "";
     if (!items.length) items = [item("No matches", "", "Try another command or keyword.", "")];
-    items.forEach(function (it) {
+    activeIndex = items.findIndex(function (it) { return !!it.url; });
+    if (activeIndex < 0) activeIndex = 0;
+    items.forEach(function (it, idx) {
       var li = document.createElement("li");
       li.className = "command-palette-item cursor-pointer rounded-lg px-3 py-2.5 text-text-dark hover:bg-light dark:text-white dark:hover:bg-darkmode-light";
       li.dataset.url = it.url || "";
+      li.setAttribute("role", "option");
+      li.setAttribute("aria-selected", idx === activeIndex ? "true" : "false");
       li.innerHTML = '<div class="flex items-center justify-between gap-4"><span class="font-medium">' + escapeHtml(it.title) + '</span>' + (it.hint ? '<kbd class="shrink-0 rounded border border-border px-1.5 py-0.5 text-[10px] dark:border-darkmode-border">' + escapeHtml(it.hint) + "</kbd>" : "") + "</div>" + (it.summary ? '<div class="mt-0.5 text-xs text-text-light dark:text-darkmode-text-light">' + escapeHtml(it.summary) + "</div>" : "");
       li.addEventListener("mousedown", function (e) { e.preventDefault(); go(it.url); });
+      li.addEventListener("mouseenter", function () {
+        setActive(idx);
+        if ((it.url || "").indexOf("#theme-") === 0) previewTheme(it.url.replace("#theme-", ""));
+        else restoreTheme();
+        if ((it.url || "").indexOf("#style-") === 0) previewStyle(it.url.replace("#style-", ""));
+        else restoreStyle();
+      });
       list.appendChild(li);
     });
+  }
+  function setActive(next) {
+    var items = Array.prototype.slice.call(list.querySelectorAll(".command-palette-item"));
+    if (!items.length) return;
+    activeIndex = (next + items.length) % items.length;
+    items.forEach(function (el, idx) { el.setAttribute("aria-selected", idx === activeIndex ? "true" : "false"); });
+    items[activeIndex].scrollIntoView({ block: "nearest" });
+  }
+  function activeItem() {
+    var items = list.querySelectorAll(".command-palette-item");
+    return items[activeIndex] || items[0];
   }
   function setMode(next) {
     mode = next;
@@ -143,6 +180,8 @@
     (mode === "search" ? loadIndex() : Promise.resolve()).then(function () { showDefault(); input.focus(); });
   }
   function close() {
+    restoreTheme();
+    restoreStyle();
     modal.classList.add("hidden");
     modal.setAttribute("aria-hidden", "true");
     document.body.style.overflow = "";
@@ -155,8 +194,8 @@
     if (url === "#mode-themes") return open("themes");
     if (url === "#mode-styles") return open("styles");
     if (url === "#mode-help") return open("help");
-    if (url.indexOf("#theme-") === 0) { applyTheme(url.replace("#theme-", "")); close(); return; }
-    if (url.indexOf("#style-") === 0) { applyStyle(url.replace("#style-", "")); close(); return; }
+    if (url.indexOf("#theme-") === 0) { applyTheme(url.replace("#theme-", "")); modal.classList.add("hidden"); modal.setAttribute("aria-hidden", "true"); document.body.style.overflow = ""; input.value = ""; list.innerHTML = ""; return; }
+    if (url.indexOf("#style-") === 0) { applyStyle(url.replace("#style-", "")); modal.classList.add("hidden"); modal.setAttribute("aria-hidden", "true"); document.body.style.overflow = ""; input.value = ""; list.innerHTML = ""; return; }
     window.location.href = url;
   }
 
@@ -181,9 +220,24 @@
   });
   input.addEventListener("input", function () { filter(input.value); });
   input.addEventListener("keydown", function (e) {
+    if (e.key === "ArrowDown") { e.preventDefault(); setActive(activeIndex + 1); return; }
+    if (e.key === "ArrowUp") { e.preventDefault(); setActive(activeIndex - 1); return; }
     if (e.key === "Enter") {
-      var first = list.querySelector(".command-palette-item");
-      if (first && first.dataset.url) go(first.dataset.url);
+      var selected = activeItem();
+      if (selected && selected.dataset.url) go(selected.dataset.url);
     }
+  });
+  document.addEventListener("DOMContentLoaded", function () {
+    var target = document.querySelector("[data-search-typed]");
+    if (!target) return;
+    var text = target.getAttribute("data-text") || target.textContent || "";
+    var i = 0;
+    target.textContent = "";
+    target.classList.add("is-typing");
+    var timer = window.setInterval(function () {
+      target.textContent = text.slice(0, i);
+      i += 1;
+      if (i > text.length) window.clearInterval(timer);
+    }, 42);
   });
 })();
