@@ -21,6 +21,11 @@
           {{ range $paginator.Pages }}
             {{ $project := . }}
             <article class="project-row" id="{{ .Title | urlize }}">
+              <div class="project-row__body">
+                <h2>
+                  <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+                </h2>
+              </div>
               <a class="project-row__media" href="{{ .RelPermalink }}" aria-label="Open {{ .Title }}">
                 {{ with .Params.image }}
                   {{ if or (strings.HasPrefix . "http") (strings.HasPrefix . "/images/") }}
@@ -34,9 +39,6 @@
               </a>
 
               <div class="project-row__body">
-                <h2>
-                  <a href="{{ .RelPermalink }}">{{ .Title }}</a>
-                </h2>
                 {{ with .Params.tags }}
                   <div class="project-row__stack" aria-label="Tech stack">
                     {{ range . }}

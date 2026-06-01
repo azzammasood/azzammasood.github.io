@@ -1,102 +1,45 @@
 {{ define "main" }}
-  {{ partial "page-header" . }}
+  <section class="projects-page section-page contact-page">
+    <div class="projects-page__shell">
+      <aside class="projects-page__rail" aria-label="Contact methods">
+        <a href="#email">Email</a>
+        <a href="#mobile">Mobile</a>
+        <a href="#linkedin">LinkedIn</a>
+        <a href="#github">GitHub</a>
+      </aside>
 
-  <section class="section-sm">
-    <div class="container">
-      <div class="row justify-center">
-        <div class="md:col-10 lg:col-8">
-          <div
-            class="mb-10 rounded-xl border border-border bg-light/50 p-6 dark:border-darkmode-border dark:bg-darkmode-light/30">
-            <h2 class="h4 mb-4">Contact details</h2>
-            <ul class="space-y-3 text-text-dark dark:text-white">
-              <li>
-                <span class="font-medium text-text-light dark:text-darkmode-text-light">Email:</span>
-                <a class="ml-2 underline hover:text-primary dark:hover:text-darkmode-primary" href="mailto:ahmaduzzammasood@gmail.com">ahmaduzzammasood@gmail.com</a>
-              </li>
-              <li>
-                <span class="font-medium text-text-light dark:text-darkmode-text-light">Mobile:</span>
-                <a class="ml-2 underline hover:text-primary dark:hover:text-darkmode-primary" href="tel:+923165279665">+92 316 5279665</a>
-              </li>
-              <li>
-                <span class="font-medium text-text-light dark:text-darkmode-text-light">LinkedIn:</span>
-                <a
-                  class="ml-2 underline hover:text-primary dark:hover:text-darkmode-primary"
-                  href="https://www.linkedin.com/in/azzammasood/"
-                  target="_blank"
-                  rel="noopener"
-                  >linkedin.com/in/azzammasood</a
-                >
-              </li>
-              <li>
-                <span class="font-medium text-text-light dark:text-darkmode-text-light">GitHub:</span>
-                <a
-                  class="ml-2 underline hover:text-primary dark:hover:text-darkmode-primary"
-                  href="https://github.com/azzammasood"
-                  target="_blank"
-                  rel="noopener"
-                  >github.com/azzammasood</a
-                >
-              </li>
-            </ul>
-          </div>
+      <div class="projects-page__main">
+        <header class="projects-page__header">
+          <p class="landing-hero__kicker">Get in touch</p>
+          <h1>{{ .Title }}</h1>
+          {{ with .Params.description }}
+            <p>{{ . }}</p>
+          {{ end }}
+        </header>
 
-          <div class="content">
-            {{ .Content }}
-          </div>
+        <div class="contact-list">
+          <a id="email" href="mailto:ahmaduzzammasood@gmail.com">
+            <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+            <span>ahmaduzzammasood@gmail.com</span>
+          </a>
+          <a id="mobile" href="tel:+923165279665">
+            <i class="fa-solid fa-phone" aria-hidden="true"></i>
+            <span>+92 316 5279665</span>
+          </a>
+          <a id="linkedin" href="https://www.linkedin.com/in/azzammasood/" target="_blank" rel="noopener">
+            <i class="fab fa-linkedin" aria-hidden="true"></i>
+            <span>linkedin.com/in/azzammasood</span>
+          </a>
+          <a id="github" href="https://github.com/azzammasood" target="_blank" rel="noopener">
+            <i class="fab fa-github" aria-hidden="true"></i>
+            <span>github.com/azzammasood</span>
+          </a>
+        </div>
+
+        <div class="content">
+          {{ .Content }}
         </div>
       </div>
     </div>
   </section>
-
-  {{ with site.Params.google_map }}
-    {{ if .enable }}
-      <div
-        id="map"
-        style="height: 400px;"
-        data-latitude="{{ .map_latitude }}"
-        data-longitude="{{ .map_longitude }}"
-        data-marker="{{ .map_marker | relURL }}"
-        data-marker-name="{{ site.Title }}"></div>
-    {{ end }}
-  {{ end }}
-
-  {{ with site.Params.subscription }}
-    {{ if .enable }}
-      <form
-        action="{{ .mailchimp_form_action | safeURL }}"
-        method="post"
-        id="mc-embedded-subscribe-form"
-        novalidate="novalidate">
-        <div class="input-group w-75 mx-auto mb-3">
-          <input
-            type="email"
-            name="EMAIL"
-            placeholder="{{ T "email" | default "Email" }}"
-            class="form-control required email mce_inline_error"
-            id="mce-EMAIL"
-            aria-required="true"
-            autocomplete="off"
-            required />
-          <button class="input-group-text" name="subscribe" id="mc-embedded-subscribe">
-            {{ .button_label }}
-          </button>
-        </div>
-        <input type="hidden" name="EMAILTYPE" id="mce-EMAILTYPE-0" value="html" />
-        <div style="position:absolute;left:-5000px" aria-hidden="true">
-          <input type="text" name="{{ .name }}" tabindex="-1" />
-        </div>
-      </form>
-      <div id="mce-responses" class="clear">
-        <div class="response text-white" id="mce-error-response" style="display:none"></div>
-        <div class="response text-white" id="mce-success-response" style="display:none"></div>
-      </div>
-      <script type="text/javascript" src="//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js"></script>
-    {{ end }}
-  {{ end }}
-
-  {{ if site.Params.google_map.enable }}
-    {{ $gmap := resources.Get "plugins/maps/google-map.js" }}
-    <script defer src="{{ $gmap.RelPermalink }}"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key={{ site.Params.google_map.map_api_key }}&libraries=places"></script>
-  {{ end }}
 {{ end }}

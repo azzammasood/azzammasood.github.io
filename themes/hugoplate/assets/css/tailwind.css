@@ -43,7 +43,6 @@
     --radius-xl: 0.75rem;
     --radius-2xl: 1rem;
     --blur-sm: 8px;
-    --blur-md: 12px;
     --default-transition-duration: 150ms;
     --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     --default-font-family: var(--font-sans);
@@ -691,13 +690,6 @@
   .gap-4 {
     gap: calc(var(--spacing) * 4);
   }
-  .space-y-3 {
-    :where(& > :not(:last-child)) {
-      --tw-space-y-reverse: 0;
-      margin-block-start: calc(calc(var(--spacing) * 3) * var(--tw-space-y-reverse));
-      margin-block-end: calc(calc(var(--spacing) * 3) * calc(1 - var(--tw-space-y-reverse)));
-    }
-  }
   .space-y-4 {
     :where(& > :not(:last-child)) {
       --tw-space-y-reverse: 0;
@@ -782,12 +774,6 @@
   }
   .bg-light {
     background-color: var(--color-light);
-  }
-  .bg-light\/50 {
-    background-color: color-mix(in srgb, #f6f6f6 50%, transparent);
-    @supports (color: color-mix(in lab, red, red)) {
-      background-color: color-mix(in oklab, var(--color-light) 50%, transparent);
-    }
   }
   .bg-light\/90 {
     background-color: color-mix(in srgb, #f6f6f6 90%, transparent);
@@ -892,9 +878,6 @@
   }
   .py-7 {
     padding-block: calc(var(--spacing) * 7);
-  }
-  .py-8 {
-    padding-block: calc(var(--spacing) * 8);
   }
   .py-10 {
     padding-block: calc(var(--spacing) * 10);
@@ -1017,9 +1000,6 @@
   }
   .no-underline {
     text-decoration-line: none;
-  }
-  .underline {
-    text-decoration-line: underline;
   }
   .opacity-0 {
     opacity: 0%;
@@ -1574,14 +1554,6 @@
   .dark\:bg-darkmode-light {
     &:where(.dark, .dark *) {
       background-color: var(--color-darkmode-light);
-    }
-  }
-  .dark\:bg-darkmode-light\/30 {
-    &:where(.dark, .dark *) {
-      background-color: color-mix(in srgb, #222222 30%, transparent);
-      @supports (color: color-mix(in lab, red, red)) {
-        background-color: color-mix(in oklab, var(--color-darkmode-light) 30%, transparent);
-      }
     }
   }
   .dark\:bg-darkmode-light\/60 {
@@ -3186,16 +3158,16 @@ input#nav-toggle:checked ~ #nav-menu {
 }
 .landing-hero {
   position: relative;
-  min-height: calc(100svh - 74px);
+  min-height: 100svh;
   overflow: hidden;
   background: var(--color-body);
 }
 .landing-hero__stripes {
   position: absolute;
   inset: 0;
-  background: linear-gradient(103deg, transparent 0 8%, var(--landing-stripe) 8% 15%, transparent 15% 31%, var(--landing-stripe) 31% 39%, transparent 39% 100%), radial-gradient(circle at 76% 18%, color-mix(in srgb, #121212 16%, transparent), transparent 25%);
+  background: linear-gradient(103deg, transparent 0 8%, var(--landing-stripe) 8% 15%, transparent 15% 24%, var(--landing-stripe) 24% 31%, transparent 31% 100%), radial-gradient(circle at 76% 18%, color-mix(in srgb, #121212 16%, transparent), transparent 25%);
   @supports (color: color-mix(in lab, red, red)) {
-    background: linear-gradient(103deg, transparent 0 8%, var(--landing-stripe) 8% 15%, transparent 15% 31%, var(--landing-stripe) 31% 39%, transparent 39% 100%), radial-gradient(circle at 76% 18%, color-mix(in srgb, var(--color-primary) 16%, transparent), transparent 25%);
+    background: linear-gradient(103deg, transparent 0 8%, var(--landing-stripe) 8% 15%, transparent 15% 24%, var(--landing-stripe) 24% 31%, transparent 31% 100%), radial-gradient(circle at 76% 18%, color-mix(in srgb, var(--color-primary) 16%, transparent), transparent 25%);
   }
   pointer-events: none;
 }
@@ -3205,11 +3177,11 @@ input#nav-toggle:checked ~ #nav-menu {
   display: grid;
   width: 100%;
   max-width: 100vw;
-  min-height: calc(100svh - 74px);
+  min-height: 100svh;
   grid-template-columns: minmax(0, 1fr);
   align-items: center;
   gap: clamp(1.75rem, 4vw, 4.5rem);
-  padding: clamp(2rem, 5vw, 4.5rem);
+  padding: clamp(3rem, 6vw, 6rem);
 }
 .landing-hero__kicker, .landing-proof-block__label {
   margin: 0 0 0.7rem;
@@ -3224,28 +3196,28 @@ input#nav-toggle:checked ~ #nav-menu {
   max-width: 100%;
 }
 .landing-hero__name h1 {
-  max-width: 7.6ch;
+  max-width: 7.9ch;
   margin: 0;
   color: var(--color-text-dark);
   font-family: var(--font-secondary);
-  font-size: 11rem;
+  font-size: clamp(7rem, 12.6vw, 15rem);
   font-weight: 700;
-  line-height: 0.84;
+  line-height: 0.82;
   letter-spacing: 0;
 }
 .landing-hero__summary {
-  max-width: 42rem;
-  margin: 1.35rem 0 0;
+  max-width: 52rem;
+  margin: 1.6rem 0 0;
   color: var(--color-text);
-  font-size: clamp(1rem, 1.5vw, 1.2rem);
-  line-height: 1.55;
+  font-size: clamp(1.12rem, 1.65vw, 1.45rem);
+  line-height: 1.62;
   overflow-wrap: anywhere;
 }
 .landing-hero__actions {
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
-  margin-top: 1.5rem;
+  margin-top: 2rem;
 }
 .landing-button {
   display: inline-flex;
@@ -3424,6 +3396,10 @@ input#nav-toggle:checked ~ #nav-menu {
   pointer-events: auto;
   white-space: nowrap;
 }
+body:has(.projects-page) .header .site-side-nav {
+  top: 7rem;
+  transform: none;
+}
 .site-side-nav .nav-item {
   position: relative;
 }
@@ -3431,7 +3407,9 @@ input#nav-toggle:checked ~ #nav-menu {
   display: inline-flex;
   background: transparent !important;
   color: var(--color-text-dark);
+  font-family: var(--font-primary) !important;
   font-size: clamp(1.05rem, 1.45vw, 1.35rem);
+  font-weight: 300;
   line-height: 1;
   padding: 0 !important;
   text-decoration: none;
@@ -3657,25 +3635,32 @@ html, body, .header, .landing-hero, .landing-links, .landing-button, .landing-st
 }
 .projects-page__rail {
   position: sticky;
-  top: 6rem;
+  top: 7rem;
   display: flex;
-  max-height: calc(100svh - 8rem);
+  max-height: calc(100svh - 9rem);
   flex-direction: column;
   gap: 1.15rem;
   overflow-y: auto;
   padding: 0 0.4rem 1rem 0;
   background: transparent;
-  scrollbar-width: thin;
+  scrollbar-width: none;
+}
+.projects-page__rail::-webkit-scrollbar {
+  display: none;
 }
 .projects-page__rail a {
   color: var(--color-text);
+  font-family: var(--font-primary) !important;
   font-size: 1.05rem;
+  font-weight: 300;
   line-height: 1.25;
   text-decoration: none;
 }
-.projects-page__rail a:hover, .projects-page__rail a:focus {
+.projects-page__rail a:hover, .projects-page__rail a:focus, .projects-page__rail a.is-active {
   color: var(--color-primary);
   text-decoration: underline;
+  text-decoration-color: var(--color-primary);
+  text-underline-offset: 0.22rem;
 }
 .projects-page__header {
   max-width: 48rem;
@@ -3715,6 +3700,7 @@ html, body, .header, .landing-hero, .landing-links, .landing-button, .landing-st
   background: var(--color-light);
   color: var(--color-text-dark);
   font-weight: 800;
+  max-width: min(100%, 46rem);
   text-decoration: none;
 }
 .project-row__image {
@@ -3723,9 +3709,9 @@ html, body, .header, .landing-hero, .landing-links, .landing-button, .landing-st
   object-fit: cover;
 }
 .project-row__body h2 {
-  margin: 1.35rem 0 0;
+  margin: 0 0 1.35rem;
   color: var(--color-text-dark);
-  font-size: clamp(2rem, 4.6vw, 4.6rem);
+  font-size: clamp(1.65rem, 3.2vw, 3rem);
   line-height: 0.94;
 }
 .project-row__body h2 a {
@@ -3739,7 +3725,7 @@ html, body, .header, .landing-hero, .landing-links, .landing-button, .landing-st
   display: flex;
   flex-wrap: wrap;
   gap: 0.45rem;
-  margin: 1rem 0;
+  margin: 1.1rem 0 0.8rem;
 }
 .project-row__stack span {
   border: 1px solid var(--color-border);
@@ -3790,6 +3776,36 @@ html, body, .header, .landing-hero, .landing-links, .landing-button, .landing-st
 }
 .project-row__link:hover, .project-row__link:focus {
   text-decoration: underline;
+}
+.section-page .content {
+  max-width: 56rem;
+}
+.section-page .content h2 {
+  scroll-margin-top: 7rem;
+}
+.contact-list {
+  display: grid;
+  max-width: 52rem;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+.contact-list a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.9rem;
+  color: var(--color-text-dark);
+  font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+  text-decoration: none;
+}
+.contact-list a:hover, .contact-list a:focus {
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-underline-offset: 0.22rem;
+}
+.contact-list i {
+  width: 1.2rem;
+  color: var(--color-primary);
+  text-align: center;
 }
 .section, .section-sm {
   padding-right: clamp(6rem, 12vw, 14rem);
@@ -3868,7 +3884,7 @@ code, kbd, pre, samp {
   }
   .landing-hero__name h1 {
     max-width: 8ch;
-    font-size: 8.5rem;
+    font-size: clamp(5rem, 15vw, 8.5rem);
   }
   .landing-hero__proof {
     grid-template-columns: repeat(2, minmax(0, 1fr));

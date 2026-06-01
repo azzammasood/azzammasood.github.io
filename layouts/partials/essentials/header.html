@@ -22,8 +22,8 @@
       class="navbar-nav site-side-nav order-3 hidden w-full gap-1 pb-6 lg:order-1 lg:flex lg:w-auto lg:items-center lg:gap-0 lg:space-x-1 lg:pb-0 xl:space-x-6">
       {{ $currentPage := . }}
       {{ range site.Menus.main }}
-        {{ $menuURL := .URL | absLangURL }}
-        {{ $pageURL:= $currentPage.Permalink | absLangURL }}
+        {{ $menuURL := strings.TrimSuffix "/" (.URL | absLangURL) }}
+        {{ $pageURL:= strings.TrimSuffix "/" ($currentPage.Permalink | absLangURL) }}
         {{ $active := eq $menuURL $pageURL }}
         {{ if .HasChildren }}
           <li class="nav-item nav-dropdown group relative">
@@ -34,7 +34,7 @@
             <label
               for="submenu-{{ .Name | urlize }}"
               class="nav-link {{ range .Children }}
-                {{ $childURL := .URL | absLangURL }}
+                {{ $childURL := strings.TrimSuffix "/" (.URL | absLangURL) }}
                 {{ $active := eq $childURL $pageURL }}
                 {{ if $active }}active{{ end }}
               {{ end }} inline-flex items-center">
@@ -47,7 +47,7 @@
             <ul
               class="nav-dropdown-list hidden peer-checked:block lg:invisible lg:absolute lg:block lg:opacity-0 lg:group-hover:visible lg:group-hover:opacity-100">
               {{ range .Children }}
-                {{ $childURL := .URL | absLangURL }}
+                {{ $childURL := strings.TrimSuffix "/" (.URL | absLangURL) }}
                 {{ $active := eq $childURL $pageURL }}
                 <li class="nav-dropdown-item">
                   <a
@@ -75,7 +75,7 @@
           <li class="nav-item">
             <a
               class="nav-link {{ if $active }}active{{- end -}}"
-              data-nav-desc="{{ if eq .Name `Home` }}Go back to the landing page.{{ else if eq .Name `About` }}Read who I am and how I think.{{ else if eq .Name `Projects` }}See what projects I have built.{{ else if eq .Name `Experience` }}Review my professional experience.{{ else if eq .Name `Certifications` }}See my certifications and learning record.{{ else if eq .Name `Contact` }}Find ways to get in touch.{{ else }}Open {{ .Name }}.{{ end }}"
+              data-nav-desc="{{ if eq .Name `Home` }}Go to landing page.{{ else if eq .Name `About` }}Read who I am and how I think.{{ else if eq .Name `Projects` }}See what projects I have built.{{ else if eq .Name `Experience` }}Review my professional experience.{{ else if eq .Name `Certifications` }}See my certifications and learning record.{{ else if eq .Name `Contact` }}Find ways to get in touch.{{ else }}Open {{ .Name }}.{{ end }}"
               {{ if findRE `^http` .URL }}
                 target="_blank" rel="noopener"
               {{ end }}

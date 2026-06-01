@@ -1,11 +1,21 @@
 {{ define "main" }}
-  {{ partial "page-header" . }}
-  <section class="section-sm">
-    <div class="container">
-      <div class="row justify-center">
-        <div class="md:col-10 lg:col-8">
-          <div class="content">{{ .Content }}</div>
-        </div>
+  <section class="projects-page section-page">
+    <div class="projects-page__shell">
+      <aside class="projects-page__rail" aria-label="Certification sections">
+        <a href="#data-engineering">Data Engineering</a>
+        <a href="#google-cloud">Google Cloud</a>
+        <a href="#azure">Azure</a>
+      </aside>
+
+      <div class="projects-page__main">
+        <header class="projects-page__header">
+          <p class="landing-hero__kicker">Learning</p>
+          <h1>{{ .Title }}</h1>
+          {{ with .Params.description }}
+            <p>{{ . }}</p>
+          {{ end }}
+        </header>
+        <div class="content">{{ .Content }}</div>
       </div>
     </div>
   </section>

@@ -1,26 +1,39 @@
 {{ define "main" }}
-  <section class="section-sm about-layout">
-    <div class="container">
-      <div class="about-layout__grid">
-        <div>
-          {{ if .Params.image }}
-            {{ $img := .Params.image }}
-            <div class="about-layout__image">
-            {{ if or (strings.HasPrefix $img `http`) (strings.HasPrefix $img `/images/`) }}
-              <img
-                src="{{ $img | relURL }}"
-                alt="{{ .Title }}"
-                width="320"
-                height="320"
-                loading="eager" />
-            {{ else }}
-              {{ partial "image" (dict "Src" $img "Context" .Page "Alt" .Title ) }}
-            {{ end }}
-            </div>
+  <section class="projects-page section-page about-layout">
+    <div class="projects-page__shell">
+      <aside class="projects-page__rail" aria-label="About sections">
+        <a href="#intro">Intro</a>
+        <a href="#interests">Interests</a>
+        <a href="#education">Education</a>
+      </aside>
+
+      <div class="projects-page__main">
+        <header class="projects-page__header">
+          <p class="landing-hero__kicker">Profile</p>
+          <h1>{{ .Title }}</h1>
+          {{ with .Params.description }}
+            <p>{{ . }}</p>
           {{ end }}
-        </div>
-        <div>
-          <h2 class="h3 mb-6">{{ .Title }}</h2>
+        </header>
+
+        <div class="about-layout__grid">
+          <div>
+            {{ if .Params.image }}
+              {{ $img := .Params.image }}
+              <div class="about-layout__image">
+                {{ if or (strings.HasPrefix $img `http`) (strings.HasPrefix $img `/images/`) }}
+                  <img
+                    src="{{ $img | relURL }}"
+                    alt="{{ .Title }}"
+                    width="320"
+                    height="320"
+                    loading="eager" />
+                {{ else }}
+                  {{ partial "image" (dict "Src" $img "Context" .Page "Alt" .Title ) }}
+                {{ end }}
+              </div>
+            {{ end }}
+          </div>
           <div class="content">{{ .Content }}</div>
         </div>
       </div>

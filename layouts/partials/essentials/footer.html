@@ -1,42 +1,31 @@
 <footer class="footer bg-transparent">
-  <div class="container">
-    <div class="row items-center py-8">
-      <div class="lg:col-6 mb-6 text-center lg:mb-0 lg:text-left">
-        <ul>
-          {{ range site.Menus.footer }}
-            <li class="m-3 inline-block">
-              <a
-                {{ if findRE `^http` .URL }}
-                  target="_blank" rel="noopener"
-                {{ end }}
-                href="{{ if findRE `^#` .URL }}
-                  {{ if not $.IsHome }}
-                    {{ site.Home.RelPermalink }}
-                  {{ end }}{{ .URL }}
-                {{ else }}
-                  {{ .URL | relLangURL }}
-                {{ end }}"
-                >{{ .Name }}</a
-              >
-            </li>
-          {{ end }}
-        </ul>
+  <section class="landing-links" aria-label="Social and site links">
+    <div class="landing-links__inner">
+      <div class="landing-links__brand">
+        <h2>{{ site.Params.logo_text | default .Site.Title }}</h2>
+        <p>Reliable data systems, built for scale.</p>
       </div>
-      <div class="lg:col-6 text-center lg:text-right">
-        <ul class="social-icons">
-          {{ range site.Data.social.main }}
-            <li>
-              <a
-                target="_blank"
-                aria-label="{{ .name }}"
-                rel="nofollow noopener"
-                href="{{ .link | safeURL }}">
-                <i class="{{ .icon }}"></i>
-              </a>
-            </li>
-          {{ end }}
-        </ul>
-      </div>
+
+      <nav class="landing-link-group" aria-label="Socials">
+        <h3>Socials</h3>
+        {{ range site.Data.social.main }}
+          <a href="{{ .link | safeURL }}" target="_blank" rel="noopener">{{ .name | title }}</a>
+        {{ end }}
+        <a href="mailto:ahmaduzzammasood@gmail.com">Email</a>
+      </nav>
+
+      <nav class="landing-link-group" aria-label="Sitemap">
+        <h3>Sitemap</h3>
+        {{ range site.Menus.main }}
+          <a href="{{ .URL | relLangURL }}">{{ .Name }}</a>
+        {{ end }}
+      </nav>
+
+      <nav class="landing-link-group" aria-label="Other">
+        <h3>Other</h3>
+        <a href="https://github.com/azzammasood" target="_blank" rel="noopener">Source Code</a>
+        <a href="{{ `/blog/` | relLangURL }}">Case Studies</a>
+      </nav>
     </div>
-  </div>
+  </section>
 </footer>
