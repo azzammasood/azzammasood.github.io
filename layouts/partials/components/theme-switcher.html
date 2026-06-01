@@ -69,17 +69,11 @@
           button.addEventListener("click", function () { var sw = button.closest(".code-theme-switcher"), open = sw.classList.toggle("is-open"); button.setAttribute("aria-expanded", open ? "true" : "false"); });
         });
         document.querySelectorAll("[data-code-theme-option]").forEach(function (button) {
-          button.addEventListener("mouseenter", function () { window.portfolioThemes.preview(button.dataset.codeThemeOption); });
-          button.addEventListener("focus", function () { window.portfolioThemes.preview(button.dataset.codeThemeOption); });
           button.addEventListener("click", function () { window.portfolioThemes.apply(button.dataset.codeThemeOption); button.closest(".code-theme-switcher").classList.remove("is-open"); });
         });
         document.querySelectorAll("[data-ui-style-option]").forEach(function (button) {
-          button.addEventListener("mouseenter", function () { window.portfolioStyles.preview(button.dataset.uiStyleOption); });
-          button.addEventListener("focus", function () { window.portfolioStyles.preview(button.dataset.uiStyleOption); });
           button.addEventListener("click", function () { window.portfolioStyles.apply(button.dataset.uiStyleOption); button.closest(".code-theme-switcher").classList.remove("is-open"); });
         });
-        document.querySelectorAll("[data-code-theme-switcher]").forEach(function (sw) { sw.addEventListener("mouseleave", function () { window.portfolioThemes.restore(); }); });
-        document.querySelectorAll("[data-style-switcher]").forEach(function (sw) { sw.addEventListener("mouseleave", function () { window.portfolioStyles.restore(); }); });
         document.addEventListener("click", function (event) { document.querySelectorAll(".code-theme-switcher.is-open").forEach(function (sw) { if (!sw.contains(event.target)) sw.classList.remove("is-open"); }); });
       });
     })();

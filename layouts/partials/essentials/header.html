@@ -108,15 +108,13 @@
     <div class="site-top-controls order-1 ml-auto flex flex-1 items-center justify-end gap-2 md:order-2 lg:ml-0 lg:max-w-none">
       {{ with site.Params.search }}
         {{ if .enable }}
-          <button
-            type="button"
-            class="hidden min-w-0 max-w-md flex-1 cursor-text items-center gap-2 rounded-lg border border-border bg-light/90 px-3 py-2 text-left text-sm text-text-light transition hover:border-primary dark:border-darkmode-border dark:bg-darkmode-light/60 dark:text-darkmode-text-light dark:hover:border-darkmode-primary lg:flex"
-            data-command-palette-open
-            aria-label="Open search and commands">
+          <label
+            class="site-search-field hidden min-w-0 max-w-md flex-1 items-center gap-2 rounded-lg border border-border bg-light/90 px-3 py-2 text-left text-sm text-text-light dark:border-darkmode-border dark:bg-darkmode-light/60 dark:text-darkmode-text-light lg:flex"
+            aria-label="Search site content">
             <i class="fa-solid fa-magnifying-glass shrink-0 opacity-70"></i>
-            <span class="search-button-label" data-search-typed data-text="Search for anything or type a command"></span>
+            <input class="site-search-field__input" type="search" placeholder="Search for anything or type a command" autocomplete="off" spellcheck="false" data-inline-search />
             <kbd class="ml-auto hidden shrink-0 rounded border border-border bg-body px-1.5 py-0.5 text-[10px] font-medium text-text-light xl:inline dark:border-darkmode-border dark:bg-darkmode-body">Ctrl K</kbd>
-          </button>
+          </label>
           <button
             type="button"
             aria-label="Open search"

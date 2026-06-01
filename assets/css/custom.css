@@ -464,7 +464,7 @@
 
 .header .site-side-nav {
   position: fixed !important;
-  top: 50%;
+  top: 50dvh;
   right: clamp(1rem, 4vw, 4rem);
   z-index: 45;
   display: flex !important;
@@ -530,12 +530,26 @@
   transform: translate(0, -50%) scale(1);
 }
 
-.header [data-command-palette-open] {
+.header .site-search-field {
   min-width: min(38rem, calc(100vw - 9rem));
   max-width: 50rem;
   min-height: 2.8rem;
   background: color-mix(in srgb, var(--color-light) 64%, transparent) !important;
   backdrop-filter: blur(14px);
+}
+
+.site-search-field__input {
+  min-width: 0;
+  flex: 1 1 auto;
+  border: 0;
+  background: transparent;
+  color: var(--color-text-dark);
+  outline: 0;
+}
+
+.site-search-field__input::placeholder {
+  color: var(--color-text-light);
+  opacity: 1;
 }
 
 .header .code-theme-switcher__button {
@@ -557,16 +571,16 @@
   color: var(--color-text-dark);
   font-size: 1.18rem;
   box-shadow: none !important;
-  transition: color 240ms ease, transform 240ms ease, background-color 240ms ease;
+  transition: none;
 }
 
 .header .code-theme-switcher__button:hover,
 .header .code-theme-switcher__button:focus-visible,
 .top-github-link:hover,
 .top-github-link:focus-visible {
-  background: color-mix(in srgb, var(--color-primary) 14%, transparent) !important;
+  background: transparent !important;
   color: var(--color-primary);
-  transform: translateY(-1px) rotate(10deg) scale(1.04);
+  transform: none;
 }
 
 .search-button-label {
@@ -799,6 +813,19 @@ html {
   text-shadow: none;
 }
 
+.header .code-theme-switcher__button,
+.header .code-theme-switcher__button:hover,
+.header .code-theme-switcher__button:focus-visible,
+.top-github-link,
+.top-github-link:hover,
+.top-github-link:focus-visible {
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  transform: none !important;
+  transition: none !important;
+}
+
 .projects-page {
   background: var(--color-body);
   color: var(--color-text);
@@ -807,10 +834,8 @@ html {
 }
 
 .projects-page__shell {
-  display: grid;
-  grid-template-columns: minmax(11rem, 18rem) minmax(0, 1fr);
-  gap: clamp(2rem, 5vw, 4.5rem);
-  margin-left: clamp(1.5rem, 4vw, 4rem);
+  display: block;
+  margin-left: clamp(22rem, 24vw, 28rem);
   margin-right: clamp(7rem, 13vw, 15rem);
 }
 
@@ -990,7 +1015,6 @@ html {
 }
 
 .section-page--plain .projects-page__shell {
-  grid-template-columns: minmax(0, 1fr);
   margin-left: clamp(2rem, 10vw, 10rem);
 }
 

@@ -76,24 +76,12 @@
       localStorage.setItem("code-theme", id);
     }
   }
-  function previewTheme(id) {
-    if (window.portfolioThemes && window.portfolioThemes.preview) window.portfolioThemes.preview(id);
-  }
-  function restoreTheme() {
-    if (window.portfolioThemes && window.portfolioThemes.restore) window.portfolioThemes.restore();
-  }
   function applyStyle(id) {
     if (window.portfolioStyles && window.portfolioStyles.apply) window.portfolioStyles.apply(id);
     else {
       document.documentElement.dataset.uiStyle = id;
       localStorage.setItem("ui-style", id);
     }
-  }
-  function previewStyle(id) {
-    if (window.portfolioStyles && window.portfolioStyles.preview) window.portfolioStyles.preview(id);
-  }
-  function restoreStyle() {
-    if (window.portfolioStyles && window.portfolioStyles.restore) window.portfolioStyles.restore();
   }
   function loadIndex() {
     if (indexLoaded) return Promise.resolve();
@@ -124,10 +112,6 @@
       li.addEventListener("mousedown", function (e) { e.preventDefault(); go(it.url); });
       li.addEventListener("mouseenter", function () {
         setActive(idx);
-        if ((it.url || "").indexOf("#theme-") === 0) previewTheme(it.url.replace("#theme-", ""));
-        else restoreTheme();
-        if ((it.url || "").indexOf("#style-") === 0) previewStyle(it.url.replace("#style-", ""));
-        else restoreStyle();
       });
       list.appendChild(li);
     });
@@ -180,8 +164,6 @@
     (mode === "search" ? loadIndex() : Promise.resolve()).then(function () { showDefault(); input.focus(); });
   }
   function close() {
-    restoreTheme();
-    restoreStyle();
     modal.classList.add("hidden");
     modal.setAttribute("aria-hidden", "true");
     document.body.style.overflow = "";
@@ -199,8 +181,8 @@
     window.location.href = url;
   }
 
-  document.querySelectorAll('[data-target="search-modal"],[data-command-palette-open]').forEach(function (el) {
-    el.addEventListener("click", function (e) { e.preventDefault(); open(el.hasAttribute("data-command-palette-open") ? "commands" : "search"); });
+  document.querySelectorAll('[data-target="search-modal"]').forEach(function (el) {
+    el.addEventListener("click", function (e) { e.preventDefault(); open("search"); });
   });
   document.querySelectorAll("[data-code-theme-toggle]").forEach(function (el) {
     el.addEventListener("dblclick", function (e) { e.preventDefault(); open("themes"); });
