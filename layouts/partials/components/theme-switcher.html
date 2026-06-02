@@ -4,11 +4,12 @@
     (dict "name" "Andromeda" "id" "andromeda" "colors" (slice "#00e8c6" "#82aaff" "#c792ea" "#d6deeb"))
     (dict "name" "Dracula" "id" "dracula" "colors" (slice "#ff79c6" "#bd93f9" "#50fa7b" "#f1fa8c"))
     (dict "name" "Monokai" "id" "monokai" "colors" (slice "#f92672" "#a6e22e" "#66d9ef" "#f8f8f2"))
-    (dict "name" "Gruvbox Dark" "id" "gruvbox-dark" "colors" (slice "#fb4934" "#b8bb26" "#fabd2f" "#ebdbb2"))
-    (dict "name" "Solarized Dark" "id" "solarized-dark" "colors" (slice "#268bd2" "#b58900" "#2aa198" "#839496"))
-    (dict "name" "VSCode Dark" "id" "vscode-dark" "colors" (slice "#569cd6" "#dcdcaa" "#9cdcfe" "#d4d4d4"))
     (dict "name" "Abyss" "id" "abyss" "colors" (slice "#001b44" "#005eff" "#00c2ff" "#d7e7ff"))
-    (dict "name" "Neo Brutal" "id" "neo-brutal" "colors" (slice "#ff3b30" "#ffd60a" "#00c7be" "#111111"))
+    (dict "name" "Bold Tech" "id" "bold-tech" "colors" (slice "#2563eb" "#22d3ee" "#07111f" "#dff7ff"))
+    (dict "name" "Caffeine" "id" "caffeine" "colors" (slice "#24130a" "#c88b3d" "#3b2414" "#f0dfbd"))
+    (dict "name" "Doom 64" "id" "doom-64" "colors" (slice "#120808" "#c9281f" "#2b1512" "#f0d9b8"))
+    (dict "name" "Kodama Grove" "id" "kodama-grove" "colors" (slice "#2f7a43" "#7b5f2a" "#cbdba2" "#172917"))
+    (dict "name" "Marvel Dark" "id" "marvel" "colors" (slice "#050505" "#e01822" "#181818" "#f8f8f8"))
     (dict "name" "Cyberpunk" "id" "cyberpunk" "colors" (slice "#ff007c" "#faff00" "#00f0ff" "#120024"))
     (dict "name" "Tokyo Night" "id" "tokyo-night" "colors" (slice "#7aa2f7" "#bb9af7" "#9ece6a" "#c0caf5"))
     (dict "name" "Mono" "id" "mono" "colors" (slice "#1f2328" "#6e7781" "#afb8c1" "#f6f8fa"))
@@ -44,7 +45,7 @@
   </div>
   <script>
     (function () {
-      var themes = {"andromeda":["Andromeda",true],"dracula":["Dracula",true],"monokai":["Monokai",true],"gruvbox-dark":["Gruvbox Dark",true],"solarized-dark":["Solarized Dark",true],"vscode-dark":["VSCode Dark",true],"abyss":["Abyss",true],"neo-brutal":["Neo Brutal",true],"cyberpunk":["Cyberpunk",true],"tokyo-night":["Tokyo Night",true],"mono":["Mono",false],"mono-dark":["Mono Dark",true]};
+      var themes = {"andromeda":["Andromeda",true],"dracula":["Dracula",true],"monokai":["Monokai",true],"abyss":["Abyss",true],"bold-tech":["Bold Tech",true],"caffeine":["Caffeine",true],"doom-64":["Doom 64",true],"kodama-grove":["Kodama Grove",false],"marvel":["Marvel Dark",true],"cyberpunk":["Cyberpunk",true],"tokyo-night":["Tokyo Night",true],"mono":["Mono",false],"mono-dark":["Mono Dark",true]};
       var styles = {"minimal":"Minimal","material":"Material","neobrutalism":"NeoBrutalism","terminal":"Terminal","glassmorphism":"Glassmorphism"};
       function transition(fn) { if (document.startViewTransition) document.startViewTransition(fn); else fn(); }
       function currentTheme() { return localStorage.getItem("code-theme") || document.documentElement.dataset.codeTheme || "mono"; }

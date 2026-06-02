@@ -1,33 +1,26 @@
 {{ define "main" }}
-  <section class="section pt-7">
-    <div class="container">
-      <div class="row justify-center">
-        <article class="lg:col-10">
-          {{ $image := .Params.image }}
-          {{ if $image }}
-            <div class="mb-10">
-              {{ if or (strings.HasPrefix $image "http") (strings.HasPrefix $image "/images/") }}
-                <img
-                  src="{{ $image | relURL }}"
-                  alt="{{ .Title }}"
-                  class="w-full rounded object-cover"
-                  width="1200"
-                  height="630" />
-              {{ else }}
-                {{ partial "image" (dict "Src" $image "Context" .Page "Alt" .Title "Class" "w-full rounded") }}
+  <section class="projects-page project-single-page">
+    <div class="projects-page__shell">
+      <article class="projects-page__main">
+        <header class="projects-page__header">
+          <p class="landing-hero__kicker">Selected Work</p>
+          <h1>{{ .Title }}</h1>
+        </header>
+        <ul class="project-single__meta">
+          <li>
+            <i class="fa-regular fa-clock mr-2"></i>
+            {{ time.Format ":date_long" .PublishDate }}
+          </li>
+        </ul>
+          {{ with .Params.tags }}
+            <div class="project-row__stack project-single__stack" aria-label="Tech stack">
+              <span class="project-row__stack-label">Tech Stack</span>
+              {{ range . }}
+                <span>{{ . }}</span>
               {{ end }}
             </div>
           {{ end }}
-          <h1 class="h2 mb-4">
-            {{ .Title }}
-          </h1>
-          <ul class="mb-4">
-            <li class="mr-4 inline-block">
-              <i class="fa-regular fa-clock mr-2"></i>
-              {{ time.Format ":date_long" .PublishDate }}
-            </li>
-          </ul>
-          <div class="content mb-10">
+          <div class="content project-single__content mb-10">
             {{ .Content }}
           </div>
           {{ if site.Config.Services.Disqus.Shortname }}
@@ -35,25 +28,7 @@
               {{ partial "disqus.html" . }}
             </div>
           {{ end }}
-        </article>
-      </div>
-
-      {{ $related := .Site.RegularPages.Related . | first 10 }}
-      {{ $related = $related | shuffle | first 3 }}
-      {{ with $related }}
-        <div class="section pb-0">
-          <h2 class="h3 mb-12">
-            {{ T "related_posts" | default "Related Posts" }}
-          </h2>
-          <div class="row">
-            {{ range . }}
-              <div class="lg:col-4 md:col-6 mb-14">
-                {{ partial "components/blog-card" . }}
-              </div>
-            {{ end }}
-          </div>
-        </div>
-      {{ end }}
+      </article>
     </div>
   </section>
 {{ end }}

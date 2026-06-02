@@ -7,8 +7,8 @@ banner:
   image: "/images/banner.png"
   button:
     enable: true
-    label: "View Projects"
-    link: "/blog/"
+    label: "About Me"
+    link: "/about/"
 
 # Features
 features:

@@ -2,7 +2,7 @@
 title: "About"
 meta_title: "About"
 description: "About Ahmad Uzzam Masood, Data Engineer."
-image: "/images/professional-headshot.jpeg"
+image: "/images/professional-headshot.jpg"
 layout: "about"
 draft: false
 ---

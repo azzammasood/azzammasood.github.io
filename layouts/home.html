@@ -36,6 +36,7 @@
         {{ range site.Data.social.main }}
           <a href="{{ .link | safeURL }}" target="_blank" rel="noopener">{{ .name | title }}</a>
         {{ end }}
+        <a href="https://substack.com/@azzamnow" target="_blank" rel="noopener">Substack</a>
         <a href="mailto:ahmaduzzammasood@gmail.com">Email</a>
       </nav>
 
@@ -44,13 +45,6 @@
         {{ range site.Menus.main }}
           <a href="{{ .URL | relLangURL }}">{{ .Name }}</a>
         {{ end }}
-        <a href="{{ `/credits/` | relLangURL }}">Credits</a>
-      </nav>
-
-      <nav class="landing-link-group" aria-label="Other">
-        <h3>Other</h3>
-        <a href="https://github.com/azzammasood" target="_blank" rel="noopener">Source Code</a>
-        <a href="{{ `/blog/` | relLangURL }}">Case Studies</a>
       </nav>
     </div>
   </section>

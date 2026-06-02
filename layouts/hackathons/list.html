@@ -1,8 +1,8 @@
 {{ define "main" }}
-  <section class="projects-page">
+  <section class="projects-page hackathons-page">
     <div class="projects-page__shell">
-      {{ $paginator := .Paginate .RegularPages }}
-      <aside class="projects-page__rail" aria-label="Project index">
+      {{ $paginator := .Paginate .RegularPages.ByWeight }}
+      <aside class="projects-page__rail" aria-label="Hackathon index">
         {{ range $paginator.Pages }}
           <a href="#{{ .Title | urlize }}">{{ .Title }}</a>
         {{ end }}
@@ -10,13 +10,13 @@
 
       <div class="projects-page__main">
         <header class="projects-page__header">
-          <p class="landing-hero__kicker">Selected Work</p>
+          <p class="landing-hero__kicker">Competitions</p>
           <h1>{{ .Title }}</h1>
         </header>
 
         <div class="projects-list">
           {{ range $paginator.Pages }}
-            {{ $project := . }}
+            {{ $hackathon := . }}
             <article class="project-row" id="{{ .Title | urlize }}">
               <div class="project-row__body">
                 <h2>
@@ -26,12 +26,12 @@
               <a class="project-row__media" href="{{ .RelPermalink }}" aria-label="Open {{ .Title }}">
                 {{ with .Params.image }}
                   {{ if or (strings.HasPrefix . "http") (strings.HasPrefix . "/images/") }}
-                    <img src="{{ . | relURL }}" alt="{{ $project.Title }}" class="project-row__image" loading="lazy" width="960" height="600" />
+                    <img src="{{ . | relURL }}" alt="{{ $hackathon.Title }}" class="project-row__image" loading="lazy" width="960" height="600" />
                   {{ else }}
-                    {{ partial "image" (dict "Src" . "Context" $project "Alt" $project.Title "Class" "project-row__image") }}
+                    {{ partial "image" (dict "Src" . "Context" $hackathon "Alt" $hackathon.Title "Class" "project-row__image") }}
                   {{ end }}
                 {{ else }}
-                  <span>{{ $project.Title }}</span>
+                  <span>{{ $hackathon.Title }}</span>
                 {{ end }}
               </a>
 
@@ -45,7 +45,7 @@
                   </div>
                 {{ end }}
                 <p>{{ .Params.description | default .Summary | plainify }}</p>
-                <a class="project-row__link" href="{{ .RelPermalink }}">View project</a>
+                <a class="project-row__link" href="{{ .RelPermalink }}">View hackathon</a>
               </div>
             </article>
           {{ end }}

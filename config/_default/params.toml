@@ -18,7 +18,7 @@ navbar_fixed = true
 theme_switcher = true
 theme_default = "system" # available options [light/dark/system]
 # Main Sections
-mainSections = ["blog"]
+mainSections = ["blog", "hackathons"]
 # contact form action
 contact_form_action = "#" # replace with Formspree endpoint if needed
 # google tag manager, see https://developers.google.com/tag-manager/
@@ -46,7 +46,7 @@ link = "https://github.com/azzammasood"
 [search]
 enable = true
 primary_color = "#121212"
-include_sections = ["blog", "about"]
+include_sections = ["blog", "hackathons", "about"]
 show_image = true
 show_description = true
 show_tags = true

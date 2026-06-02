@@ -1,6 +1,10 @@
 <header class="header site-chrome z-30">
   <nav class="navbar container py-1" aria-label="Primary navigation">
-    <div class="order-0 hidden lg:block"></div>
+    <div class="order-0 hidden lg:block">
+      {{ if not .IsHome }}
+        <a class="site-name-link" href="{{ site.Home.RelPermalink }}">Ahmad Uzzam Masood</a>
+      {{ end }}
+    </div>
     <input id="nav-toggle" type="checkbox" class="hidden" />
     <label
       for="nav-toggle"
@@ -75,7 +79,6 @@
           <li class="nav-item">
             <a
               class="nav-link {{ if $active }}active{{- end -}}"
-              data-nav-desc="{{ if eq .Name `Home` }}Go to landing page.{{ else if eq .Name `About` }}Read who I am and how I think.{{ else if eq .Name `Projects` }}See what projects I have built.{{ else if eq .Name `Experience` }}Review my professional experience.{{ else if eq .Name `Certifications` }}See my certifications and learning record.{{ else if eq .Name `Contact` }}Find ways to get in touch.{{ else }}Open {{ .Name }}.{{ end }}"
               {{ if findRE `^http` .URL }}
                 target="_blank" rel="noopener"
               {{ end }}
@@ -126,11 +129,12 @@
         {{ end }}
       {{ end }}
 
-      {{ partial "components/language-switcher" (dict "Context" . "Class" "mr-5 pl-2 py-1 dark:bg-darkmode-light rounded") }}
-          {{ partial "components/theme-switcher" (dict "Class" "mr-2") }}
-          <a class="top-github-link" href="https://github.com/azzammasood" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub">
-            <i class="fab fa-github" aria-hidden="true"></i>
-          </a>
+      <a class="top-contact-link" href="{{ `/contact/` | relLangURL }}">Contact Me</a>
+
+      {{ partial "components/theme-switcher" (dict "Class" "mr-2 top-theme-switcher") }}
+      <a class="top-github-link" href="https://github.com/azzammasood" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub">
+        <i class="fab fa-github" aria-hidden="true"></i>
+      </a>
 
     </div>
   </nav>

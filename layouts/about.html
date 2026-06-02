@@ -2,11 +2,6 @@
   <section class="projects-page section-page about-layout section-page--plain">
     <div class="projects-page__shell">
       <div class="projects-page__main">
-        <header class="projects-page__header">
-          <p class="landing-hero__kicker">Profile</p>
-          <h1>{{ .Title }}</h1>
-        </header>
-
         <div class="about-layout__grid">
           <div>
             {{ if .Params.image }}
@@ -20,7 +15,13 @@
               </div>
             {{ end }}
           </div>
-          <div class="content">{{ .Content }}</div>
+          <div>
+            <header class="projects-page__header about-page__header">
+              <p class="landing-hero__kicker">Profile</p>
+              <h1>{{ .Title }}</h1>
+            </header>
+            <div class="content">{{ .Content }}</div>
+          </div>
         </div>
       </div>
     </div>
