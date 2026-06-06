@@ -4685,7 +4685,7 @@ h1, h2, h3, h4, h5, h6, .landing-hero__name h1 {
 code, kbd, pre, samp {
   font-family: var(--font-mono) !important;
 }
-@media (max-width: 1023px) {
+@media (max-width: 1300px) {
   .header.site-chrome {
     position: sticky;
     inset: auto;
@@ -4697,23 +4697,41 @@ code, kbd, pre, samp {
     pointer-events: auto;
   }
   .header .navbar {
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    padding-inline: clamp(1rem, 3vw, 1.75rem);
     pointer-events: auto;
+  }
+  .header label[for="nav-toggle"] {
+    display: flex !important;
   }
   .site-name-link {
     display: none;
   }
   .header .site-top-controls {
+    flex: 1 1 0;
+    justify-content: flex-end;
     position: static;
     width: auto;
-    gap: 1.05rem !important;
+    gap: clamp(0.55rem, 1.8vw, 1.05rem) !important;
   }
   .header .site-side-nav {
+    display: none !important;
+    flex: 0 0 100%;
     position: static !important;
     width: 100% !important;
     transform: none;
     align-items: flex-start !important;
     gap: 0.35rem !important;
     padding-bottom: 1rem !important;
+  }
+  input#nav-toggle:checked ~ #nav-menu {
+    display: flex !important;
+  }
+  .site-side-nav .nav-link {
+    justify-content: flex-start;
+    padding-right: 0 !important;
+    text-align: left;
   }
   .site-side-nav .nav-link::after {
     display: none;
@@ -4764,75 +4782,18 @@ code, kbd, pre, samp {
   .code-theme-switcher__button span {
     display: none;
   }
-}
-@media (min-width: 520px) and (max-width: 1023px) {
-  .header.site-chrome {
-    position: fixed;
-    inset: 0 0 auto 0;
-    background: transparent !important;
-    backdrop-filter: none;
-    pointer-events: none;
-  }
-  .header .navbar {
-    pointer-events: none;
-  }
-  .header .site-top-controls {
-    pointer-events: auto;
-    position: fixed;
-    top: 1rem;
-    right: clamp(0.75rem, 2vw, 1.25rem);
-    width: auto;
-    gap: 1.05rem !important;
-  }
-  .header .site-side-nav {
-    position: fixed !important;
-    top: 50dvh;
-    right: clamp(0.5rem, 2vw, 1.25rem);
-    display: flex !important;
-    width: clamp(10.5rem, 28vw, 13rem) !important;
-    flex-direction: column;
-    align-items: stretch !important;
-    gap: clamp(1.4rem, 4vh, 3rem) !important;
-    padding: 0 !important;
-    background: transparent !important;
-    transform: translateY(-50%);
-    pointer-events: auto;
-  }
-  .site-side-nav .nav-link {
-    justify-content: flex-end;
-    width: 100%;
-    text-align: right;
+  .section-page--plain .projects-page__shell, .section-page--centered .projects-page__shell {
+    margin-right: 1.1rem;
+    margin-left: 1.1rem;
   }
   .code-theme-switcher__menu {
-    right: 7rem;
+    right: -3.2rem;
+    width: min(22rem, calc(100vw - 1.5rem));
   }
 }
 @media (max-width: 767px) {
   body {
     overflow-x: hidden;
-  }
-  .header .navbar {
-    flex-wrap: wrap;
-    gap: 0.65rem;
-    padding-inline: 1rem;
-  }
-  .header .site-top-controls {
-    flex: 1 1 0;
-    justify-content: flex-end;
-    gap: 0.55rem !important;
-  }
-  .header .site-side-nav {
-    display: none !important;
-    width: 100% !important;
-    flex: 0 0 100%;
-  }
-  input#nav-toggle:checked ~ #nav-menu {
-    display: flex !important;
-  }
-  .site-side-nav .nav-link {
-    justify-content: flex-start;
-    padding-right: 0 !important;
-    text-align: left;
   }
   .landing-hero, .landing-hero__inner {
     min-height: auto;
@@ -4869,10 +4830,6 @@ code, kbd, pre, samp {
     right: -3.2rem;
     width: min(22rem, calc(100vw - 1.5rem));
     grid-template-columns: 1fr;
-  }
-  .section-page--plain .projects-page__shell, .section-page--centered .projects-page__shell {
-    margin-right: 1.1rem;
-    margin-left: 1.1rem;
   }
   .projects-page__main, .projects-page__header, .contact-list, .contact-list a, .contact-list span {
     min-width: 0;
