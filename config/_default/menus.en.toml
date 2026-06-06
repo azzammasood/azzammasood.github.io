@@ -27,7 +27,7 @@ url = "/certifications"
 weight = 5
 
 [[main]]
-name = "Hackathons"
+name = "Competitions"
 url = "/hackathons"
 weight = 6
 
@@ -44,7 +44,7 @@ url = "/blog"
 weight = 2
 
 [[footer]]
-name = "Hackathons"
+name = "Competitions"
 url = "/hackathons"
 weight = 3
 

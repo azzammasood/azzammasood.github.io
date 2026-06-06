@@ -32,6 +32,7 @@
     ["NeoBrutalism", "neobrutalism", "/style-neobrutal"],
     ["Terminal", "terminal", "/style-terminal"],
     ["Glassmorphism", "glassmorphism", "/style-glass"],
+    ["Retro", "retro-terminal", "/style-retro"],
   ];
   var shortcuts = [
     ["Command Palette (Global)", "Ctrl + Shift + P"],

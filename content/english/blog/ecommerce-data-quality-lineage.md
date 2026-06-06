@@ -76,9 +76,3 @@ Then open **Airflow** at `http://localhost:8080` (admin / admin) and **Marquez**
 <img src="/images/projects/ecommerce-data-quality-lineage/marquez%20ui.png" alt="Marquez lineage UI" class="my-6 w-full max-w-4xl rounded-lg border border-border shadow-sm dark:border-darkmode-border" loading="lazy" width="1200" height="675" />
 
 If this project helped you, consider giving it a star on [GitHub](https://github.com/azzammasood/ecommerce-data-quality-lineage-platform).
-
-### Adding or changing images for this project
-
-1. Put files under **`static/images/projects/ecommerce-data-quality-lineage/`**.
-2. Prefer filenames without spaces, such as `airflow-dag-success.png`, so Markdown stays simple.
-3. If a filename has spaces, use encoded paths in HTML, such as `airflow%20dag%20success.png`, or rename the file to use hyphens.

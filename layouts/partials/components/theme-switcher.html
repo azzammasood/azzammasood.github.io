@@ -21,6 +21,8 @@
     (dict "name" "NeoBrutalism" "id" "neobrutalism")
     (dict "name" "Terminal" "id" "terminal")
     (dict "name" "Glassmorphism" "id" "glassmorphism")
+    (dict "name" "Retro" "id" "retro-terminal")
+    (dict "name" "Windows 95" "id" "windows-95")
   }}
   <div class="code-theme-switcher {{ $class }}" data-code-theme-switcher data-style-switcher>
     <button type="button" class="code-theme-switcher__button" aria-haspopup="true" aria-expanded="false" aria-label="Switch theme and style" title="Theme and style" data-code-theme-toggle>
@@ -46,8 +48,22 @@
   <script>
     (function () {
       var themes = {"andromeda":["Andromeda",true],"dracula":["Dracula",true],"monokai":["Monokai",true],"abyss":["Abyss",true],"bold-tech":["Bold Tech",true],"caffeine":["Caffeine",true],"doom-64":["Doom 64",true],"kodama-grove":["Kodama Grove",false],"marvel":["Marvel Dark",true],"cyberpunk":["Cyberpunk",true],"tokyo-night":["Tokyo Night",true],"mono":["Mono",false],"mono-dark":["Mono Dark",true]};
-      var styles = {"minimal":"Minimal","material":"Material","neobrutalism":"NeoBrutalism","terminal":"Terminal","glassmorphism":"Glassmorphism"};
-      function transition(fn) { if (document.startViewTransition) document.startViewTransition(fn); else fn(); }
+      var styles = {"minimal":"Minimal","material":"Material","neobrutalism":"NeoBrutalism","terminal":"Terminal","glassmorphism":"Glassmorphism","retro-terminal":"Retro","windows-95":"Windows 95"};
+      var motionReady = false;
+      function transition(fn) {
+        if (!motionReady) { fn(); return; }
+        var root = document.documentElement;
+        root.classList.remove("theme-swap", "theme-swap--active");
+        root.classList.add("theme-swap");
+        window.requestAnimationFrame(function () {
+          fn();
+          root.classList.add("theme-swap--active");
+          window.clearTimeout(root._themeSwapTimer);
+          root._themeSwapTimer = window.setTimeout(function () {
+            root.classList.remove("theme-swap", "theme-swap--active");
+          }, 1320);
+        });
+      }
       function currentTheme() { return localStorage.getItem("code-theme") || document.documentElement.dataset.codeTheme || "mono"; }
       function currentStyle() { return localStorage.getItem("ui-style") || document.documentElement.dataset.uiStyle || "minimal"; }
       function paintTheme(id, save) { var t = themes[id] || themes.mono, key = themes[id] ? id : "mono"; transition(function () {
@@ -65,6 +81,7 @@
       window.portfolioStyles = { apply: function (id) { paintStyle(id, true); }, preview: function (id) { paintStyle(id, false); }, restore: function () { paintStyle(currentStyle(), false); }, names: styles };
       window.portfolioThemes.apply(localStorage.getItem("code-theme") || "mono");
       window.portfolioStyles.apply(localStorage.getItem("ui-style") || "minimal");
+      motionReady = true;
       document.addEventListener("DOMContentLoaded", function () {
         document.querySelectorAll("[data-code-theme-toggle]").forEach(function (button) {
           button.addEventListener("click", function () { var sw = button.closest(".code-theme-switcher"), open = sw.classList.toggle("is-open"); button.setAttribute("aria-expanded", open ? "true" : "false"); });

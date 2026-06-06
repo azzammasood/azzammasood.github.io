@@ -43,16 +43,3 @@ go run cmd/consumer/main.go
 Open **Grafana** at `http://localhost:3000` (default `admin` / `admin`). Go to **Dashboards → Flight Intel Command Center**.
 
 Source code: [github.com/azzammasood](https://github.com/azzammasood).
-
-### How to add another project with images
-
-1. Create a folder: **`static/images/projects/your-project-name/`**.
-2. Add PNG or WebP files (avoid spaces in names).
-3. Create a new file under **`content/english/blog/your-post.md`** with front matter including `image: "/images/projects/your-project-name/hero.png"` for the card thumbnail.
-4. In the Markdown body, reference images with root URLs:
-
-```markdown
-![Dashboard](/images/projects/your-project-name/dashboard.png)
-```
-
-5. Run `npm run dev` and open **Projects** — posts are ordered by `date` in the front matter (newest first).

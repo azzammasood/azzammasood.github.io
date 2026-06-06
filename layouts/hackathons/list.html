@@ -2,7 +2,7 @@
   <section class="projects-page hackathons-page">
     <div class="projects-page__shell">
       {{ $paginator := .Paginate .RegularPages.ByWeight }}
-      <aside class="projects-page__rail" aria-label="Hackathon index">
+      <aside class="projects-page__rail" aria-label="Competition index">
         {{ range $paginator.Pages }}
           <a href="#{{ .Title | urlize }}">{{ .Title }}</a>
         {{ end }}
@@ -45,7 +45,7 @@
                   </div>
                 {{ end }}
                 <p>{{ .Params.description | default .Summary | plainify }}</p>
-                <a class="project-row__link" href="{{ .RelPermalink }}">View hackathon</a>
+                <a class="project-row__link" href="{{ .RelPermalink }}">View competition</a>
               </div>
             </article>
           {{ end }}
