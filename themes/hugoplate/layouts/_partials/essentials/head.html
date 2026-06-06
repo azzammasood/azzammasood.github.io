@@ -5,6 +5,22 @@
   name="viewport"
   content="width=device-width, initial-scale=1, maximum-scale=5" />
 
+<script>
+  (function () {
+    function syncDesktopViewport() {
+      var root = document.documentElement;
+      var screenWidth = Math.max(window.screen.width || 0, window.screen.availWidth || 0);
+      var physicalViewport = window.innerWidth * (window.devicePixelRatio || 1);
+      var isFinePointer = window.matchMedia && window.matchMedia("(pointer: fine)").matches;
+      var isDesktopViewport = isFinePointer && screenWidth >= 1200 && physicalViewport >= screenWidth * 0.72;
+      root.classList.toggle("is-desktop-viewport", isDesktopViewport);
+    }
+
+    syncDesktopViewport();
+    window.addEventListener("resize", syncDesktopViewport, { passive: true });
+  })();
+</script>
+
 <!-- theme meta -->
 <meta name="theme-name" content="hugoplate" />
 
