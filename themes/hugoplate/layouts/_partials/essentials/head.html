@@ -12,7 +12,7 @@
       var screenWidth = Math.max(window.screen.width || 0, window.screen.availWidth || 0);
       var physicalViewport = window.innerWidth * (window.devicePixelRatio || 1);
       var isFinePointer = window.matchMedia && window.matchMedia("(pointer: fine)").matches;
-      var isDesktopViewport = isFinePointer && screenWidth >= 1200 && physicalViewport >= screenWidth * 0.72;
+      var isDesktopViewport = isFinePointer && screenWidth >= 1200 && window.innerWidth >= 900 && physicalViewport >= screenWidth * 0.72;
       root.classList.toggle("is-desktop-viewport", isDesktopViewport);
     }
 
