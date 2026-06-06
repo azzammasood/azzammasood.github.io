@@ -10,9 +10,24 @@
     function syncDesktopViewport() {
       var root = document.documentElement;
       var screenWidth = Math.max(window.screen.width || 0, window.screen.availWidth || 0);
-      var physicalViewport = window.innerWidth * (window.devicePixelRatio || 1);
+      var viewportWidth = Math.max(window.innerWidth || root.clientWidth || 1, 1);
+      var viewportHeight = Math.max(window.innerHeight || root.clientHeight || 1, 1);
+      var outerWidth = Math.max(window.outerWidth || viewportWidth, viewportWidth);
       var isFinePointer = window.matchMedia && window.matchMedia("(pointer: fine)").matches;
-      var isDesktopViewport = isFinePointer && screenWidth >= 1200 && window.innerWidth >= 900 && physicalViewport >= screenWidth * 0.72;
+      var isFullDesktopWindow = isFinePointer && screenWidth >= 1200 && outerWidth >= screenWidth * 0.72;
+      var browserZoom = isFullDesktopWindow ? outerWidth / viewportWidth : 1;
+      var shouldNormalizeZoom = isFullDesktopWindow && (browserZoom < 0.85 || browserZoom > 1.15);
+      var normalizedZoom = Math.min(5, Math.max(0.25, browserZoom));
+      var layoutWidth = Math.max(1, viewportWidth * normalizedZoom);
+      var layoutHeight = Math.max(1, viewportHeight * normalizedZoom);
+
+      root.style.setProperty("--browser-zoom-inverse", (1 / normalizedZoom).toFixed(4));
+      root.style.setProperty("--desktop-layout-width", layoutWidth.toFixed(2) + "px");
+      root.style.setProperty("--desktop-layout-height", layoutHeight.toFixed(2) + "px");
+      root.style.setProperty("--desktop-vw", (layoutWidth / 100).toFixed(4) + "px");
+      root.style.setProperty("--desktop-vh", (layoutHeight / 100).toFixed(4) + "px");
+      root.classList.toggle("normalize-desktop-zoom", shouldNormalizeZoom);
+      var isDesktopViewport = isFullDesktopWindow;
       root.classList.toggle("is-desktop-viewport", isDesktopViewport);
     }
 
