@@ -4,7 +4,7 @@ meta_title: ""
 description: "Won 1st runner-up at Vyrothon Hackathon 2026 at NSTP NUST after building grabpic and see-with-me."
 date: 2026-04-30T05:00:00Z
 weight: 1
-image: "/images/hackathons/vyrothon-2026.png"
+image: "/images/hackathons/vyrothon-2026-award.jpg"
 categories: ["Hackathon", "Software Engineering"]
 author: "Ahmad Uzzam"
 tags: ["Vyrothon2026", "Image Processing", "Accessibility Tech", "Fast Backend", "GDG"]

@@ -4,7 +4,7 @@ meta_title: ""
 description: "Built eight Reddit Devvit moderation tool concepts for AI-assisted community intelligence and moderation workflows."
 date: 2026-05-28T05:00:00Z
 weight: 3
-image: "/images/hackathons/reddit-devvit.png"
+image: "/images/hackathons/reddit-mod-tools-hackathon.png"
 categories: ["Hackathon", "Moderation Tools"]
 author: "Ahmad Uzzam"
 tags: ["Reddit Devvit", "AI Moderation", "Community Intelligence", "Automation", "Build In Public"]

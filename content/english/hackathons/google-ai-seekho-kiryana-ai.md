@@ -4,7 +4,7 @@ meta_title: ""
 description: "Built KiryanaAI, a voice-first AI business advisor for Pakistani shopkeepers, during Google AI Seekho Hackathon Pakistan 2026."
 date: 2026-05-20T05:00:00Z
 weight: 2
-image: "/images/hackathons/kiryana-ai.png"
+image: "/images/hackathons/ai-seekho-hackathon.png"
 categories: ["Hackathon", "Agentic AI"]
 author: "Ahmad Uzzam"
 tags: ["Google AI Seekho", "Gemini AI", "FastAPI", "Flutter", "Voice AI"]
