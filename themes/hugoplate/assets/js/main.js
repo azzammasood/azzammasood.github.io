@@ -20,7 +20,7 @@
     function paintCursor() {
       var lightCursorTheme = root.dataset.codeTheme === "mono" || root.dataset.codeTheme === "kodama-grove";
       var fill = lightCursorTheme ? "#ffffff" : token("--color-primary", "#111111");
-      var stroke = lightCursorTheme ? "#000000" : "#ffffff";
+      var stroke = "#000000";
       var shadow = "rgba(0,0,0,.28)";
 
       var arrowSvg = [
