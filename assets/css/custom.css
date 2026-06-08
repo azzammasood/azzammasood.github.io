@@ -844,12 +844,14 @@ body,
 .code-theme-switcher__menu,
 .command-palette > div > div {
   transition:
-    background-color 1050ms cubic-bezier(0.16, 1, 0.3, 1),
-    background 1050ms cubic-bezier(0.16, 1, 0.3, 1),
-    border-color 1050ms cubic-bezier(0.16, 1, 0.3, 1),
-    color 860ms ease,
-    box-shadow 1050ms cubic-bezier(0.16, 1, 0.3, 1),
-    backdrop-filter 1050ms ease;
+    background-color 1155ms cubic-bezier(0.16, 1, 0.3, 1),
+    background 1155ms cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 1155ms cubic-bezier(0.16, 1, 0.3, 1),
+    border-radius 1155ms cubic-bezier(0.16, 1, 0.3, 1),
+    color 946ms ease,
+    box-shadow 1155ms cubic-bezier(0.16, 1, 0.3, 1),
+    text-shadow 1155ms cubic-bezier(0.16, 1, 0.3, 1),
+    backdrop-filter 1155ms ease;
 }
 
 html.theme-swap body,
@@ -876,13 +878,14 @@ html.theme-swap .about-resource-card img,
 html.theme-swap .about-spotify-card img,
 html.theme-swap .command-palette > div > div {
   transition:
-    background-color 1250ms cubic-bezier(0.16, 1, 0.3, 1) !important,
-    background 1250ms cubic-bezier(0.16, 1, 0.3, 1) !important,
-    border-color 1150ms cubic-bezier(0.16, 1, 0.3, 1) !important,
-    color 1050ms cubic-bezier(0.22, 1, 0.36, 1) !important,
-    box-shadow 1250ms cubic-bezier(0.16, 1, 0.3, 1) !important,
-    text-shadow 1100ms cubic-bezier(0.16, 1, 0.3, 1) !important,
-    backdrop-filter 1250ms cubic-bezier(0.16, 1, 0.3, 1) !important;
+    background-color 1375ms cubic-bezier(0.16, 1, 0.3, 1) !important,
+    background 1375ms cubic-bezier(0.16, 1, 0.3, 1) !important,
+    border-color 1265ms cubic-bezier(0.16, 1, 0.3, 1) !important,
+    border-radius 1375ms cubic-bezier(0.16, 1, 0.3, 1) !important,
+    color 1155ms cubic-bezier(0.22, 1, 0.36, 1) !important,
+    box-shadow 1375ms cubic-bezier(0.16, 1, 0.3, 1) !important,
+    text-shadow 1210ms cubic-bezier(0.16, 1, 0.3, 1) !important,
+    backdrop-filter 1375ms cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
 .command-palette-item[aria-selected="true"] {
@@ -904,7 +907,7 @@ html {
 
 ::view-transition-old(root),
 ::view-transition-new(root) {
-  animation-duration: 1100ms;
+  animation-duration: 1210ms;
   animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -1024,7 +1027,7 @@ html {
 :root[data-ui-style="neobrutalism"] .command-palette > div > div {
   border: 0 !important;
   border-radius: 0 !important;
-  box-shadow: 7px 7px 0 #000 !important;
+  box-shadow: 6.65px 6.65px 0 #000 !important;
 }
 
 :root[data-ui-style="neobrutalism"] .landing-button,
@@ -1138,6 +1141,29 @@ html {
   text-shadow: 0 0 8px color-mix(in srgb, var(--color-primary) 38%, transparent);
 }
 
+:root[data-code-theme="mono"][data-ui-style="retro-terminal"] .landing-button,
+:root[data-code-theme="mono"][data-ui-style="retro-terminal"] .site-search-trigger,
+:root[data-code-theme="mono"][data-ui-style="retro-terminal"] .top-contact-link,
+:root[data-code-theme="mono"][data-ui-style="retro-terminal"] .site-name-link,
+:root[data-code-theme="mono"][data-ui-style="retro-terminal"] .code-theme-switcher__menu,
+:root[data-code-theme="mono"][data-ui-style="retro-terminal"] .projects-page__rail a:hover,
+:root[data-code-theme="mono"][data-ui-style="retro-terminal"] .projects-page__rail a:focus,
+:root[data-code-theme="mono"][data-ui-style="retro-terminal"] .projects-page__rail a.is-active,
+:root[data-code-theme="mono"][data-ui-style="retro-terminal"] .about-skill,
+:root[data-code-theme="mono"][data-ui-style="retro-terminal"] .project-row__stack span,
+:root[data-code-theme="mono"][data-ui-style="retro-terminal"] .command-palette > div > div {
+  border-color: #000 !important;
+  background: #1f2328 !important;
+  color: #fff !important;
+  text-shadow: none !important;
+}
+
+:root[data-code-theme="mono"][data-ui-style="retro-terminal"] .code-theme-switcher__button,
+:root[data-code-theme="mono"][data-ui-style="retro-terminal"] .top-github-link {
+  color: #1f2328 !important;
+  text-shadow: none !important;
+}
+
 .header.site-chrome,
 :root[data-ui-style="glassmorphism"] .header.site-chrome {
   background: transparent !important;
@@ -1159,7 +1185,13 @@ html {
 .top-github-link:focus-visible {
   box-shadow: none !important;
   transform: none !important;
-  transition: none !important;
+  transition:
+    background-color 1375ms cubic-bezier(0.16, 1, 0.3, 1) !important,
+    background 1375ms cubic-bezier(0.16, 1, 0.3, 1) !important,
+    border-color 1265ms cubic-bezier(0.16, 1, 0.3, 1) !important,
+    border-radius 1375ms cubic-bezier(0.16, 1, 0.3, 1) !important,
+    color 1155ms cubic-bezier(0.22, 1, 0.36, 1) !important,
+    text-shadow 1210ms cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
 .header .code-theme-switcher__button,
@@ -1187,7 +1219,7 @@ html {
 :root[data-ui-style="neobrutalism"] .landing-button {
   border: 0 !important;
   border-radius: 0 !important;
-  box-shadow: 7px 7px 0 #000 !important;
+  box-shadow: 6.65px 6.65px 0 #000 !important;
 }
 
 :root[data-ui-style="terminal"] .site-search-trigger,
@@ -1228,14 +1260,14 @@ html {
 :root[data-ui-style="neobrutalism"] .projects-page__rail a.is-active {
   border: 0 !important;
   border-radius: 0 !important;
-  box-shadow: 7px 7px 0 #000 !important;
+  box-shadow: 6.65px 6.65px 0 #000 !important;
 }
 
 :root[data-ui-style="neobrutalism"] .projects-page__rail a:hover,
 :root[data-ui-style="neobrutalism"] .projects-page__rail a:focus {
   border: 0 !important;
   border-radius: 0 !important;
-  box-shadow: 7px 7px 0 #000 !important;
+  box-shadow: 6.65px 6.65px 0 #000 !important;
 }
 
 :root[data-ui-style="terminal"] .projects-page__rail a.is-active {
@@ -1677,7 +1709,7 @@ html {
 :root[data-ui-style="neobrutalism"] .about-spotify-card img {
   border: 0 !important;
   border-radius: 0 !important;
-  box-shadow: 7px 7px 0 #000 !important;
+  box-shadow: 6.65px 6.65px 0 #000 !important;
 }
 
 :root[data-ui-style="neobrutalism"] .about-resource-card:hover img,
@@ -1686,7 +1718,7 @@ html {
 :root[data-ui-style="neobrutalism"] .about-spotify-card:focus-visible img {
   box-shadow:
     0 0 0 5px color-mix(in srgb, var(--color-primary) 24%, transparent),
-    8px 8px 0 #000 !important;
+    7.6px 7.6px 0 #000 !important;
 }
 
 :root[data-ui-style="terminal"] .about-resource-card img,
@@ -1829,7 +1861,7 @@ html {
 :root[data-ui-style="neobrutalism"] .about-skill {
   border: 0 !important;
   border-radius: 0 !important;
-  box-shadow: 7px 7px 0 #000 !important;
+  box-shadow: 6.65px 6.65px 0 #000 !important;
 }
 
 :root[data-ui-style="material"] .about-skill {
@@ -1927,7 +1959,7 @@ html {
 :root[data-ui-style="neobrutalism"] .project-row__stack span {
   border: 0 !important;
   border-radius: 0 !important;
-  box-shadow: 7px 7px 0 #000 !important;
+  box-shadow: 6.65px 6.65px 0 #000 !important;
 }
 
 :root[data-ui-style="neobrutalism"] .project-row__stack .project-row__stack-label {
