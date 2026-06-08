@@ -3619,20 +3619,24 @@ input#nav-toggle:checked ~ #nav-menu {
   }
   border-top-color: var(--color-primary);
   border-radius: 999px;
-  animation: nav-click-loader 1350ms cubic-bezier(0.65, 0, 0.35, 1) infinite;
+  animation: nav-loader-grow 280ms cubic-bezier(0.16, 1, 0.3, 1) forwards, nav-click-loader 1350ms 280ms linear infinite;
   content: "";
+  opacity: 1;
+  transform: translateY(0) scale(0.82) rotate(0deg);
+}
+@keyframes nav-loader-grow {
+  from {
+    transform: translateY(0.18rem) scale(0.82) rotate(0deg);
+  }
+  to {
+    transform: translateY(0) scale(1) rotate(0deg);
+  }
 }
 @keyframes nav-click-loader {
   0% {
-    opacity: 0.65;
-    transform: translateY(0.18rem) scale(0.82) rotate(0deg);
-  }
-  35% {
-    opacity: 1;
-    transform: translateY(0) scale(1) rotate(126deg);
+    transform: translateY(0) scale(1) rotate(0deg);
   }
   to {
-    opacity: 0.75;
     transform: translateY(0) scale(1) rotate(360deg);
   }
 }
@@ -4027,6 +4031,17 @@ html {
 :root[data-code-theme="mono"][data-ui-style="retro-terminal"] .code-theme-switcher__button, :root[data-code-theme="mono"][data-ui-style="retro-terminal"] .top-github-link {
   color: #1f2328 !important;
   text-shadow: none !important;
+}
+:root[data-code-theme="mono"][data-ui-style="retro-terminal"] .code-theme-option, :root[data-code-theme="mono-dark"][data-ui-style="retro-terminal"] .code-theme-option {
+  color: #fff !important;
+}
+:root[data-code-theme="mono"][data-ui-style="retro-terminal"] .code-theme-option:hover, :root[data-code-theme="mono"][data-ui-style="retro-terminal"] .code-theme-option[aria-current="true"] {
+  background: #dfe6ec !important;
+  color: #1f2328 !important;
+}
+:root[data-code-theme="mono-dark"][data-ui-style="retro-terminal"] .code-theme-option:hover, :root[data-code-theme="mono-dark"][data-ui-style="retro-terminal"] .code-theme-option[aria-current="true"] {
+  background: #2a2a2a !important;
+  color: #fff !important;
 }
 .header.site-chrome, :root[data-ui-style="glassmorphism"] .header.site-chrome {
   background: transparent !important;
