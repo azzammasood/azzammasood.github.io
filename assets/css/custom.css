@@ -463,7 +463,6 @@
 }
 
 .landing-links {
-  --footer-left-offset: clamp(13rem, 20vw, 24rem);
   min-height: 46svh;
   background: var(--landing-muted-band);
   color: var(--color-text);
@@ -475,10 +474,23 @@
 .landing-links__inner {
   display: grid;
   width: 100%;
-  max-width: 74rem;
-  margin-left: var(--footer-left-offset);
-  grid-template-columns: minmax(220px, 1.15fr) repeat(2, minmax(150px, 0.85fr));
+  max-width: 42rem;
+  margin-inline: auto;
+  grid-template-columns: repeat(2, minmax(150px, 14rem));
   gap: clamp(1.25rem, 3.5vw, 3.75rem);
+  justify-content: center;
+}
+
+.landing-links__brand {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  justify-self: center;
+  margin-top: clamp(1.4rem, 4vw, 3.5rem);
+  text-align: left;
+}
+
+.landing-link-group {
+  grid-row: 1;
 }
 
 .landing-links__brand h2,
@@ -1034,7 +1046,7 @@ html {
 :root[data-ui-style="neobrutalism"] .command-palette > div > div {
   border: 0 !important;
   border-radius: 0 !important;
-  box-shadow: 6.65px 6.65px 0 #000 !important;
+  box-shadow: 5.32px 5.32px 0 #000 !important;
 }
 
 :root[data-ui-style="neobrutalism"] .landing-button,
@@ -1243,7 +1255,7 @@ html {
 :root[data-ui-style="neobrutalism"] .landing-button {
   border: 0 !important;
   border-radius: 0 !important;
-  box-shadow: 6.65px 6.65px 0 #000 !important;
+  box-shadow: 5.32px 5.32px 0 #000 !important;
 }
 
 :root[data-ui-style="terminal"] .site-search-trigger,
@@ -1284,14 +1296,14 @@ html {
 :root[data-ui-style="neobrutalism"] .projects-page__rail a.is-active {
   border: 0 !important;
   border-radius: 0 !important;
-  box-shadow: 6.65px 6.65px 0 #000 !important;
+  box-shadow: 5.32px 5.32px 0 #000 !important;
 }
 
 :root[data-ui-style="neobrutalism"] .projects-page__rail a:hover,
 :root[data-ui-style="neobrutalism"] .projects-page__rail a:focus {
   border: 0 !important;
   border-radius: 0 !important;
-  box-shadow: 6.65px 6.65px 0 #000 !important;
+  box-shadow: 5.32px 5.32px 0 #000 !important;
 }
 
 :root[data-ui-style="terminal"] .projects-page__rail a.is-active {
@@ -1733,7 +1745,7 @@ html {
 :root[data-ui-style="neobrutalism"] .about-spotify-card img {
   border: 0 !important;
   border-radius: 0 !important;
-  box-shadow: 6.65px 6.65px 0 #000 !important;
+  box-shadow: 5.32px 5.32px 0 #000 !important;
 }
 
 :root[data-ui-style="neobrutalism"] .about-resource-card:hover img,
@@ -1742,7 +1754,7 @@ html {
 :root[data-ui-style="neobrutalism"] .about-spotify-card:focus-visible img {
   box-shadow:
     0 0 0 5px color-mix(in srgb, var(--color-primary) 24%, transparent),
-    7.6px 7.6px 0 #000 !important;
+    6.08px 6.08px 0 #000 !important;
 }
 
 :root[data-ui-style="terminal"] .about-resource-card img,
@@ -1885,7 +1897,7 @@ html {
 :root[data-ui-style="neobrutalism"] .about-skill {
   border: 0 !important;
   border-radius: 0 !important;
-  box-shadow: 6.65px 6.65px 0 #000 !important;
+  box-shadow: 5.32px 5.32px 0 #000 !important;
 }
 
 :root[data-ui-style="material"] .about-skill {
@@ -1983,7 +1995,7 @@ html {
 :root[data-ui-style="neobrutalism"] .project-row__stack span {
   border: 0 !important;
   border-radius: 0 !important;
-  box-shadow: 6.65px 6.65px 0 #000 !important;
+  box-shadow: 5.32px 5.32px 0 #000 !important;
 }
 
 :root[data-ui-style="neobrutalism"] .project-row__stack .project-row__stack-label {
@@ -2129,14 +2141,6 @@ html.normalize-desktop-zoom .landing-hero__inner {
 
   .project-row {
     grid-template-columns: 1fr;
-  }
-
-  .landing-links {
-    --footer-left-offset: 0;
-  }
-
-  .landing-links__inner {
-    margin-left: 0;
   }
 
   .landing-hero__inner {
@@ -2320,12 +2324,24 @@ html.normalize-desktop-zoom .landing-hero__inner {
   }
 
   .landing-links {
-    --footer-left-offset: 0;
     padding: 3rem 1.1rem;
   }
 
   .landing-links__inner {
-    margin-left: 0;
+    max-width: 20rem;
+  }
+
+  .landing-links__brand,
+  .landing-link-group {
+    grid-column: 1;
+  }
+
+  .landing-link-group {
+    grid-row: auto;
+  }
+
+  .landing-links__brand {
+    grid-row: 3;
   }
 
   .code-theme-switcher {
@@ -2408,12 +2424,12 @@ html.normalize-desktop-zoom .landing-hero__inner {
   }
 
   html.is-desktop-viewport .landing-links {
-    --footer-left-offset: clamp(13rem, calc(var(--desktop-vw, 1vw) * 20), 24rem);
     padding: clamp(3rem, calc(var(--desktop-vw, 1vw) * 7), 6rem) clamp(2rem, calc(var(--desktop-vw, 1vw) * 6), 8rem);
   }
 
   html.is-desktop-viewport .landing-links__inner {
-    margin-left: var(--footer-left-offset);
-    grid-template-columns: minmax(220px, 1.15fr) repeat(2, minmax(150px, 0.85fr));
+    max-width: 42rem;
+    margin-inline: auto;
+    grid-template-columns: repeat(2, minmax(150px, 14rem));
   }
 }
