@@ -9,6 +9,8 @@ categories: ["Hackathon", "Agentic AI"]
 author: "Ahmad Uzzam"
 tags: ["Google AI Seekho", "Gemini AI", "FastAPI", "Flutter", "Voice AI"]
 draft: false
+linkedin_post: "https://www.linkedin.com/posts/azzammasood_googleaiseekho-aiseekho2026-agenticai-ugcPost-7463991949570785280-dDV_/?utm_source=share&utm_medium=member_desktop&rcm=ACoAAC4aOMIByJeZtucJfx2kC2S5H-8hizPe_M4"
+list_blurb: "Built KiryanaAI during Google AI Seekho Hackathon Pakistan 2026, a voice-first AI business advisor for Pakistani shopkeepers that supports Urdu, Roman Urdu, and English workflows while I handled backend architecture and final service integration."
 ---
 
 KiryanaAI started from a simple observation at a nearby kiryana store: the shopkeeper was trying to manage rush-hour sales, credit entries, payment calculations, and customer requests with a phone calculator and a small notepad.

@@ -15,7 +15,7 @@ I am a Data Engineer with a deep interest in building systems that provide high-
 
 I enjoy building data products, but I also care about the deeper parts of the Data Engineering Lifecycle: security, data management, DataOps, data architecture, orchestration, and software engineering.
 
-I am currently working as a Principal Data Engineer at Nayatel.
+Most recently, I worked as a Principal Data Engineer at Nayatel until June 2026.
 
 ## Interests
 

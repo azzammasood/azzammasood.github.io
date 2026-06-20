@@ -9,6 +9,8 @@ categories: ["Hackathon", "Software Engineering"]
 author: "Ahmad Uzzam"
 tags: ["Vyrothon2026", "Image Processing", "Accessibility Tech", "Fast Backend", "GDG"]
 draft: false
+linkedin_post: "https://www.linkedin.com/posts/azzammasood_vyrothon2026-nust-softwareengineering-ugcPost-7451688701161566208-iBnb/?utm_source=share&utm_medium=member_desktop&rcm=ACoAAC4aOMIByJeZtucJfx2kC2S5H-8hizPe_M4"
+list_blurb: "Won 1st runner-up at Vyrothon Hackathon 2026 after building grabpic for high-speed event image delivery in stage one and see-with-me, a collaborative accessibility-focused visual intelligence MVP, in stage two with a multidisciplinary team."
 ---
 
 I won 1st runner-up at the Vyrothon Hackathon 2026, hosted at NSTP NUST.

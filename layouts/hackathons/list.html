@@ -19,11 +19,14 @@
             {{ $hackathon := . }}
             <article class="project-row" id="{{ .Title | urlize }}">
               <div class="project-row__body">
-                <h2>
-                  <a href="{{ .RelPermalink }}">{{ .Title }}</a>
-                </h2>
+                <h2>{{ .Title }}</h2>
+                {{ with .Params.linkedin_post }}
+                  <a class="competition-linkedin" href="{{ . }}" target="_blank" rel="noopener" aria-label="Open LinkedIn post for {{ $hackathon.Title }}">
+                    <i class="fab fa-linkedin" aria-hidden="true"></i>
+                  </a>
+                {{ end }}
               </div>
-              <a class="project-row__media" href="{{ .RelPermalink }}" aria-label="Open {{ .Title }}">
+              <div class="project-row__media project-row__media--plain" aria-label="{{ .Title }}">
                 {{ with .Params.image }}
                   {{ if or (strings.HasPrefix . "http") (strings.HasPrefix . "/images/") }}
                     <img src="{{ . | relURL }}" alt="{{ $hackathon.Title }}" class="project-row__image" loading="lazy" width="960" height="600" />
@@ -33,9 +36,10 @@
                 {{ else }}
                   <span>{{ $hackathon.Title }}</span>
                 {{ end }}
-              </a>
+              </div>
 
               <div class="project-row__body">
+                <p>{{ .Params.list_blurb | default (.Summary | plainify) }}</p>
                 {{ with .Params.tags }}
                   <div class="project-row__stack" aria-label="Tech stack">
                     <span class="project-row__stack-label">Tech Stack</span>
@@ -44,8 +48,6 @@
                     {{ end }}
                   </div>
                 {{ end }}
-                <p>{{ .Params.description | default .Summary | plainify }}</p>
-                <a class="project-row__link" href="{{ .RelPermalink }}">View competition</a>
               </div>
             </article>
           {{ end }}

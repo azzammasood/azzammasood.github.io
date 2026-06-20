@@ -237,11 +237,11 @@
 }
 
 :root[data-code-theme="caffeine"] {
-  --color-primary: oklch(0.70 0.13 65); --color-body: oklch(0.18 0.04 60); --color-border: oklch(0.34 0.06 55); --color-light: oklch(0.25 0.05 58); --color-dark: oklch(0.92 0.05 70);
-  --color-text: oklch(0.82 0.05 70); --color-text-dark: oklch(0.94 0.04 76); --color-text-light: oklch(0.64 0.05 62);
+  --color-primary: oklch(0.60 0.12 72); --color-body: oklch(0.97 0.02 85); --color-border: oklch(0.84 0.03 78); --color-light: oklch(0.93 0.03 82); --color-dark: oklch(0.24 0.03 58);
+  --color-text: oklch(0.33 0.03 58); --color-text-dark: oklch(0.20 0.03 52); --color-text-light: oklch(0.50 0.04 64);
   --color-darkmode-primary: oklch(0.70 0.13 65); --color-darkmode-body: oklch(0.18 0.04 60); --color-darkmode-border: oklch(0.34 0.06 55); --color-darkmode-light: oklch(0.25 0.05 58);
   --color-darkmode-dark: oklch(0.92 0.05 70); --color-darkmode-text: oklch(0.82 0.05 70); --color-darkmode-text-dark: oklch(0.94 0.04 76); --color-darkmode-text-light: oklch(0.64 0.05 62);
-  --landing-stripe: color-mix(in srgb, oklch(0.70 0.13 65) 16%, transparent); --landing-muted-band: oklch(0.25 0.05 58);
+  --landing-stripe: color-mix(in srgb, oklch(0.72 0.08 84) 20%, transparent); --landing-muted-band: oklch(0.93 0.03 82);
 }
 
 :root[data-code-theme="doom-64"] {
@@ -261,11 +261,11 @@
 }
 
 :root[data-code-theme="marvel"] {
-  --color-primary: oklch(0.55 0.25 25); --color-body: oklch(0.06 0 0); --color-border: oklch(0.28 0 0); --color-light: oklch(0.14 0 0); --color-dark: oklch(0.98 0 0);
-  --color-text: oklch(0.86 0 0); --color-text-dark: oklch(1 0 0); --color-text-light: oklch(0.68 0 0);
+  --color-primary: oklch(0.60 0.22 28); --color-body: oklch(0.98 0.01 25); --color-border: oklch(0.88 0.02 28); --color-light: oklch(0.94 0.02 25); --color-dark: oklch(0.20 0.02 20);
+  --color-text: oklch(0.32 0.02 18); --color-text-dark: oklch(0.18 0.02 18); --color-text-light: oklch(0.52 0.03 24);
   --color-darkmode-primary: oklch(0.55 0.25 25); --color-darkmode-body: oklch(0.06 0 0); --color-darkmode-border: oklch(0.28 0 0); --color-darkmode-light: oklch(0.14 0 0);
   --color-darkmode-dark: oklch(0.98 0 0); --color-darkmode-text: oklch(0.86 0 0); --color-darkmode-text-dark: oklch(1 0 0); --color-darkmode-text-light: oklch(0.68 0 0);
-  --landing-stripe: color-mix(in srgb, oklch(0.55 0.25 25) 18%, transparent); --landing-muted-band: oklch(0.14 0 0);
+  --landing-stripe: color-mix(in srgb, oklch(0.65 0.10 42) 18%, transparent); --landing-muted-band: oklch(0.94 0.02 25);
 }
 
 :root[data-code-theme="perpetuity"] {
@@ -1135,6 +1135,100 @@ html.theme-swap .command-palette > div > div {
   outline: 1px solid color-mix(in srgb, var(--color-primary) 42%, var(--color-border));
 }
 
+.command-palette {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 540ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.command-palette.is-opening,
+.command-palette.is-open,
+.command-palette.is-closing {
+  pointer-events: auto;
+}
+
+.command-palette.is-opening,
+.command-palette.is-open {
+  opacity: 1;
+}
+
+.command-palette__backdrop {
+  opacity: 0;
+  transition:
+    opacity 540ms cubic-bezier(0.22, 1, 0.36, 1),
+    backdrop-filter 540ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.command-palette__panel-shell {
+  opacity: 0;
+  transform: translateY(2rem) scale(0.975);
+  filter: blur(10px);
+  transition:
+    opacity 540ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 540ms cubic-bezier(0.16, 1, 0.3, 1),
+    filter 540ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.command-palette__panel {
+  position: relative;
+}
+
+.command-palette__panel::before {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, transparent 0%, color-mix(in srgb, var(--color-primary) 20%, transparent) 50%, transparent 100%),
+    repeating-linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--color-primary) 7%, transparent) 0,
+      color-mix(in srgb, var(--color-primary) 7%, transparent) 1px,
+      transparent 1px,
+      transparent 18px
+    );
+  border-radius: inherit;
+  content: "";
+  mix-blend-mode: screen;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-6px);
+  transition:
+    opacity 540ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 540ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.command-palette.is-opening .command-palette__backdrop,
+.command-palette.is-open .command-palette__backdrop {
+  opacity: 1;
+}
+
+.command-palette.is-opening .command-palette__panel-shell,
+.command-palette.is-open .command-palette__panel-shell {
+  opacity: 1;
+  filter: blur(0);
+  transform: translateY(0) scale(1);
+}
+
+.command-palette.is-opening .command-palette__panel::before,
+.command-palette.is-open .command-palette__panel::before {
+  opacity: 0.75;
+  transform: translateY(0);
+}
+
+.command-palette.is-closing .command-palette__backdrop {
+  opacity: 0;
+}
+
+.command-palette.is-closing .command-palette__panel-shell {
+  opacity: 0;
+  filter: blur(10px);
+  transform: translateY(1.5rem) scale(0.98);
+}
+
+.command-palette.is-closing .command-palette__panel::before {
+  opacity: 0;
+  transform: translateY(6px);
+}
+
 .command-palette-results {
   scrollbar-width: none;
 }
@@ -1686,14 +1780,11 @@ html {
 }
 
 .project-row__media {
-  display: flex;
-  aspect-ratio: 16 / 10;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  border: 1px solid var(--color-border);
-  border-radius: 8px;
-  background: var(--color-light);
+  display: block;
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
   color: var(--color-text-dark);
   font-weight: 800;
   max-width: min(100%, 46rem);
@@ -1701,13 +1792,19 @@ html {
 }
 
 .project-row__image {
-  height: 100%;
-  width: 100%;
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: min(72svh, 44rem);
+  margin-inline: auto;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
   object-fit: contain;
 }
 
 .project-row__media:has(.project-row__image) {
-  background: color-mix(in srgb, var(--color-light) 72%, var(--color-body));
+  background: transparent;
 }
 
 .about-page__header {
@@ -2701,7 +2798,6 @@ html.normalize-desktop-zoom .landing-hero__inner {
 }
 
 :root[data-code-theme="kernel-panic"] {
-  --font-secondary: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   --color-primary: #89f7ff;
   --color-body: #2442b8;
   --color-border: #6a82ef;
@@ -2764,7 +2860,7 @@ html.normalize-desktop-zoom .landing-hero__inner {
 :root[data-code-theme="kernel-panic"] .projects-page__header h1,
 :root[data-code-theme="kernel-panic"] .project-row__body h2 {
   letter-spacing: -0.04em;
-  text-shadow: 0 0 22px color-mix(in srgb, var(--color-primary) 18%, transparent);
+  text-shadow: 0 0 10px color-mix(in srgb, var(--color-primary) 10%, transparent);
 }
 
 :root[data-code-theme="kernel-panic"] .landing-button,
@@ -2776,7 +2872,48 @@ html.normalize-desktop-zoom .landing-hero__inner {
 :root[data-code-theme="kernel-panic"] .about-skill,
 :root[data-code-theme="kernel-panic"] .contact-list a {
   border-color: color-mix(in srgb, var(--color-primary) 28%, var(--color-border)) !important;
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04), 0 0 18px rgba(137, 247, 255, 0.08);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.03), 0 0 9px rgba(137, 247, 255, 0.05);
+}
+
+.competition-linkedin {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.1rem;
+  height: 2.1rem;
+  margin-top: 0.55rem;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  color: var(--color-primary);
+  transition:
+    transform 280ms ease,
+    border-color 280ms ease,
+    background-color 280ms ease,
+    color 280ms ease;
+}
+
+.competition-linkedin:hover,
+.competition-linkedin:focus-visible {
+  background: color-mix(in srgb, var(--color-primary) 12%, var(--color-body));
+  border-color: color-mix(in srgb, var(--color-primary) 36%, var(--color-border));
+  color: var(--color-text-dark);
+  transform: translateY(-1px);
+}
+
+.experience-company-header {
+  display: flex;
+  align-items: center;
+  min-height: 4.75rem;
+  margin-top: clamp(2rem, 5vw, 4rem);
+  margin-bottom: 1rem;
+}
+
+.experience-company-header img {
+  display: block;
+  width: auto;
+  max-width: min(100%, 16rem);
+  max-height: 4.5rem;
+  object-fit: contain;
 }
 
 body.is-home .landing-hero__stripes {

@@ -9,6 +9,8 @@ categories: ["Hackathon", "Moderation Tools"]
 author: "Ahmad Uzzam"
 tags: ["Reddit Devvit", "AI Moderation", "Community Intelligence", "Automation", "Build In Public"]
 draft: false
+linkedin_post: "https://www.linkedin.com/posts/azzammasood_reddit-devvit-hackathon-ugcPost-7465760657053835264-wfc6/?utm_source=share&utm_medium=member_desktop&rcm=ACoAAC4aOMIByJeZtucJfx2kC2S5H-8hizPe_M4"
+list_blurb: "Spent a month building eight Devvit moderation tool concepts for Reddit's first Devvit Hackathon, exploring AI-assisted moderation, predictive thread risk, modmail triage, repost detection, and community intelligence systems."
 ---
 
 I spent a month building for Reddit's first-ever Devvit Hackathon. Instead of building one project, I experimented aggressively and shipped eight Devvit moderation tool concepts focused on AI, predictive systems, moderation workflows, and community intelligence.

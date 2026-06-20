@@ -10,6 +10,8 @@
   var index = [];
   var indexLoaded = false;
   var activeIndex = 0;
+  var closeTimer = null;
+  var paletteTransitionMs = 540;
 
   var themes = [
     ["Kernel Panic", "kernel-panic", "/kernel-panic"],
@@ -17,11 +19,10 @@
     ["Dracula", "dracula", "/dracula"],
     ["Monokai", "monokai", "/monokai"],
     ["Abyss", "abyss", "/abyss"],
-    ["Bold Tech", "bold-tech", "/bold-tech"],
-    ["Caffeine", "caffeine", "/caffeine"],
+    ["Caffeine Light", "caffeine", "/caffeine-light"],
     ["Doom 64", "doom-64", "/doom-64"],
     ["Kodama Grove", "kodama-grove", "/kodama"],
-    ["Marvel Dark", "marvel", "/marvel"],
+    ["Marvel Light", "marvel", "/marvel-light"],
     ["Cyberpunk", "cyberpunk", "/cyberpunk"],
     ["Tokyo Night", "tokyo-night", "/tokyo"],
     ["Mono", "mono", "/mono"],
@@ -160,19 +161,36 @@
     render(out.slice(0, 24));
   }
   function open(nextMode) {
+    if (closeTimer) {
+      window.clearTimeout(closeTimer);
+      closeTimer = null;
+    }
     setMode(nextMode || "search");
     modal.classList.remove("hidden");
+    modal.classList.remove("is-closing");
+    modal.classList.add("is-opening");
     modal.setAttribute("aria-hidden", "false");
     input.value = "";
     document.body.style.overflow = "hidden";
+    window.requestAnimationFrame(function () {
+      modal.classList.add("is-open");
+      modal.classList.remove("is-opening");
+    });
     (mode === "search" ? loadIndex() : Promise.resolve()).then(function () { showDefault(); input.focus(); });
   }
   function close() {
-    modal.classList.add("hidden");
+    if (modal.classList.contains("hidden") || modal.classList.contains("is-closing")) return;
+    modal.classList.remove("is-open", "is-opening");
+    modal.classList.add("is-closing");
     modal.setAttribute("aria-hidden", "true");
     document.body.style.overflow = "";
-    input.value = "";
-    list.innerHTML = "";
+    closeTimer = window.setTimeout(function () {
+      modal.classList.add("hidden");
+      modal.classList.remove("is-closing");
+      input.value = "";
+      list.innerHTML = "";
+      closeTimer = null;
+    }, paletteTransitionMs);
   }
   function go(url) {
     if (!url) return;
@@ -180,8 +198,8 @@
     if (url === "#mode-themes") return open("themes");
     if (url === "#mode-styles") return open("styles");
     if (url === "#mode-help") return open("help");
-    if (url.indexOf("#theme-") === 0) { applyTheme(url.replace("#theme-", "")); modal.classList.add("hidden"); modal.setAttribute("aria-hidden", "true"); document.body.style.overflow = ""; input.value = ""; list.innerHTML = ""; return; }
-    if (url.indexOf("#style-") === 0) { applyStyle(url.replace("#style-", "")); modal.classList.add("hidden"); modal.setAttribute("aria-hidden", "true"); document.body.style.overflow = ""; input.value = ""; list.innerHTML = ""; return; }
+    if (url.indexOf("#theme-") === 0) { applyTheme(url.replace("#theme-", "")); close(); return; }
+    if (url.indexOf("#style-") === 0) { applyStyle(url.replace("#style-", "")); close(); return; }
     window.location.href = url;
   }
 

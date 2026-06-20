@@ -5,11 +5,13 @@ description: "Professional experience across data engineering, machine learning,
 draft: false
 ---
 
-## Nayatel
+<div id="nayatel" class="experience-company-header">
+  <img src="/images/experience/nayatel.png" alt="Nayatel" loading="lazy" />
+</div>
 
 **Principal Data Engineer**  
-Nayatel · Full-time  
-Jan 2025 - Present · Islamabad, Pakistan · On-site
+Nayatel | Full-time  
+Jan 2025 - Jun 2026 | Islamabad, Pakistan | On-site
 
 Architected and modernized ELT workflows by migrating legacy ETL systems to AWS-native architectures using Amazon S3, Snowpipe, and Snowflake for scalable analytical processing.
 
@@ -27,11 +29,13 @@ Collaborated closely with stakeholders to translate evolving business logic into
 
 **Skills:** Azure Data Factory, Databricks, Snowflake, dbt, Airflow, AWS
 
-## PLC Group
+<div id="plc-group" class="experience-company-header">
+  <img src="/images/experience/plc-group.png" alt="PLC Group" loading="lazy" />
+</div>
 
 **Data Engineer**  
-PLC Group · Full-time  
-Aug 2022 - Jan 2025 · Islamabad, Pakistan · Hybrid
+PLC Group | Full-time  
+Aug 2022 - Jan 2025 | Islamabad, Pakistan | Hybrid
 
 Developed large-scale ETL pipelines using AWS Glue and PySpark to process telemetry and operational data from 2,500+ telecom sites while implementing dynamic schema evolution for reliable ingestion.
 
@@ -49,11 +53,13 @@ Provisioned reproducible cloud infrastructure using Terraform, including IAM pol
 
 **Skills:** Python, databases, AWS Glue, PySpark, Kafka, Kinesis, Terraform, Redshift, Snowflake
 
-## Quixel
+<div id="quixel" class="experience-company-header">
+  <img src="/images/experience/quixel.png" alt="Quixel" loading="lazy" />
+</div>
 
 **Machine Learning Intern**  
-Quixel · Internship  
-May 2022 - Oct 2022 · Islamabad, Pakistan · Hybrid
+Quixel | Internship  
+May 2022 - Oct 2022 | Islamabad, Pakistan | Hybrid
 
 Developed and evaluated machine learning algorithms in Python for computer vision and image analysis applications.
 
@@ -65,21 +71,15 @@ Developed tools for synthetic data generation in Photoshop to support machine le
 
 Collaborated on computer vision projects involving image processing, segmentation, automation, and workflow optimization.
 
-### Material Segmentation
-
-Developed a computer vision solution for material segmentation using machine learning and image processing techniques, enabling automated identification and separation of material regions within images.
-
-### ScriptUI Input Window
-
-Built a reusable Adobe Photoshop ScriptUI-based input interface in JavaScript, simplifying user interaction and parameter collection for custom Photoshop automation workflows.
-
 **Skills:** Deep learning, Adobe Photoshop, Python, JavaScript, computer vision
 
-## CAST
+<div id="cast" class="experience-company-header">
+  <img src="/images/experience/cast.png" alt="CAST" loading="lazy" />
+</div>
 
 **Embedded Engineer Intern**  
-CAST · Internship  
-Jan 2022 - Mar 2022 · Islamabad, Pakistan
+CAST | Internship  
+Jan 2022 - Mar 2022 | Islamabad, Pakistan
 
 Researched, configured, and deployed Raspberry Pi 4 environments for embedded and computer vision applications.
 
@@ -87,12 +87,6 @@ Explored image recognition and image processing techniques using OpenCV and Pyth
 
 Conducted research on machine learning approaches for agricultural quality assessment and seed classification.
 
-Developed a Rice Seed Analysis System using MATLAB and Python to analyze and classify rice seed characteristics based on image data.
-
 Collaborated with supervisors and researchers to evaluate model performance and improve classification accuracy through experimentation and data-driven analysis.
-
-### Rice Seed Analysis System
-
-Developed a machine learning-based Rice Seed Analysis System using Python and MATLAB to classify and analyze rice seed varieties from image data. Implemented image processing and feature extraction techniques, evaluated classification models, and built an end-to-end workflow for automated agricultural quality assessment.
 
 **Skills:** Embedded systems, Python, MATLAB, OpenCV, machine learning
