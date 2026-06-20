@@ -55,7 +55,22 @@
     });
   }
 
+  function setupHomeEntranceMotion() {
+    var body = document.body;
+    if (!body || !body.classList.contains("is-home") || !body.classList.contains("home-motion-stage")) {
+      return;
+    }
+
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      body.classList.remove("home-motion-stage");
+      return;
+    }
+
+    body.classList.add("home-motion-ready");
+  }
+
   setupThemeCursor();
+  setupHomeEntranceMotion();
 
   // Testimonial Slider
   // ----------------------------------------

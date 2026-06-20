@@ -13,6 +13,14 @@
   </head>
 
   <body class="{{ if .IsHome }}is-home{{ end }}">
+    <script>
+      (function () {
+        var body = document.body;
+        if (!body || !body.classList.contains("is-home")) return;
+        if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+        body.classList.add("home-motion-stage");
+      })();
+    </script>
     {{ if hugo.IsProduction }}
       {{ partialCached "preloader.html" . }}
       {{ partialCached "gtm-noscript.html" . }}
