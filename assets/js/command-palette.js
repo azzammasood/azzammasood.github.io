@@ -12,6 +12,7 @@
   var activeIndex = 0;
 
   var themes = [
+    ["Kernel Panic", "kernel-panic", "/kernel-panic"],
     ["Andromeda", "andromeda", "/andromeda"],
     ["Dracula", "dracula", "/dracula"],
     ["Monokai", "monokai", "/monokai"],
@@ -57,7 +58,7 @@
   var commands = [
     { title: "Home", url: withBase("/"), hint: "/home", cmd: "/home", summary: "Open the landing page" },
     { title: "About", url: withBase("/about/"), hint: "/about", cmd: "/about", summary: "Open about" },
-    { title: "Projects", url: withBase("/blog/"), hint: "/projects", cmd: "/projects", summary: "Open projects" },
+    { title: "Projects", url: withBase("/projects/"), hint: "/projects", cmd: "/projects", summary: "Open projects" },
     { title: "Hackathons", url: withBase("/hackathons/"), hint: "/hackathons", cmd: "/hackathons", summary: "Open hackathons" },
     { title: "Experience", url: withBase("/experience/"), hint: "/experience", cmd: "/experience", summary: "Open experience" },
     { title: "Certifications", url: withBase("/certifications/"), hint: "/certifications", cmd: "/certifications", summary: "Open certifications" },

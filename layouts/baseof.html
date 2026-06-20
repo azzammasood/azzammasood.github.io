@@ -15,10 +15,21 @@
   <body class="{{ if .IsHome }}is-home{{ end }}">
     <script>
       (function () {
+        var root = document.documentElement;
         var body = document.body;
-        if (!body || !body.classList.contains("is-home")) return;
+        var theme = "kernel-panic";
+        var style = "minimal";
+        try {
+          theme = localStorage.getItem("code-theme") || theme;
+          style = localStorage.getItem("ui-style") || style;
+        } catch (error) {}
+        root.dataset.codeTheme = theme;
+        root.dataset.uiStyle = style;
+        root.classList.toggle("dark", !/^(mono|kodama-grove)$/.test(theme));
+        if (!body) return;
         if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-        body.classList.add("home-motion-stage");
+        body.classList.add("page-motion-stage");
+        if (body.classList.contains("is-home")) body.classList.add("home-motion-stage");
       })();
     </script>
     {{ if hugo.IsProduction }}

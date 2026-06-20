@@ -69,7 +69,22 @@
     body.classList.add("home-motion-ready");
   }
 
+  function setupPageEntranceMotion() {
+    var body = document.body;
+    if (!body || !body.classList.contains("page-motion-stage")) {
+      return;
+    }
+
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      body.classList.remove("page-motion-stage", "home-motion-stage");
+      return;
+    }
+
+    body.classList.add("page-motion-ready");
+  }
+
   setupThemeCursor();
+  setupPageEntranceMotion();
   setupHomeEntranceMotion();
 
   // Testimonial Slider

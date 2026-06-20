@@ -1,0 +1,34 @@
+{{ define "main" }}
+  <section class="projects-page project-single-page">
+    <div class="projects-page__shell">
+      <article class="projects-page__main">
+        <header class="projects-page__header">
+          <p class="landing-hero__kicker">Selected Work</p>
+          <h1>{{ .Title }}</h1>
+        </header>
+        <ul class="project-single__meta">
+          <li>
+            <i class="fa-regular fa-clock mr-2"></i>
+            {{ time.Format ":date_long" .PublishDate }}
+          </li>
+        </ul>
+          {{ with .Params.tags }}
+            <div class="project-row__stack project-single__stack" aria-label="Tech stack">
+              <span class="project-row__stack-label">Tech Stack</span>
+              {{ range . }}
+                <span>{{ . }}</span>
+              {{ end }}
+            </div>
+          {{ end }}
+          <div class="content project-single__content mb-10">
+            {{ .Content }}
+          </div>
+          {{ if site.Config.Services.Disqus.Shortname }}
+            <div class="mt-20">
+              {{ partial "disqus.html" . }}
+            </div>
+          {{ end }}
+      </article>
+    </div>
+  </section>
+{{ end }}

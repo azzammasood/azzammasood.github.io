@@ -1,6 +1,7 @@
 {{ $class := .Class }}
 {{ if site.Params.theme_switcher }}
   {{ $themes := slice
+    (dict "name" "Kernel Panic" "id" "kernel-panic" "colors" (slice "#2442b8" "#5d7cff" "#88f6ff" "#f7fbff"))
     (dict "name" "Andromeda" "id" "andromeda" "colors" (slice "#00e8c6" "#82aaff" "#c792ea" "#d6deeb"))
     (dict "name" "Dracula" "id" "dracula" "colors" (slice "#ff79c6" "#bd93f9" "#50fa7b" "#f1fa8c"))
     (dict "name" "Monokai" "id" "monokai" "colors" (slice "#f92672" "#a6e22e" "#66d9ef" "#f8f8f2"))
@@ -47,7 +48,7 @@
   </div>
   <script>
     (function () {
-      var themes = {"andromeda":["Andromeda",true],"dracula":["Dracula",true],"monokai":["Monokai",true],"abyss":["Abyss",true],"bold-tech":["Bold Tech",true],"caffeine":["Caffeine",true],"doom-64":["Doom 64",true],"kodama-grove":["Kodama Grove",false],"marvel":["Marvel Dark",true],"cyberpunk":["Cyberpunk",true],"tokyo-night":["Tokyo Night",true],"mono":["Mono",false],"mono-dark":["Mono Dark",true]};
+      var themes = {"kernel-panic":["Kernel Panic",true],"andromeda":["Andromeda",true],"dracula":["Dracula",true],"monokai":["Monokai",true],"abyss":["Abyss",true],"bold-tech":["Bold Tech",true],"caffeine":["Caffeine",true],"doom-64":["Doom 64",true],"kodama-grove":["Kodama Grove",false],"marvel":["Marvel Dark",true],"cyberpunk":["Cyberpunk",true],"tokyo-night":["Tokyo Night",true],"mono":["Mono",false],"mono-dark":["Mono Dark",true]};
       var styles = {"minimal":"Minimal","material":"Material","neobrutalism":"NeoBrutalism","terminal":"Terminal","glassmorphism":"Glassmorphism","retro-terminal":"Retro","windows-95":"Windows 95"};
       var motionReady = false;
       function transition(fn) {
@@ -64,9 +65,9 @@
           }, 1452);
         });
       }
-      function currentTheme() { return localStorage.getItem("code-theme") || document.documentElement.dataset.codeTheme || "mono"; }
+      function currentTheme() { return localStorage.getItem("code-theme") || document.documentElement.dataset.codeTheme || "kernel-panic"; }
       function currentStyle() { return localStorage.getItem("ui-style") || document.documentElement.dataset.uiStyle || "minimal"; }
-      function paintTheme(id, save) { var t = themes[id] || themes.mono, key = themes[id] ? id : "mono"; transition(function () {
+      function paintTheme(id, save) { var t = themes[id] || themes["kernel-panic"], key = themes[id] ? id : "kernel-panic"; transition(function () {
         document.documentElement.dataset.codeTheme = key; document.documentElement.classList.toggle("dark", !!t[1]);
         if (save) { localStorage.setItem("theme", t[1] ? "dark" : "light"); localStorage.setItem("code-theme", key); }
         document.querySelectorAll("[data-code-theme-current]").forEach(function (el) { el.textContent = t[0]; });
@@ -79,7 +80,7 @@
       }); }
       window.portfolioThemes = { apply: function (id) { paintTheme(id, true); }, preview: function (id) { paintTheme(id, false); }, restore: function () { paintTheme(currentTheme(), false); }, names: themes };
       window.portfolioStyles = { apply: function (id) { paintStyle(id, true); }, preview: function (id) { paintStyle(id, false); }, restore: function () { paintStyle(currentStyle(), false); }, names: styles };
-      window.portfolioThemes.apply(localStorage.getItem("code-theme") || "mono");
+      window.portfolioThemes.apply(localStorage.getItem("code-theme") || document.documentElement.dataset.codeTheme || "kernel-panic");
       window.portfolioStyles.apply(localStorage.getItem("ui-style") || "minimal");
       motionReady = true;
       document.addEventListener("DOMContentLoaded", function () {
