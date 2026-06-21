@@ -1,12 +1,44 @@
 {{ define "main" }}
-  <section class="projects-page section-page section-page--plain section-page--centered">
+  <section class="projects-page certifications-page">
     <div class="projects-page__shell">
+      <aside class="projects-page__rail" aria-label="Certification index">
+        {{ range .Params.certifications }}
+          <a href="#{{ .title | urlize }}">{{ .title }}</a>
+        {{ end }}
+      </aside>
       <div class="projects-page__main">
         <header class="projects-page__header">
           <p class="landing-hero__kicker">Learning</p>
           <h1>{{ .Title }}</h1>
         </header>
-        <div class="content">{{ .Content }}</div>
+
+        <div class="projects-list">
+          {{ range .Params.certifications }}
+            <article class="project-row certification-row" id="{{ .title | urlize }}">
+              <div class="project-row__body">
+                <p class="certification-row__meta">{{ .provider }}{{ with .date }} | {{ . }}{{ end }}</p>
+                <h2>{{ .title }}</h2>
+              </div>
+
+              <a class="project-row__media certification-row__media" href="{{ .link }}" target="_blank" rel="noopener" aria-label="Open {{ .title }}">
+                <img src="{{ .image | relURL }}" alt="{{ .title }}" class="project-row__image certification-row__image" loading="lazy" width="960" height="600" />
+              </a>
+
+              <div class="project-row__body">
+                {{ with .skills }}
+                  <div class="project-row__stack" aria-label="Skills gained">
+                    <span class="project-row__stack-label">Skills Gained</span>
+                    {{ range . }}
+                      <span>{{ . }}</span>
+                    {{ end }}
+                  </div>
+                {{ end }}
+                <p>{{ .summary }}</p>
+                <a class="project-row__link" href="{{ .link }}" target="_blank" rel="noopener">View certification</a>
+              </div>
+            </article>
+          {{ end }}
+        </div>
       </div>
     </div>
   </section>

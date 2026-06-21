@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760" fill="none">
+  <rect width="1200" height="760" rx="36" fill="#0B1020"/>
+  <rect x="28" y="28" width="1144" height="704" rx="24" fill="url(#bg)"/>
+  <rect x="74" y="74" width="242" height="52" rx="26" fill="#1A2848"/>
+  <text x="195" y="108" fill="#8BE9FD" font-family="JetBrains Mono, monospace" font-size="24" text-anchor="middle">DeepLearning.AI</text>
+  <text x="74" y="214" fill="#F7FBFF" font-family="Space Grotesk, Arial, sans-serif" font-size="68" font-weight="700">Deep Learning</text>
+  <text x="74" y="290" fill="#F7FBFF" font-family="Space Grotesk, Arial, sans-serif" font-size="68" font-weight="700">Specialization</text>
+  <text x="74" y="362" fill="#AFBEEA" font-family="Inter, Arial, sans-serif" font-size="28">Neural networks, CNNs, sequence models, training workflows</text>
+  <g opacity="0.36">
+    <circle cx="850" cy="214" r="18" fill="#8BE9FD"/>
+    <circle cx="968" cy="160" r="18" fill="#8BE9FD"/>
+    <circle cx="1088" cy="220" r="18" fill="#8BE9FD"/>
+    <circle cx="820" cy="358" r="18" fill="#8BE9FD"/>
+    <circle cx="940" cy="308" r="18" fill="#8BE9FD"/>
+    <circle cx="1060" cy="362" r="18" fill="#8BE9FD"/>
+    <circle cx="890" cy="514" r="18" fill="#8BE9FD"/>
+    <circle cx="1010" cy="464" r="18" fill="#8BE9FD"/>
+    <path d="M850 214L968 160L1088 220M820 358L940 308L1060 362M890 514L1010 464M850 214L820 358L890 514M968 160L940 308L1010 464M1088 220L1060 362" stroke="#8BE9FD" stroke-width="3"/>
+  </g>
+  <defs>
+    <linearGradient id="bg" x1="62" y1="44" x2="1102" y2="718" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#10214A"/>
+      <stop offset="1" stop-color="#273F92"/>
+    </linearGradient>
+  </defs>
+</svg>

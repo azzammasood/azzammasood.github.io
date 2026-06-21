@@ -11,7 +11,7 @@
   var indexLoaded = false;
   var activeIndex = 0;
   var closeTimer = null;
-  var paletteTransitionMs = 540;
+  var paletteTransitionMs = 620;
 
   var themes = [
     ["Kernel Panic", "kernel-panic", "/kernel-panic"],
@@ -110,15 +110,20 @@
     items.forEach(function (it, idx) {
       var li = document.createElement("li");
       li.className = "command-palette-item cursor-pointer rounded-lg px-3 py-2.5 text-text-dark hover:bg-light dark:text-white dark:hover:bg-darkmode-light";
+      li.classList.add("is-entering");
       li.dataset.url = it.url || "";
       li.setAttribute("role", "option");
       li.setAttribute("aria-selected", idx === activeIndex ? "true" : "false");
+      li.style.transitionDelay = Math.min(idx * 28, 180) + "ms";
       li.innerHTML = '<div class="flex items-center justify-between gap-4"><span class="font-medium">' + escapeHtml(it.title) + '</span>' + (it.hint ? '<kbd class="shrink-0 rounded border border-border px-1.5 py-0.5 text-[10px] dark:border-darkmode-border">' + escapeHtml(it.hint) + "</kbd>" : "") + "</div>" + (it.summary ? '<div class="mt-0.5 text-xs text-text-light dark:text-darkmode-text-light">' + escapeHtml(it.summary) + "</div>" : "");
       li.addEventListener("mousedown", function (e) { e.preventDefault(); go(it.url); });
       li.addEventListener("mouseenter", function () {
         setActive(idx);
       });
       list.appendChild(li);
+      window.requestAnimationFrame(function () {
+        li.classList.add("is-visible");
+      });
     });
   }
   function setActive(next) {
@@ -172,9 +177,12 @@
     modal.setAttribute("aria-hidden", "false");
     input.value = "";
     document.body.style.overflow = "hidden";
+    modal.offsetWidth;
     window.requestAnimationFrame(function () {
-      modal.classList.add("is-open");
-      modal.classList.remove("is-opening");
+      window.requestAnimationFrame(function () {
+        modal.classList.add("is-open");
+        modal.classList.remove("is-opening");
+      });
     });
     (mode === "search" ? loadIndex() : Promise.resolve()).then(function () { showDefault(); input.focus(); });
   }

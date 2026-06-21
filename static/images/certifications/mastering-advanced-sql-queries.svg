@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760" fill="none">
+  <rect width="1200" height="760" rx="36" fill="#0F1322"/>
+  <rect x="28" y="28" width="1144" height="704" rx="24" fill="url(#bg)"/>
+  <rect x="74" y="74" width="162" height="52" rx="26" fill="#1D2745"/>
+  <text x="155" y="108" fill="#8BE9FD" font-family="JetBrains Mono, monospace" font-size="26" text-anchor="middle">Coursera</text>
+  <text x="74" y="214" fill="#F7FBFF" font-family="Space Grotesk, Arial, sans-serif" font-size="68" font-weight="700">Mastering</text>
+  <text x="74" y="290" fill="#F7FBFF" font-family="Space Grotesk, Arial, sans-serif" font-size="68" font-weight="700">Advanced SQL</text>
+  <text x="74" y="366" fill="#F7FBFF" font-family="Space Grotesk, Arial, sans-serif" font-size="68" font-weight="700">Queries</text>
+  <text x="74" y="430" fill="#AAB8E5" font-family="Inter, Arial, sans-serif" font-size="28">Complex querying, maintainability, query design</text>
+  <g opacity="0.96">
+    <rect x="770" y="144" width="292" height="440" rx="26" fill="#111A31" stroke="#65D1FF" stroke-width="2"/>
+    <text x="818" y="230" fill="#65D1FF" font-family="JetBrains Mono, monospace" font-size="24">SELECT</text>
+    <text x="818" y="274" fill="#F7FBFF" font-family="JetBrains Mono, monospace" font-size="24">window_fn, cte, rank</text>
+    <text x="818" y="328" fill="#65D1FF" font-family="JetBrains Mono, monospace" font-size="24">FROM</text>
+    <text x="818" y="372" fill="#F7FBFF" font-family="JetBrains Mono, monospace" font-size="24">analytics.events</text>
+    <text x="818" y="426" fill="#65D1FF" font-family="JetBrains Mono, monospace" font-size="24">WHERE</text>
+    <text x="818" y="470" fill="#F7FBFF" font-family="JetBrains Mono, monospace" font-size="24">quality = 'high'</text>
+  </g>
+  <defs>
+    <linearGradient id="bg" x1="70" y1="40" x2="1110" y2="708" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#122142"/>
+      <stop offset="1" stop-color="#223A86"/>
+    </linearGradient>
+  </defs>
+</svg>

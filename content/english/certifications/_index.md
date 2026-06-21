@@ -1,23 +1,54 @@
 ---
 title: "Certifications"
 meta_title: "Certifications"
-description: "Certifications and structured learning across data engineering and cloud platforms."
+description: "Certifications and structured learning across data engineering, software quality, SQL, and deep learning."
 draft: false
+certifications:
+  - title: "IBM Data Engineering Specialization"
+    provider: "Coursera / IBM"
+    date: "Professional Certificate"
+    image: "/images/certifications/ibm-data-engineering-specialization.svg"
+    link: "https://www.coursera.org/account/accomplishments/professional-cert/HT7WSBV83ICR"
+    skills:
+      - "Data engineering"
+      - "ETL pipelines"
+      - "Python"
+      - "SQL"
+      - "Data warehousing"
+      - "Linux"
+    summary: "A multi-course professional certificate focused on core data engineering workflows, including SQL, Python-based data processing, ETL concepts, warehousing, shell tooling, and production data-platform fundamentals."
+  - title: "Mastering Advanced SQL Queries"
+    provider: "Coursera"
+    date: "Completed Jan 13, 2026"
+    image: "/images/certifications/mastering-advanced-sql-queries.svg"
+    link: "https://www.coursera.org/account/accomplishments/records/G0AOCOZIF0EK"
+    skills:
+      - "SQL"
+      - "Query languages"
+      - "Maintainability"
+      - "Query design"
+    summary: "Focused on writing more expressive and maintainable SQL by practicing complex query construction, cleaner logic, and stronger command of advanced relational querying patterns."
+  - title: "Learn to Program: Crafting Quality Code"
+    provider: "Coursera / University of Toronto"
+    date: "Completed Aug 2, 2022"
+    image: "/images/certifications/crafting-quality-code.svg"
+    link: "https://www.coursera.org/account/accomplishments/verify/MWQ2ZLUUR6ZS?utm_source=link&utm_medium=certificate&utm_content=cert_image&utm_campaign=sharing_cta&utm_product=course"
+    skills:
+      - "Code quality"
+      - "Testing mindset"
+      - "Refactoring"
+      - "Programming fundamentals"
+    summary: "Strengthened software-engineering fundamentals around writing cleaner code, organizing logic more carefully, and approaching correctness and maintainability with a stronger engineering mindset."
+  - title: "Deep Learning Specialization"
+    provider: "Coursera / DeepLearning.AI"
+    date: "Specialization"
+    image: "/images/certifications/deep-learning-specialization.svg"
+    link: "https://www.coursera.org/account/accomplishments/specialization/B4GNAR2SB8EE?utm_source=link&utm_medium=certificate&utm_content=cert_image&utm_campaign=sharing_cta&utm_product=s12n"
+    skills:
+      - "Neural networks"
+      - "Deep learning"
+      - "Model training"
+      - "CNNs"
+      - "Sequence models"
+    summary: "Built a deeper foundation in modern neural-network design and training, covering core deep-learning concepts, practical modeling workflows, and architectures commonly used in vision and sequential tasks."
 ---
-
-## Data Engineering
-
-* [IBM Data Engineering Specialization](https://www.coursera.org/account/accomplishments/specialization/HT7WSBV83ICR) - Coursera
-* [Mastering Advanced SQL Queries](https://www.coursera.org/account/accomplishments/verify/G0AOCOZIF0EK) - Coursera
-* Real-Time Data Pipelines and Analytics on AWS - Coursera
-
-## Google Cloud
-
-* Build Batch Data Pipelines on Google Cloud - Coursera
-* Build Streaming Data Pipelines on Google Cloud - Coursera
-* Smart Analytics, Machine Learning, and AI on Google Cloud - Coursera
-
-## Azure
-
-* Azure Data Factory, SQL, Data Lake, Databricks, HDInsight, CI/CD (DP-203 prep) - Udemy
-* Mastering Azure Databricks for Data Engineers - Coursera
