@@ -21,16 +21,13 @@ experiences:
       - "Optimized Snowflake performance using clustering, incremental loading strategies, and warehouse tuning to reduce latency and compute cost."
       - "Integrated Snowpark and Cortex AI capabilities to modernize Python-heavy workflows and enable AI-assisted analytics directly in Snowflake."
     skills:
-      - "Azure Data Factory"
-      - "Databricks"
+      - "Amazon S3"
+      - "Snowpipe"
       - "Snowflake"
       - "dbt"
-      - "Airflow"
-      - "AWS"
-    focus:
-      - "Warehouse modernization"
-      - "Observability"
-      - "Performance tuning"
+      - "AWS MWAA"
+      - "Lambda"
+      - "IAM"
   - id: "plc-group"
     company: "PLC Group"
     role: "Data Engineer"
@@ -56,10 +53,6 @@ experiences:
       - "Terraform"
       - "Redshift"
       - "Snowflake"
-    focus:
-      - "Streaming pipelines"
-      - "Lakehouse design"
-      - "Infrastructure as code"
   - id: "quixel"
     company: "Quixel"
     role: "Machine Learning Intern"
@@ -81,10 +74,6 @@ experiences:
       - "Python"
       - "JavaScript"
       - "Computer vision"
-    focus:
-      - "Photoshop automation"
-      - "Vision tooling"
-      - "Synthetic data"
   - id: "cast"
     company: "CAST"
     role: "Embedded Engineer Intern"
@@ -105,8 +94,4 @@ experiences:
       - "MATLAB"
       - "OpenCV"
       - "Machine learning"
-    focus:
-      - "Embedded vision"
-      - "Applied ML research"
-      - "Computer vision pipelines"
 ---

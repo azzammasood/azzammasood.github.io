@@ -10,7 +10,6 @@
 
       <div class="projects-page__main">
         <header class="projects-page__header">
-          <p class="landing-hero__kicker">Competitions</p>
           <h1>{{ .Title }}</h1>
         </header>
 
@@ -19,14 +18,7 @@
             {{ $hackathon := . }}
             <article class="project-row" id="{{ .Title | urlize }}">
               <div class="project-row__body">
-                <div class="competition-heading">
-                  <h2>{{ .Title }}</h2>
-                  {{ with .Params.linkedin_post }}
-                    <a class="competition-linkedin" href="{{ . }}" target="_blank" rel="noopener" aria-label="Open LinkedIn post for {{ $hackathon.Title }}">
-                      <i class="fab fa-linkedin" aria-hidden="true"></i>
-                    </a>
-                  {{ end }}
-                </div>
+                <h2>{{ .Title }}</h2>
               </div>
               <div class="project-row__media project-row__media--plain" aria-label="{{ .Title }}">
                 {{ with .Params.image }}
@@ -42,6 +34,9 @@
 
               <div class="project-row__body">
                 <p>{{ .Params.list_blurb | default (.Summary | plainify) }}</p>
+                {{ with .Params.linkedin_post }}
+                  <a class="competition-link" href="{{ . }}" target="_blank" rel="noopener">View on LinkedIn</a>
+                {{ end }}
                 {{ with .Params.tags }}
                   <div class="project-row__stack" aria-label="Tech stack">
                     <span class="project-row__stack-label">Tech Stack</span>

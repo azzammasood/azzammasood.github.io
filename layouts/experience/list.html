@@ -8,7 +8,6 @@
       </aside>
       <div class="projects-page__main">
         <header class="projects-page__header">
-          <p class="landing-hero__kicker">Career</p>
           <h1>{{ .Title }}</h1>
         </header>
         <div class="experience-list">
@@ -34,26 +33,12 @@
                       <li>{{ . }}</li>
                     {{ end }}
                   </ul>
-                </section>
-
-                <section class="experience-entry__panel">
-                  <h3>Core stack</h3>
-                  <div class="project-row__stack" aria-label="Core skills">
+                  <div class="project-row__stack experience-entry__stack" aria-label="Stack">
+                    <span class="project-row__stack-label">Stack</span>
                     {{ range .skills }}
                       <span>{{ . }}</span>
                     {{ end }}
                   </div>
-
-                  {{ with .focus }}
-                    <div class="experience-entry__focus">
-                      <p class="experience-entry__focus-label">Focus areas</p>
-                      <div class="project-row__stack" aria-label="Focus areas">
-                        {{ range . }}
-                          <span>{{ . }}</span>
-                        {{ end }}
-                      </div>
-                    </div>
-                  {{ end }}
                 </section>
               </div>
             </article>
