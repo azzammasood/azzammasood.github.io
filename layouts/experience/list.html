@@ -36,7 +36,12 @@
                   <div class="project-row__stack experience-entry__stack" aria-label="Stack">
                     <span class="project-row__stack-label">Stack</span>
                     {{ range .skills }}
-                      <span>{{ . }}</span>
+                      <span class="experience-stack-item{{ if .icon }} experience-stack-item--icon{{ end }}">
+                        {{ with .icon }}
+                          <img src="{{ . }}" alt="" loading="lazy" />
+                        {{ end }}
+                        {{ .name }}
+                      </span>
                     {{ end }}
                   </div>
                 </section>
