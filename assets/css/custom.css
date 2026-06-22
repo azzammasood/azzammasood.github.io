@@ -3641,3 +3641,63 @@ body:not(.is-home).page-motion-stage .header .site-side-nav .nav-item:nth-child(
     transition: none !important;
   }
 }
+
+/* Final chrome sizing: theme styles must not change either control's footprint. */
+.header .site-search-trigger,
+.header .top-contact-link,
+:root[data-ui-style] .header .site-search-trigger,
+:root[data-ui-style] .header .top-contact-link {
+  box-sizing: border-box !important;
+  width: 7.9rem !important;
+  min-width: 7.9rem !important;
+  max-width: 7.9rem !important;
+  height: 2.46rem !important;
+  min-height: 2.46rem !important;
+  max-height: 2.46rem !important;
+  flex: 0 0 7.9rem !important;
+  align-self: center;
+  padding-block: 0 !important;
+}
+
+/* Give indexed page content more air beside the rail and reduce it by 10%. */
+@media (min-width: 1301px) {
+  .projects-page__shell,
+  html.is-desktop-viewport .projects-page__shell {
+    margin-left: clamp(19rem, 21vw, 23.5rem);
+  }
+
+  .projects-page__main {
+    zoom: 0.9;
+  }
+}
+
+/* Logos already identify experience tools; certification skills need no code glyph. */
+.experience-entry__stack .experience-stack-item::before,
+.certifications-page .project-row__stack span:not(.project-row__stack-label)::before {
+  display: none !important;
+  content: none !important;
+}
+
+/* Complete the home-page right-nav stagger for all six links. */
+body.is-home.home-motion-stage .header .site-side-nav .nav-item:nth-child(5) {
+  transition-delay: 640ms;
+}
+
+body.is-home.home-motion-stage .header .site-side-nav .nav-item:nth-child(6) {
+  transition-delay: 740ms;
+}
+
+/* The footer is now a single centered socials panel. */
+.landing-links__inner,
+html.is-desktop-viewport .landing-links__inner {
+  max-width: 18rem;
+  grid-template-columns: minmax(0, 18rem);
+  justify-items: center;
+}
+
+.landing-links .landing-link-group {
+  grid-column: 1;
+  grid-row: 1;
+  align-items: center;
+  text-align: center;
+}

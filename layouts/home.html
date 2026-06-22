@@ -26,11 +26,6 @@
 
   <section class="landing-links" aria-label="Social and site links">
     <div class="landing-links__inner">
-      <div class="landing-links__brand">
-        <h2>{{ site.Params.logo_text | default .Site.Title }}</h2>
-        <p>Reliable data systems, built for scale.</p>
-      </div>
-
       <nav class="landing-link-group" aria-label="Socials">
         <h3>Socials</h3>
         {{ range site.Data.social.main }}
@@ -40,12 +35,6 @@
         <a href="mailto:ahmaduzzammasood@gmail.com">Email</a>
       </nav>
 
-      <nav class="landing-link-group" aria-label="Sitemap">
-        <h3>Sitemap</h3>
-        {{ range site.Menus.main }}
-          <a href="{{ .URL | relLangURL }}">{{ .Name }}</a>
-        {{ end }}
-      </nav>
     </div>
   </section>
 {{ end }}
