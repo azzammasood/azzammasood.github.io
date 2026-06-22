@@ -4,7 +4,7 @@
       {{ $paginator := .Paginate .RegularPages.ByWeight }}
       <aside class="projects-page__rail" aria-label="Competition index">
         {{ range $paginator.Pages }}
-          <a href="#{{ .Title | urlize }}">{{ .Title }}</a>
+          <a href="#{{ .Title | urlize }}">{{ .Params.nav_title | default .Title }}</a>
         {{ end }}
       </aside>
 

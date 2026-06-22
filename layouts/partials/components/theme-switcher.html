@@ -7,9 +7,7 @@
     (dict "name" "Monokai" "id" "monokai" "colors" (slice "#f92672" "#a6e22e" "#66d9ef" "#f8f8f2"))
     (dict "name" "Abyss" "id" "abyss" "colors" (slice "#001b44" "#005eff" "#00c2ff" "#d7e7ff"))
     (dict "name" "Caffeine Light" "id" "caffeine" "colors" (slice "#f4e1c7" "#c88b3d" "#7c5631" "#fff9f2"))
-    (dict "name" "Doom 64" "id" "doom-64" "colors" (slice "#120808" "#c9281f" "#2b1512" "#f0d9b8"))
     (dict "name" "Kodama Grove" "id" "kodama-grove" "colors" (slice "#2f7a43" "#7b5f2a" "#cbdba2" "#172917"))
-    (dict "name" "Marvel Light" "id" "marvel" "colors" (slice "#fff7f7" "#e01822" "#ffd8d8" "#201010"))
     (dict "name" "Cyberpunk" "id" "cyberpunk" "colors" (slice "#ff007c" "#faff00" "#00f0ff" "#120024"))
     (dict "name" "Tokyo Night" "id" "tokyo-night" "colors" (slice "#7aa2f7" "#bb9af7" "#9ece6a" "#c0caf5"))
     (dict "name" "Mono" "id" "mono" "colors" (slice "#1f2328" "#6e7781" "#afb8c1" "#f6f8fa"))
@@ -47,7 +45,7 @@
   </div>
   <script>
     (function () {
-      var themes = {"kernel-panic":["Kernel Panic",true],"andromeda":["Andromeda",true],"dracula":["Dracula",true],"monokai":["Monokai",true],"abyss":["Abyss",true],"caffeine":["Caffeine Light",false],"doom-64":["Doom 64",true],"kodama-grove":["Kodama Grove",false],"marvel":["Marvel Light",false],"cyberpunk":["Cyberpunk",true],"tokyo-night":["Tokyo Night",true],"mono":["Mono",false],"mono-dark":["Mono Dark",true]};
+      var themes = {"kernel-panic":["Kernel Panic",true],"andromeda":["Andromeda",true],"dracula":["Dracula",true],"monokai":["Monokai",true],"abyss":["Abyss",true],"caffeine":["Caffeine Light",false],"kodama-grove":["Kodama Grove",false],"cyberpunk":["Cyberpunk",true],"tokyo-night":["Tokyo Night",true],"mono":["Mono",false],"mono-dark":["Mono Dark",true]};
       var styles = {"minimal":"Minimal","material":"Material","neobrutalism":"NeoBrutalism","terminal":"Terminal","glassmorphism":"Glassmorphism","retro-terminal":"Retro","windows-95":"Windows 95"};
       var motionReady = false;
       function transition(fn) {
@@ -87,10 +85,10 @@
           button.addEventListener("click", function () { var sw = button.closest(".code-theme-switcher"), open = sw.classList.toggle("is-open"); button.setAttribute("aria-expanded", open ? "true" : "false"); });
         });
         document.querySelectorAll("[data-code-theme-option]").forEach(function (button) {
-          button.addEventListener("click", function () { window.portfolioThemes.apply(button.dataset.codeThemeOption); button.closest(".code-theme-switcher").classList.remove("is-open"); });
+          button.addEventListener("click", function () { window.portfolioThemes.apply(button.dataset.codeThemeOption); });
         });
         document.querySelectorAll("[data-ui-style-option]").forEach(function (button) {
-          button.addEventListener("click", function () { window.portfolioStyles.apply(button.dataset.uiStyleOption); button.closest(".code-theme-switcher").classList.remove("is-open"); });
+          button.addEventListener("click", function () { window.portfolioStyles.apply(button.dataset.uiStyleOption); });
         });
         document.addEventListener("click", function (event) { document.querySelectorAll(".code-theme-switcher.is-open").forEach(function (sw) { if (!sw.contains(event.target)) sw.classList.remove("is-open"); }); });
       });

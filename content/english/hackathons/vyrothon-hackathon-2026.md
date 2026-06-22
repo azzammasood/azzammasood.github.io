@@ -1,5 +1,6 @@
 ---
 title: "Vyrothon Hackathon 2026: 1st Runner-Up"
+nav_title: "Vyrothon"
 meta_title: ""
 description: "Won 1st runner-up at Vyrothon Hackathon 2026 at NSTP NUST after building grabpic and see-with-me."
 date: 2026-04-30T05:00:00Z

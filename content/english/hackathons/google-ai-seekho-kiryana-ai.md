@@ -1,5 +1,6 @@
 ---
 title: "Google AI Seekho Hackathon: KiryanaAI"
+nav_title: "GDG AI Seekho"
 meta_title: ""
 description: "Built KiryanaAI, a voice-first AI business advisor for Pakistani shopkeepers, during Google AI Seekho Hackathon Pakistan 2026."
 date: 2026-05-20T05:00:00Z

@@ -1,5 +1,6 @@
 ---
 title: "Reddit Devvit Hackathon: 8 Moderation Tools"
+nav_title: "Reddit Devvit"
 meta_title: ""
 description: "Built eight Reddit Devvit moderation tool concepts for AI-assisted community intelligence and moderation workflows."
 date: 2026-05-28T05:00:00Z
