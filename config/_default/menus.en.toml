@@ -28,7 +28,7 @@ weight = 5
 
 [[main]]
 name = "Competitions"
-url = "/hackathons"
+url = "/competitions"
 weight = 6
 
 
@@ -45,7 +45,7 @@ weight = 2
 
 [[footer]]
 name = "Competitions"
-url = "/hackathons"
+url = "/competitions"
 weight = 3
 
 [[footer]]
