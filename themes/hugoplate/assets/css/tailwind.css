@@ -5690,7 +5690,7 @@ html.is-desktop-viewport .about-layout__grid {
 }
 :root {
   --chrome-control-height: 2rem;
-  --chrome-control-gap: 1.35rem;
+  --chrome-control-gap: 2.1rem;
   --chrome-top: 1.4rem;
 }
 :root:root:root .header.site-chrome .site-name-link, :root:root:root .header.site-chrome .site-name-link:hover, :root:root:root .header.site-chrome .site-name-link:focus-visible, :root:root:root .header.site-chrome .site-search-trigger, :root:root:root .header.site-chrome .site-search-trigger:hover, :root:root:root .header.site-chrome .site-search-trigger:focus-visible, :root:root:root .header.site-chrome .top-contact-link, :root:root:root .header.site-chrome .top-contact-link:hover, :root:root:root .header.site-chrome .top-contact-link:focus-visible, :root:root:root .header.site-chrome .site-search-trigger kbd {
@@ -5706,8 +5706,13 @@ html.is-desktop-viewport .about-layout__grid {
   min-height: 0;
   height: var(--chrome-control-height);
   padding: 0 !important;
+}
+:root:root:root .header.site-chrome .site-name-link, :root:root:root .header.site-chrome .top-contact-link {
+  color: var(--color-text-dark);
+  font-family: var(--font-primary) !important;
   font-size: 0.86rem;
-  letter-spacing: 0.01em;
+  font-weight: 300;
+  letter-spacing: normal;
 }
 :root:root:root .header.site-chrome .site-top-controls {
   top: var(--chrome-top);
@@ -5762,15 +5767,15 @@ html.is-desktop-viewport .about-layout__grid {
     position: fixed;
     inset: 0 0 auto 0;
     z-index: -1;
-    height: 5rem;
-    background: linear-gradient(to bottom, color-mix(in srgb, #fff 22%, transparent), transparent);
+    height: 6.5rem;
+    background: linear-gradient(to bottom, color-mix(in srgb, #fff 12%, transparent), transparent);
     @supports (color: color-mix(in lab, red, red)) {
-      background: linear-gradient(to bottom, color-mix(in srgb, var(--color-body) 22%, transparent), transparent);
+      background: linear-gradient(to bottom, color-mix(in srgb, var(--color-body) 12%, transparent), transparent);
     }
-    -webkit-backdrop-filter: blur(5px);
-    backdrop-filter: blur(5px);
-    -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent);
-    mask-image: linear-gradient(to bottom, #000 55%, transparent);
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.75) 35%, rgba(0, 0, 0, 0.3) 70%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.75) 35%, rgba(0, 0, 0, 0.3) 70%, transparent 100%);
     content: "";
     pointer-events: none;
   }
@@ -5779,168 +5784,94 @@ html.is-desktop-viewport .header.site-chrome::before {
   position: fixed;
   inset: 0 0 auto 0;
   z-index: -1;
-  height: 5rem;
-  background: linear-gradient(to bottom, color-mix(in srgb, #fff 22%, transparent), transparent);
+  height: 6.5rem;
+  background: linear-gradient(to bottom, color-mix(in srgb, #fff 12%, transparent), transparent);
   @supports (color: color-mix(in lab, red, red)) {
-    background: linear-gradient(to bottom, color-mix(in srgb, var(--color-body) 22%, transparent), transparent);
+    background: linear-gradient(to bottom, color-mix(in srgb, var(--color-body) 12%, transparent), transparent);
   }
-  -webkit-backdrop-filter: blur(5px);
-  backdrop-filter: blur(5px);
-  -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent);
-  mask-image: linear-gradient(to bottom, #000 55%, transparent);
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.75) 35%, rgba(0, 0, 0, 0.3) 70%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, rgba(0, 0, 0, 0.75) 35%, rgba(0, 0, 0, 0.3) 70%, transparent 100%);
   content: "";
   pointer-events: none;
 }
 :root {
   --cm-accent: var(--color-primary);
+  --cm-ease: cubic-bezier(0.16, 1, 0.3, 1);
 }
 html.cm-armed main, html.cm-armed footer, html.cm-armed .header .navbar, .cm-pending {
   opacity: 0 !important;
 }
-.cm-decoding cm-c {
+.cm-typing cm-c, .cm-streaming cm-w {
   position: relative;
   opacity: 0;
+  transition: opacity 200ms ease-out, filter 320ms ease-out;
 }
-.cm-decoding cm-c.is-on {
+.cm-streaming cm-w {
+  filter: blur(3px);
+}
+.cm-typing cm-c.is-on, .cm-streaming cm-w.is-on {
   opacity: 1;
+  filter: none;
 }
-.cm-decoding cm-c.is-g {
-  opacity: 1;
-  color: transparent !important;
-  text-shadow: none !important;
-}
-.cm-decoding cm-c.is-g::after {
+.cm-typing cm-c.is-caret::after, .cm-streaming cm-w.is-caret::after {
   position: absolute;
-  inset: 0;
-  color: var(--cm-accent);
-  content: attr(data-g);
-  opacity: 0.8;
-  text-align: center;
-  text-shadow: 0 0 0.5em var(--cm-accent);
-  @supports (color: color-mix(in lab, red, red)) {
-    text-shadow: 0 0 0.5em color-mix(in srgb, var(--cm-accent) 55%, transparent);
-  }
-}
-.cm-decoding cm-c.is-caret::before, .cm-streaming cm-w.is-caret::after {
-  position: absolute;
-  top: 0.14em;
-  bottom: 0.08em;
-  left: calc(100% + 0.06em);
-  width: min(0.5em, 0.75rem);
+  top: 0.12em;
+  bottom: 0.06em;
+  left: calc(100% + 0.08em);
+  width: 2px;
   background: var(--cm-accent);
-  box-shadow: 0 0 min(0.6em, 0.9rem) var(--cm-accent);
-  @supports (color: color-mix(in lab, red, red)) {
-    box-shadow: 0 0 min(0.6em, 0.9rem) color-mix(in srgb, var(--cm-accent) 55%, transparent);
-  }
   content: "";
-  opacity: 0.9;
+  opacity: 0.85;
 }
-cm-caret-live::after {
+.cm-caret-live::after {
   display: inline-block;
-  width: min(0.14em, 0.9rem);
+  width: max(2px, 0.05em);
   height: 0.74em;
-  margin-left: 0.1em;
+  margin-left: 0.08em;
   background: var(--cm-accent);
-  box-shadow: 0 0 0.35em var(--cm-accent);
-  @supports (color: color-mix(in lab, red, red)) {
-    box-shadow: 0 0 0.35em color-mix(in srgb, var(--cm-accent) 45%, transparent);
-  }
   content: "";
   vertical-align: baseline;
   animation: cm-caret-blink 1.06s steps(1, end) infinite;
 }
 @keyframes cm-caret-blink {
   0%, 55% {
-    opacity: 0.9;
+    opacity: 0.85;
   }
   56%, 100% {
     opacity: 0;
   }
 }
-.cm-streaming cm-w {
-  position: relative;
-  opacity: 0;
-  transition: color 560ms ease, text-shadow 560ms ease;
-}
-.cm-streaming cm-w.is-on {
-  opacity: 1;
-}
-.cm-streaming cm-w.is-fresh {
-  color: var(--cm-accent);
-  text-shadow: 0 0 0.6em var(--cm-accent);
-  @supports (color: color-mix(in lab, red, red)) {
-    text-shadow: 0 0 0.6em color-mix(in srgb, var(--cm-accent) 45%, transparent);
-  }
-  transition: none;
-}
-cm-chip {
-  animation: cm-chip-open 420ms steps(7, end) both, cm-chip-frame 620ms ease-out both;
+.cm-chip {
+  animation: cm-chip-open 460ms var(--cm-ease) both;
 }
 @keyframes cm-chip-open {
   from {
+    opacity: 0;
     clip-path: inset(-4px 100% -4px -4px);
   }
   to {
+    opacity: 1;
     clip-path: inset(-4px -4px -4px -4px);
   }
 }
-@keyframes cm-chip-frame {
-  from {
-    outline: 1px dashed var(--cm-accent);
-    outline-offset: 3px;
-  }
-  to {
-    outline: 1px dashed transparent;
-    outline-offset: 3px;
-  }
-}
 .cm-render {
-  animation: cm-render-rows 560ms steps(12, end) both, cm-render-signal 760ms ease-out both;
+  animation: cm-render-wipe 700ms var(--cm-ease) both;
 }
-@keyframes cm-render-rows {
+@keyframes cm-render-wipe {
   from {
+    opacity: 0.4;
     clip-path: inset(0 0 100% 0);
   }
   to {
+    opacity: 1;
     clip-path: inset(0 0 0 0);
-  }
-}
-@keyframes cm-render-signal {
-  from {
-    filter: saturate(0) contrast(1.5) brightness(1.25);
-  }
-  to {
-    filter: none;
-  }
-}
-.cm-scanline {
-  position: absolute;
-  z-index: 40;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--cm-accent) 18%, var(--cm-accent) 82%, transparent);
-  box-shadow: 0 0 14px 2px var(--cm-accent);
-  @supports (color: color-mix(in lab, red, red)) {
-    box-shadow: 0 0 14px 2px color-mix(in srgb, var(--cm-accent) 55%, transparent);
-  }
-  pointer-events: none;
-  animation: cm-scan 560ms steps(12, end) forwards;
-}
-@keyframes cm-scan {
-  from {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  90% {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-    transform: translateY(var(--cm-h, 0));
   }
 }
 .cm-draw {
   transform-origin: left center;
-  animation: cm-draw 620ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: cm-draw 620ms var(--cm-ease) both;
 }
 @keyframes cm-draw {
   from {
@@ -5954,7 +5885,7 @@ cm-chip {
   .cm-pending, html.cm-armed main, html.cm-armed footer, html.cm-armed .header .navbar {
     opacity: 1 !important;
   }
-  cm-caret-live::after {
+  .cm-caret-live::after {
     animation: none;
   }
 }
@@ -5962,6 +5893,30 @@ cm-chip {
   .cm-pending, html.cm-armed main, html.cm-armed footer, html.cm-armed .header .navbar {
     opacity: 1 !important;
   }
+}
+.projects-page__rail, html.is-desktop-viewport .projects-page__rail {
+  width: min(13.8rem, 13.5vw);
+  gap: 1.33rem;
+  padding: 0 0.36rem 0.76rem 1.98rem;
+}
+.projects-page__rail a {
+  font-size: clamp(0.74rem, 0.95vw, 0.9rem);
+  margin-left: -1.85rem;
+  padding: 0.36rem 0.58rem 0.36rem 1.85rem;
+}
+.header .site-side-nav, html.is-desktop-viewport .header .site-side-nav {
+  width: clamp(8rem, 9.9vw, 9.95rem) !important;
+  gap: clamp(1.04rem, 3.06vh, 2.3rem) !important;
+}
+.site-side-nav .nav-link, html.is-desktop-viewport .site-side-nav .nav-link {
+  font-size: clamp(0.81rem, 1.1vw, 1.04rem);
+  padding: 0 clamp(1.3rem, 1.53vw, 1.8rem) 0 0 !important;
+}
+.experience-entry.project-row {
+  border-top: 0;
+}
+.experience-entry::before {
+  content: none;
 }
 @layer base {
   input:where([type='text']),input:where(:not([type])),input:where([type='email']),input:where([type='url']),input:where([type='password']),input:where([type='number']),input:where([type='date']),input:where([type='datetime-local']),input:where([type='month']),input:where([type='search']),input:where([type='tel']),input:where([type='time']),input:where([type='week']),select:where([multiple]),textarea,select {
