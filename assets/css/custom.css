@@ -1273,13 +1273,6 @@ html {
   z-index: 0;
 }
 
-:root[data-ui-style="terminal"] .landing-button,
-:root[data-ui-style="terminal"] .landing-stack span,
-:root[data-ui-style="terminal"] .code-theme-switcher__button {
-  border-radius: 0;
-  box-shadow: none;
-}
-
 :root[data-ui-style="windows-95"] body {
   background: color-mix(in srgb, var(--color-body) 88%, #008080 12%);
 }
@@ -1359,14 +1352,6 @@ html {
   box-shadow: 5.32px 5.32px 0 #000 !important;
 }
 
-:root[data-ui-style="terminal"] .site-search-trigger,
-:root[data-ui-style="terminal"] .top-contact-link,
-:root[data-ui-style="terminal"] .site-name-link,
-:root[data-ui-style="terminal"] .landing-button {
-  border-radius: 0 !important;
-  box-shadow: none !important;
-}
-
 :root[data-ui-style="minimal"] .projects-page__rail a.is-active {
   border-radius: 6px;
 }
@@ -1395,17 +1380,6 @@ html {
   border: 0 !important;
   border-radius: 0 !important;
   box-shadow: 5.32px 5.32px 0 #000 !important;
-}
-
-:root[data-ui-style="terminal"] .projects-page__rail a.is-active {
-  border-radius: 0;
-  box-shadow: none;
-}
-
-:root[data-ui-style="terminal"] .projects-page__rail a:hover,
-:root[data-ui-style="terminal"] .projects-page__rail a:focus {
-  border-radius: 0;
-  box-shadow: none;
 }
 
 :root[data-ui-style="neobrutalism"] .header .code-theme-switcher__button,
@@ -1979,19 +1953,6 @@ html {
     6.08px 6.08px 0 #000 !important;
 }
 
-:root[data-ui-style="terminal"] .about-resource-card img,
-:root[data-ui-style="terminal"] .about-spotify-card img {
-  border-radius: 0;
-  box-shadow: none;
-}
-
-:root[data-ui-style="terminal"] .about-resource-card:hover img,
-:root[data-ui-style="terminal"] .about-resource-card:focus-visible img,
-:root[data-ui-style="terminal"] .about-spotify-card:hover img,
-:root[data-ui-style="terminal"] .about-spotify-card:focus-visible img {
-  box-shadow: 0 0 0 5px color-mix(in srgb, var(--color-primary) 18%, transparent);
-}
-
 :root[data-ui-style="windows-95"] .about-resource-card img,
 :root[data-ui-style="windows-95"] .about-spotify-card img {
   border: 2px solid !important;
@@ -2086,11 +2047,6 @@ html {
   border: 0;
   border-radius: 8px;
   box-shadow: 0 10px 24px color-mix(in srgb, #000 16%, transparent);
-}
-
-:root[data-ui-style="terminal"] .about-skill {
-  border-radius: 0;
-  box-shadow: none;
 }
 
 .project-row__link {
@@ -3473,9 +3429,105 @@ html.style-swap::view-transition-new(root) {
   animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* Windows 95 greys out buttons, so the primary one needs light text to stay legible. */
-:root[data-ui-style="windows-95"] .landing-button--primary,
-:root[data-ui-style="windows-95"] .landing-button--primary:hover,
-:root[data-ui-style="windows-95"] .landing-button--primary:focus-visible {
-  color: var(--color-text-dark) !important;
+/* Windows 95: landing buttons are classic silver push buttons. */
+:root[data-ui-style="windows-95"] .landing-button,
+:root[data-ui-style="windows-95"] .landing-button--primary {
+  border: 2px solid !important;
+  border-color: #fff #404040 #404040 #fff !important;
+  border-radius: 0 !important;
+  background: #c0c0c0 !important;
+  box-shadow: inset -1px -1px 0 #808080, inset 1px 1px 0 #dfdfdf !important;
+  color: #000 !important;
+  text-shadow: none !important;
+  transform: none !important;
+}
+
+:root[data-ui-style="windows-95"] .landing-button:hover,
+:root[data-ui-style="windows-95"] .landing-button:focus-visible {
+  outline: 1px dotted #000;
+  outline-offset: -5px;
+}
+
+:root[data-ui-style="windows-95"] .landing-button:active {
+  border-color: #404040 #fff #fff #404040 !important;
+  box-shadow: inset 1px 1px 0 #808080 !important;
+}
+
+/* Rail links keep one border width in every state so hovering never shifts the list. */
+/* Extra :root specificity outranks the per-style "border: 0 !important" hover rules. */
+:root:root:root:root .projects-page__rail a,
+:root:root:root:root .projects-page__rail a:hover,
+:root:root:root:root .projects-page__rail a:focus,
+:root:root:root:root .projects-page__rail a.is-active {
+  border-style: solid !important;
+  border-width: 1px !important;
+}
+
+:root:root:root:root[data-ui-style="windows-95"] .projects-page__rail a,
+:root:root:root:root[data-ui-style="windows-95"] .projects-page__rail a:hover,
+:root:root:root:root[data-ui-style="windows-95"] .projects-page__rail a:focus,
+:root:root:root:root[data-ui-style="windows-95"] .projects-page__rail a.is-active {
+  border-width: 2px !important;
+}
+
+:root[data-ui-style="windows-95"] .projects-page__rail a:not(:hover):not(:focus):not(.is-active) {
+  border-color: transparent !important;
+}
+
+:root[data-ui-style="material"] .projects-page__rail a:is(:hover, :focus, .is-active),
+:root[data-ui-style="neobrutalism"] .projects-page__rail a:is(:hover, :focus, .is-active) {
+  border-color: transparent !important;
+}
+
+/* Competitions: no separators; images sit flush left without a frame. */
+.hackathons-page .project-row {
+  border-top: 0 !important;
+}
+
+:root .hackathons-page .project-row__media {
+  justify-content: flex-start;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.hackathons-page .project-row__media .project-row__image {
+  margin-left: 0 !important;
+  margin-right: auto !important;
+  object-position: left center;
+}
+
+/* Project tech stacks show tool logos like the experience page. */
+.project-row__stack .experience-stack-item::before {
+  display: none !important;
+  content: none !important;
+}
+
+.project-row__stack .experience-stack-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.project-row__stack .experience-stack-item img {
+  width: 1.05rem;
+  height: 1.05rem;
+  flex: 0 0 1.05rem;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  object-fit: contain;
+}
+
+.project-row__stack .project-row__stack-label,
+.project-single__stack .project-row__stack-label {
+  font-size: 1.05rem !important;
+  font-weight: 500;
+}
+
+:root[data-ui-style] .project-row__stack .project-row__stack-label {
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
 }

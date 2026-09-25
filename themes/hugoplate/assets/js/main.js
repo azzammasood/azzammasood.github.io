@@ -21,12 +21,11 @@
       var lightCursorTheme = root.dataset.codeTheme === "mono" || root.dataset.codeTheme === "kodama-grove";
       var fill = lightCursorTheme ? "#ffffff" : token("--color-primary", "#111111");
       var stroke = "#000000";
-      var shadow = "rgba(0,0,0,.28)";
 
       var arrowSvg = [
         '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28">',
         '<path d="M5 3.75 21.25 17.2l-8.02 1.08-3.58 7.24L5 3.75Z" fill="' + fill + '" stroke="' + stroke + '" stroke-width="2.4" stroke-linejoin="round"/>',
-        '<path d="m13.23 18.28 2.86 5.05" stroke="' + shadow + '" stroke-width="1.6" stroke-linecap="round"/>',
+        '<path d="m13.23 18.28 2.86 5.05" stroke="' + stroke + '" stroke-width="2.4" stroke-linecap="round"/>',
         "</svg>",
       ].join("");
 

@@ -1,0 +1,6 @@
+{{/* One tech-stack chip with its logo from data/tool_icons.yaml, when there is one. */}}
+{{ $icon := index site.Data.tool_icons . }}
+<span class="experience-stack-item{{ if $icon }} experience-stack-item--icon{{ end }}">
+  {{- with $icon }}<img src="{{ . }}" alt="" loading="lazy" />{{ end -}}
+  {{ . }}
+</span>
