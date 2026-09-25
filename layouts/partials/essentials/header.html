@@ -2,7 +2,7 @@
   <nav class="navbar container py-1" aria-label="Primary navigation">
     <div class="order-0 hidden lg:block">
       {{ if not .IsHome }}
-        <a class="site-name-link" href="{{ site.Home.RelPermalink }}">Ahmad Uzzam Masood</a>
+        <a class="site-name-link" href="{{ site.Home.RelPermalink }}">Ahmad Uzzam</a>
       {{ end }}
     </div>
     <input id="nav-toggle" type="checkbox" class="hidden" />
@@ -113,11 +113,11 @@
         {{ if .enable }}
           <button
             type="button"
-            class="site-search-trigger hidden items-center gap-2 rounded-lg border border-border bg-light/90 px-3 py-2 text-sm text-text-light transition hover:border-primary dark:border-darkmode-border dark:bg-darkmode-light/60 dark:text-darkmode-text-light dark:hover:border-darkmode-primary lg:flex"
+            class="site-search-trigger hidden items-center lg:flex"
             data-command-palette-open
             aria-label="Open search and commands">
             <i class="fa-solid fa-magnifying-glass shrink-0 opacity-70"></i>
-            <kbd class="ml-auto hidden shrink-0 rounded border border-border bg-body px-1.5 py-0.5 text-[10px] font-medium text-text-light xl:inline dark:border-darkmode-border dark:bg-darkmode-body">Ctrl K</kbd>
+            <kbd class="hidden shrink-0 xl:inline">Ctrl K</kbd>
           </button>
           <button
             type="button"
@@ -131,7 +131,7 @@
 
       <a class="top-contact-link" href="{{ `/contact/` | relLangURL }}">Contact Me</a>
 
-      {{ partial "components/theme-switcher" (dict "Class" "mr-2 top-theme-switcher") }}
+      {{ partial "components/theme-switcher" (dict "Class" "top-theme-switcher") }}
       <a class="top-github-link" href="https://github.com/azzammasood" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub">
         <i class="fab fa-github" aria-hidden="true"></i>
       </a>

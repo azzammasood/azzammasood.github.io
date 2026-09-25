@@ -16,7 +16,6 @@
     <script>
       (function () {
         var root = document.documentElement;
-        var body = document.body;
         var theme = "kernel-panic";
         var style = "minimal";
         try {
@@ -26,10 +25,12 @@
         root.dataset.codeTheme = theme;
         root.dataset.uiStyle = style;
         root.classList.toggle("dark", !/^(mono|kodama-grove)$/.test(theme));
-        if (!body) return;
         if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-        body.classList.add("page-motion-stage");
-        if (body.classList.contains("is-home")) body.classList.add("home-motion-stage");
+        // Hide content until assets/js/code-motion.js takes over; never leave it hidden.
+        root.classList.add("cm-armed");
+        window.setTimeout(function () {
+          root.classList.remove("cm-armed");
+        }, 3000);
       })();
     </script>
     {{ if hugo.IsProduction }}
