@@ -16,7 +16,6 @@
     (dict "name" "Minimal" "id" "minimal")
     (dict "name" "Material" "id" "material")
     (dict "name" "NeoBrutalism" "id" "neobrutalism")
-    (dict "name" "Terminal" "id" "terminal")
     (dict "name" "Windows 95" "id" "windows-95")
   }}
   <div class="code-theme-switcher {{ $class }}" data-code-theme-switcher data-style-switcher>
@@ -43,7 +42,7 @@
   <script>
     (function () {
       var themes = {"kernel-panic":["Kernel Panic",true],"dracula":["Dracula",true],"monokai":["Monokai",true],"abyss":["Abyss",true],"caffeine":["Caffeine",true],"kodama-grove":["Kodama Grove",false],"cyberpunk":["Cyberpunk",true],"tokyo-night":["Tokyo Night",true],"mono":["Mono",false],"mono-dark":["Mono Dark",true]};
-      var styles = {"minimal":"Minimal","material":"Material","neobrutalism":"NeoBrutalism","terminal":"Terminal","windows-95":"Windows 95"};
+      var styles = {"minimal":"Minimal","material":"Material","neobrutalism":"NeoBrutalism","windows-95":"Windows 95"};
       var motionReady = false;
       function transition(fn) {
         if (!motionReady) { fn(); return; }
@@ -60,7 +59,7 @@
         });
       }
       function currentTheme() { return localStorage.getItem("code-theme") || document.documentElement.dataset.codeTheme || "kernel-panic"; }
-      function currentStyle() { return localStorage.getItem("ui-style") || document.documentElement.dataset.uiStyle || "minimal"; }
+      function currentStyle() { return localStorage.getItem("ui-style") || document.documentElement.dataset.uiStyle || "neobrutalism"; }
       function paintTheme(id, save) { var t = themes[id] || themes["kernel-panic"], key = themes[id] ? id : "kernel-panic"; transition(function () {
         document.documentElement.dataset.codeTheme = key; document.documentElement.classList.toggle("dark", !!t[1]);
         if (save) { localStorage.setItem("theme", t[1] ? "dark" : "light"); localStorage.setItem("code-theme", key); }
@@ -75,7 +74,7 @@
         var vt = document.startViewTransition(fn);
         vt.finished.finally(function () { document.documentElement.classList.remove("style-swap"); });
       }
-      function paintStyle(id, save) { var key = styles[id] ? id : "minimal"; styleTransition(function () {
+      function paintStyle(id, save) { var key = styles[id] ? id : "neobrutalism"; styleTransition(function () {
         document.documentElement.dataset.uiStyle = key; if (save) localStorage.setItem("ui-style", key);
         document.querySelectorAll("[data-ui-style-current]").forEach(function (el) { el.textContent = styles[key]; });
         document.querySelectorAll("[data-ui-style-option]").forEach(function (el) { el.setAttribute("aria-current", el.dataset.uiStyleOption === key ? "true" : "false"); });
@@ -83,7 +82,7 @@
       window.portfolioThemes = { apply: function (id) { paintTheme(id, true); }, preview: function (id) { paintTheme(id, false); }, restore: function () { paintTheme(currentTheme(), false); }, names: themes };
       window.portfolioStyles = { apply: function (id) { paintStyle(id, true); }, preview: function (id) { paintStyle(id, false); }, restore: function () { paintStyle(currentStyle(), false); }, names: styles };
       window.portfolioThemes.apply(localStorage.getItem("code-theme") || document.documentElement.dataset.codeTheme || "kernel-panic");
-      window.portfolioStyles.apply(localStorage.getItem("ui-style") || "minimal");
+      window.portfolioStyles.apply(localStorage.getItem("ui-style") || "neobrutalism");
       motionReady = true;
       document.addEventListener("DOMContentLoaded", function () {
         document.querySelectorAll("[data-code-theme-toggle]").forEach(function (button) {

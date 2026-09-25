@@ -31,7 +31,6 @@
     ["Minimal", "minimal", "/style-minimal"],
     ["Material", "material", "/style-material"],
     ["NeoBrutalism", "neobrutalism", "/style-neobrutal"],
-    ["Terminal", "terminal", "/style-terminal"],
     ["Windows 95", "windows-95", "/style-win95"],
   ];
   var shortcuts = [

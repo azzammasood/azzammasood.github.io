@@ -39,7 +39,7 @@
                   <div class="project-row__stack" aria-label="Tech stack">
                     <span class="project-row__stack-label">Tech Stack</span>
                     {{ range . }}
-                      <span>{{ . }}</span>
+                      {{ partial "components/stack-item.html" . }}
                     {{ end }}
                   </div>
                 {{ end }}

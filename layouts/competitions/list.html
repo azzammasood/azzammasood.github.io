@@ -37,14 +37,6 @@
                 {{ with .Params.linkedin_post }}
                   <a class="competition-link" href="{{ . }}" target="_blank" rel="noopener">View on LinkedIn</a>
                 {{ end }}
-                {{ with .Params.tags }}
-                  <div class="project-row__stack" aria-label="Tech stack">
-                    <span class="project-row__stack-label">Tech Stack</span>
-                    {{ range . }}
-                      <span>{{ . }}</span>
-                    {{ end }}
-                  </div>
-                {{ end }}
               </div>
             </article>
           {{ end }}
