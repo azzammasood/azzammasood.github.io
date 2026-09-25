@@ -186,7 +186,6 @@
     var count = chars.length;
     var duration = clamp(count * (opts.perChar || 30), 260, 1000);
     var shown = 0;
-    var keepCaret = el.hasAttribute("data-cm-caret");
 
     el.classList.add("cm-typing");
     if (!el.hasAttribute("aria-label") && !matches(el, "a,button")) {
@@ -214,7 +213,6 @@
             el.removeAttribute("aria-label");
             el._cmLabel = false;
           }
-          if (keepCaret) el.classList.add("cm-caret-live");
         }, 220);
       },
     };
@@ -264,7 +262,6 @@
   }
 
   function perChar(el) {
-    if (el.hasAttribute("data-cm-caret")) return 90;
     if (el.closest(".header")) return 30;
     return /^H[12]$/.test(el.tagName) ? 36 : 30;
   }
@@ -391,10 +388,6 @@
 
     disarm();
   }
-
-  // The site's persistent caret after the hero name.
-  var hero = document.querySelector("body.is-home .landing-hero__name h1");
-  if (hero) hero.setAttribute("data-cm-caret", "");
 
   init();
 

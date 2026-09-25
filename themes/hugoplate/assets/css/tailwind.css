@@ -2884,7 +2884,7 @@ input#nav-toggle:checked ~ #nav-menu {
     cursor: text;
   }
 }
-:root, :root[data-code-theme="andromeda"] {
+:root {
   --color-primary: #00e8c6;
   --color-body: #10131a;
   --color-border: #2b3244;
@@ -3125,24 +3125,24 @@ input#nav-toggle:checked ~ #nav-menu {
   --landing-muted-band: oklch(0.18 0.04 260);
 }
 :root[data-code-theme="caffeine"] {
-  --color-primary: oklch(0.60 0.12 72);
-  --color-body: oklch(0.97 0.02 85);
-  --color-border: oklch(0.84 0.03 78);
-  --color-light: oklch(0.93 0.03 82);
-  --color-dark: oklch(0.24 0.03 58);
-  --color-text: oklch(0.33 0.03 58);
-  --color-text-dark: oklch(0.20 0.03 52);
-  --color-text-light: oklch(0.50 0.04 64);
-  --color-darkmode-primary: oklch(0.70 0.13 65);
-  --color-darkmode-body: oklch(0.18 0.04 60);
-  --color-darkmode-border: oklch(0.34 0.06 55);
-  --color-darkmode-light: oklch(0.25 0.05 58);
-  --color-darkmode-dark: oklch(0.92 0.05 70);
-  --color-darkmode-text: oklch(0.82 0.05 70);
-  --color-darkmode-text-dark: oklch(0.94 0.04 76);
-  --color-darkmode-text-light: oklch(0.64 0.05 62);
-  --landing-stripe: color-mix(in srgb, oklch(0.72 0.08 84) 20%, transparent);
-  --landing-muted-band: oklch(0.93 0.03 82);
+  --color-primary: oklch(0.80 0.11 75);
+  --color-body: oklch(0.33 0.045 55);
+  --color-border: oklch(0.47 0.055 58);
+  --color-light: oklch(0.38 0.05 56);
+  --color-dark: oklch(0.96 0.02 80);
+  --color-text: oklch(0.89 0.03 75);
+  --color-text-dark: oklch(0.96 0.02 80);
+  --color-text-light: oklch(0.75 0.05 68);
+  --color-darkmode-primary: oklch(0.80 0.11 75);
+  --color-darkmode-body: oklch(0.33 0.045 55);
+  --color-darkmode-border: oklch(0.47 0.055 58);
+  --color-darkmode-light: oklch(0.38 0.05 56);
+  --color-darkmode-dark: oklch(0.96 0.02 80);
+  --color-darkmode-text: oklch(0.89 0.03 75);
+  --color-darkmode-text-dark: oklch(0.96 0.02 80);
+  --color-darkmode-text-light: oklch(0.75 0.05 68);
+  --landing-stripe: color-mix(in srgb, oklch(0.80 0.11 75) 12%, transparent);
+  --landing-muted-band: oklch(0.38 0.05 56);
 }
 :root[data-code-theme="doom-64"] {
   --color-primary: oklch(0.62 0.22 25);
@@ -3226,23 +3226,23 @@ input#nav-toggle:checked ~ #nav-menu {
 }
 :root[data-code-theme="cyberpunk"] {
   --color-primary: #faff00;
-  --color-body: #120024;
-  --color-border: #44205f;
-  --color-light: #22003d;
+  --color-body: #1d0838;
+  --color-border: #54306f;
+  --color-light: #2d1150;
   --color-dark: #ffffff;
   --color-text: #ffe6ff;
   --color-text-dark: #ffffff;
   --color-text-light: #ff8bd7;
   --color-darkmode-primary: #faff00;
-  --color-darkmode-body: #120024;
-  --color-darkmode-border: #44205f;
-  --color-darkmode-light: #22003d;
+  --color-darkmode-body: #1d0838;
+  --color-darkmode-border: #54306f;
+  --color-darkmode-light: #2d1150;
   --color-darkmode-dark: #ffffff;
   --color-darkmode-text: #ffe6ff;
   --color-darkmode-text-dark: #ffffff;
   --color-darkmode-text-light: #ff8bd7;
   --landing-stripe: rgba(0, 240, 255, 0.14);
-  --landing-muted-band: #22003d;
+  --landing-muted-band: #2d1150;
 }
 :root[data-code-theme="tokyo-night"] {
   --color-primary: #7aa2f7;
@@ -4026,85 +4026,6 @@ html {
   border-radius: 0;
   box-shadow: none;
 }
-:root[data-ui-style="glassmorphism"] .landing-button, :root[data-ui-style="glassmorphism"] .code-theme-switcher__button, :root[data-ui-style="glassmorphism"] .code-theme-switcher__menu, :root[data-ui-style="glassmorphism"] .landing-stack span, :root[data-ui-style="glassmorphism"] .command-palette > div > div {
-  background: color-mix(in srgb, #f6f6f6 58%, transparent) !important;
-  @supports (color: color-mix(in lab, red, red)) {
-    background: color-mix(in srgb, var(--color-light) 58%, transparent) !important;
-  }
-  border-color: color-mix(in srgb, #121212 32%, #eaeaea) !important;
-  @supports (color: color-mix(in lab, red, red)) {
-    border-color: color-mix(in srgb, var(--color-primary) 32%, var(--color-border)) !important;
-  }
-  backdrop-filter: blur(18px);
-  box-shadow: 0 20px 60px color-mix(in srgb, #000 22%, transparent);
-}
-:root[data-ui-style="glassmorphism"] .landing-hero, :root[data-ui-style="glassmorphism"] .landing-links {
-  background: radial-gradient(circle at 75% 20%, color-mix(in srgb, #121212 18%, transparent), transparent 28%), linear-gradient(135deg, color-mix(in srgb, #fff 88%, transparent), color-mix(in srgb, #f6f6f6 76%, transparent)) !important;
-  @supports (color: color-mix(in lab, red, red)) {
-    background: radial-gradient(circle at 75% 20%, color-mix(in srgb, var(--color-primary) 18%, transparent), transparent 28%), linear-gradient(135deg, color-mix(in srgb, var(--color-body) 88%, transparent), color-mix(in srgb, var(--color-light) 76%, transparent)) !important;
-  }
-}
-:root[data-ui-style="glassmorphism"] .landing-hero__proof {
-  padding: 1.2rem;
-  border-radius: 18px;
-  background: color-mix(in srgb, #f6f6f6 48%, transparent);
-  @supports (color: color-mix(in lab, red, red)) {
-    background: color-mix(in srgb, var(--color-light) 48%, transparent);
-  }
-  backdrop-filter: blur(22px);
-  box-shadow: 0 24px 70px color-mix(in srgb, #000 28%, transparent);
-}
-:root[data-ui-style="glassmorphism"] .landing-button--primary {
-  background: color-mix(in srgb, #121212 88%, #000 12%) !important;
-  @supports (color: color-mix(in lab, red, red)) {
-    background: color-mix(in srgb, var(--color-primary) 88%, #000 12%) !important;
-  }
-  color: #fff !important;
-  border-color: color-mix(in srgb, #121212 80%, #fff 20%) !important;
-  @supports (color: color-mix(in lab, red, red)) {
-    border-color: color-mix(in srgb, var(--color-primary) 80%, #fff 20%) !important;
-  }
-  text-shadow: none;
-}
-:root[data-ui-style="glassmorphism"] .landing-button:hover, :root[data-ui-style="glassmorphism"] .landing-button:focus-visible, :root[data-ui-style="glassmorphism"] .landing-button--primary:hover, :root[data-ui-style="glassmorphism"] .landing-button--primary:focus-visible {
-  background: color-mix(in srgb, #121212 82%, #000 18%) !important;
-  @supports (color: color-mix(in lab, red, red)) {
-    background: color-mix(in srgb, var(--color-primary) 82%, #000 18%) !important;
-  }
-  color: #fff !important;
-  border-color: color-mix(in srgb, #121212 86%, #fff 14%) !important;
-  @supports (color: color-mix(in lab, red, red)) {
-    border-color: color-mix(in srgb, var(--color-primary) 86%, #fff 14%) !important;
-  }
-}
-:root[data-ui-style="retro-terminal"] body {
-  background: linear-gradient(rgba(255, 255, 255, 0.035) 50%, transparent 50%), var(--color-body);
-  background-size: 100% 4px;
-}
-:root[data-ui-style="retro-terminal"] .landing-button, :root[data-ui-style="retro-terminal"] .site-search-trigger, :root[data-ui-style="retro-terminal"] .top-contact-link, :root[data-ui-style="retro-terminal"] .site-name-link, :root[data-ui-style="retro-terminal"] .code-theme-switcher__menu, :root[data-ui-style="retro-terminal"] .projects-page__rail a:hover, :root[data-ui-style="retro-terminal"] .projects-page__rail a:focus, :root[data-ui-style="retro-terminal"] .projects-page__rail a.is-active, :root[data-ui-style="retro-terminal"] .about-skill, :root[data-ui-style="retro-terminal"] .project-row__stack span, :root[data-ui-style="retro-terminal"] .command-palette > div > div {
-  border-radius: 0 !important;
-  border-color: color-mix(in srgb, #121212 58%, #eaeaea) !important;
-  @supports (color: color-mix(in lab, red, red)) {
-    border-color: color-mix(in srgb, var(--color-primary) 58%, var(--color-border)) !important;
-  }
-  background: color-mix(in srgb, #000 78%, #fff 22%) !important;
-  @supports (color: color-mix(in lab, red, red)) {
-    background: color-mix(in srgb, #000 78%, var(--color-body) 22%) !important;
-  }
-  color: color-mix(in srgb, #121212 82%, #d7ffd7 18%) !important;
-  @supports (color: color-mix(in lab, red, red)) {
-    color: color-mix(in srgb, var(--color-primary) 82%, #d7ffd7 18%) !important;
-  }
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace !important;
-  text-shadow: 0 0 7px color-mix(in srgb, #121212 55%, transparent);
-  @supports (color: color-mix(in lab, red, red)) {
-    text-shadow: 0 0 7px color-mix(in srgb, var(--color-primary) 55%, transparent);
-  }
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, #121212 22%, transparent), 0 0 18px color-mix(in srgb, #121212 16%, transparent);
-  @supports (color: color-mix(in lab, red, red)) {
-    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-primary) 22%, transparent), 0 0 18px color-mix(in srgb, var(--color-primary) 16%, transparent);
-  }
-}
 :root[data-ui-style="windows-95"] body {
   background: color-mix(in srgb, #fff 88%, #008080 12%);
   @supports (color: color-mix(in lab, red, red)) {
@@ -4121,35 +4042,7 @@ html {
   }
   box-shadow: 1px 1px 0 #000;
 }
-:root[data-ui-style="retro-terminal"] .code-theme-switcher__button, :root[data-ui-style="retro-terminal"] .top-github-link {
-  color: var(--color-primary) !important;
-  text-shadow: 0 0 8px color-mix(in srgb, #121212 38%, transparent);
-  @supports (color: color-mix(in lab, red, red)) {
-    text-shadow: 0 0 8px color-mix(in srgb, var(--color-primary) 38%, transparent);
-  }
-}
-:root[data-code-theme="mono"][data-ui-style="retro-terminal"] .landing-button, :root[data-code-theme="mono"][data-ui-style="retro-terminal"] .site-search-trigger, :root[data-code-theme="mono"][data-ui-style="retro-terminal"] .top-contact-link, :root[data-code-theme="mono"][data-ui-style="retro-terminal"] .site-name-link, :root[data-code-theme="mono"][data-ui-style="retro-terminal"] .code-theme-switcher__menu, :root[data-code-theme="mono"][data-ui-style="retro-terminal"] .projects-page__rail a:hover, :root[data-code-theme="mono"][data-ui-style="retro-terminal"] .projects-page__rail a:focus, :root[data-code-theme="mono"][data-ui-style="retro-terminal"] .projects-page__rail a.is-active, :root[data-code-theme="mono"][data-ui-style="retro-terminal"] .about-skill, :root[data-code-theme="mono"][data-ui-style="retro-terminal"] .project-row__stack span, :root[data-code-theme="mono"][data-ui-style="retro-terminal"] .command-palette > div > div {
-  border-color: #000 !important;
-  background: #1f2328 !important;
-  color: #fff !important;
-  text-shadow: none !important;
-}
-:root[data-code-theme="mono"][data-ui-style="retro-terminal"] .code-theme-switcher__button, :root[data-code-theme="mono"][data-ui-style="retro-terminal"] .top-github-link {
-  color: #1f2328 !important;
-  text-shadow: none !important;
-}
-:root[data-code-theme="mono"][data-ui-style="retro-terminal"] .code-theme-option, :root[data-code-theme="mono-dark"][data-ui-style="retro-terminal"] .code-theme-option {
-  color: #fff !important;
-}
-:root[data-code-theme="mono"][data-ui-style="retro-terminal"] .code-theme-option:hover, :root[data-code-theme="mono"][data-ui-style="retro-terminal"] .code-theme-option[aria-current="true"] {
-  background: #dfe6ec !important;
-  color: #1f2328 !important;
-}
-:root[data-code-theme="mono-dark"][data-ui-style="retro-terminal"] .code-theme-option:hover, :root[data-code-theme="mono-dark"][data-ui-style="retro-terminal"] .code-theme-option[aria-current="true"] {
-  background: #2a2a2a !important;
-  color: #fff !important;
-}
-.header.site-chrome, :root[data-ui-style="glassmorphism"] .header.site-chrome {
+.header.site-chrome {
   background: transparent !important;
   box-shadow: none !important;
   backdrop-filter: none !important;
@@ -4176,18 +4069,6 @@ html {
 :root[data-ui-style="terminal"] .site-search-trigger, :root[data-ui-style="terminal"] .top-contact-link, :root[data-ui-style="terminal"] .site-name-link, :root[data-ui-style="terminal"] .landing-button {
   border-radius: 0 !important;
   box-shadow: none !important;
-}
-:root[data-ui-style="glassmorphism"] .site-search-trigger, :root[data-ui-style="glassmorphism"] .top-contact-link, :root[data-ui-style="glassmorphism"] .site-name-link, :root[data-ui-style="glassmorphism"] .landing-button {
-  background: color-mix(in srgb, #f6f6f6 58%, transparent) !important;
-  @supports (color: color-mix(in lab, red, red)) {
-    background: color-mix(in srgb, var(--color-light) 58%, transparent) !important;
-  }
-  border-color: color-mix(in srgb, #121212 32%, #eaeaea) !important;
-  @supports (color: color-mix(in lab, red, red)) {
-    border-color: color-mix(in srgb, var(--color-primary) 32%, var(--color-border)) !important;
-  }
-  backdrop-filter: blur(18px);
-  box-shadow: 0 20px 60px color-mix(in srgb, #000 22%, transparent) !important;
 }
 :root[data-ui-style="minimal"] .projects-page__rail a.is-active {
   border-radius: 6px;
@@ -4220,31 +4101,7 @@ html {
   border-radius: 0;
   box-shadow: none;
 }
-:root[data-ui-style="glassmorphism"] .projects-page__rail a.is-active {
-  background: color-mix(in srgb, #f6f6f6 58%, transparent) !important;
-  @supports (color: color-mix(in lab, red, red)) {
-    background: color-mix(in srgb, var(--color-light) 58%, transparent) !important;
-  }
-  border-color: color-mix(in srgb, #121212 32%, #eaeaea) !important;
-  @supports (color: color-mix(in lab, red, red)) {
-    border-color: color-mix(in srgb, var(--color-primary) 32%, var(--color-border)) !important;
-  }
-  backdrop-filter: blur(18px);
-  box-shadow: 0 14px 34px color-mix(in srgb, #000 18%, transparent);
-}
-:root[data-ui-style="glassmorphism"] .projects-page__rail a:hover, :root[data-ui-style="glassmorphism"] .projects-page__rail a:focus {
-  background: color-mix(in srgb, #f6f6f6 48%, transparent) !important;
-  @supports (color: color-mix(in lab, red, red)) {
-    background: color-mix(in srgb, var(--color-light) 48%, transparent) !important;
-  }
-  border-color: color-mix(in srgb, #121212 32%, #eaeaea) !important;
-  @supports (color: color-mix(in lab, red, red)) {
-    border-color: color-mix(in srgb, var(--color-primary) 32%, var(--color-border)) !important;
-  }
-  backdrop-filter: blur(18px);
-  box-shadow: 0 12px 28px color-mix(in srgb, #000 16%, transparent);
-}
-:root[data-ui-style="neobrutalism"] .header .code-theme-switcher__button, :root[data-ui-style="neobrutalism"] .header .code-theme-switcher__button:hover, :root[data-ui-style="neobrutalism"] .header .code-theme-switcher__button:focus-visible, :root[data-ui-style="glassmorphism"] .header .code-theme-switcher__button, :root[data-ui-style="glassmorphism"] .header .code-theme-switcher__button:hover, :root[data-ui-style="glassmorphism"] .header .code-theme-switcher__button:focus-visible {
+:root[data-ui-style="neobrutalism"] .header .code-theme-switcher__button, :root[data-ui-style="neobrutalism"] .header .code-theme-switcher__button:hover, :root[data-ui-style="neobrutalism"] .header .code-theme-switcher__button:focus-visible {
   border: 0 !important;
   background: transparent !important;
   box-shadow: none !important;
@@ -4746,44 +4603,6 @@ html {
     box-shadow: 0 0 0 5px color-mix(in srgb, var(--color-primary) 18%, transparent);
   }
 }
-:root[data-ui-style="glassmorphism"] .about-resource-card img, :root[data-ui-style="glassmorphism"] .about-spotify-card img {
-  background: color-mix(in srgb, #fff 70%, transparent);
-  border-color: color-mix(in srgb, #121212 32%, #eaeaea);
-  @supports (color: color-mix(in lab, red, red)) {
-    border-color: color-mix(in srgb, var(--color-primary) 32%, var(--color-border));
-  }
-  backdrop-filter: blur(18px);
-  box-shadow: 0 18px 42px color-mix(in srgb, #000 20%, transparent);
-}
-:root[data-ui-style="glassmorphism"] .about-resource-card:hover img, :root[data-ui-style="glassmorphism"] .about-resource-card:focus-visible img, :root[data-ui-style="glassmorphism"] .about-spotify-card:hover img, :root[data-ui-style="glassmorphism"] .about-spotify-card:focus-visible img {
-  box-shadow: 0 0 0 5px color-mix(in srgb, #121212 20%, transparent), 0 18px 42px color-mix(in srgb, #000 20%, transparent);
-  @supports (color: color-mix(in lab, red, red)) {
-    box-shadow: 0 0 0 5px color-mix(in srgb, var(--color-primary) 20%, transparent), 0 18px 42px color-mix(in srgb, #000 20%, transparent);
-  }
-}
-:root[data-ui-style="retro-terminal"] .projects-page__rail a {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace !important;
-}
-:root[data-ui-style="retro-terminal"] .about-resource-card img, :root[data-ui-style="retro-terminal"] .about-spotify-card img {
-  border-radius: 0;
-  border-color: color-mix(in srgb, #121212 58%, #eaeaea);
-  @supports (color: color-mix(in lab, red, red)) {
-    border-color: color-mix(in srgb, var(--color-primary) 58%, var(--color-border));
-  }
-  background: #fff;
-  box-shadow: 0 0 18px color-mix(in srgb, #121212 16%, transparent);
-  @supports (color: color-mix(in lab, red, red)) {
-    box-shadow: 0 0 18px color-mix(in srgb, var(--color-primary) 16%, transparent);
-  }
-}
-:root[data-ui-style="retro-terminal"] .about-resource-card:hover img, :root[data-ui-style="retro-terminal"] .about-resource-card:focus-visible img, :root[data-ui-style="retro-terminal"] .about-spotify-card:hover img, :root[data-ui-style="retro-terminal"] .about-spotify-card:focus-visible img {
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 5px color-mix(in srgb, #121212 20%, transparent), 0 0 22px color-mix(in srgb, #121212 28%, transparent);
-  @supports (color: color-mix(in lab, red, red)) {
-    box-shadow: 0 0 0 5px color-mix(in srgb, var(--color-primary) 20%, transparent), 0 0 22px color-mix(in srgb, var(--color-primary) 28%, transparent);
-  }
-  transform: translateY(-1px);
-}
 :root[data-ui-style="windows-95"] .about-resource-card img, :root[data-ui-style="windows-95"] .about-spotify-card img {
   border: 2px solid !important;
   border-color: #fff #404040 #404040 #fff !important;
@@ -4872,18 +4691,6 @@ html {
 :root[data-ui-style="terminal"] .about-skill {
   border-radius: 0;
   box-shadow: none;
-}
-:root[data-ui-style="glassmorphism"] .about-skill {
-  background: color-mix(in srgb, #f6f6f6 58%, transparent) !important;
-  @supports (color: color-mix(in lab, red, red)) {
-    background: color-mix(in srgb, var(--color-light) 58%, transparent) !important;
-  }
-  border-color: color-mix(in srgb, #121212 32%, #eaeaea) !important;
-  @supports (color: color-mix(in lab, red, red)) {
-    border-color: color-mix(in srgb, var(--color-primary) 32%, var(--color-border)) !important;
-  }
-  backdrop-filter: blur(18px);
-  box-shadow: 0 14px 34px color-mix(in srgb, #000 18%, transparent);
 }
 .project-row__link {
   display: inline-flex;
@@ -5349,7 +5156,6 @@ html.normalize-desktop-zoom .landing-hero__inner {
   content: none;
 }
 :root[data-code-theme="kernel-panic"] .landing-hero__name h1, :root[data-code-theme="kernel-panic"] .projects-page__header h1, :root[data-code-theme="kernel-panic"] .project-row__body h2 {
-  letter-spacing: -0.04em;
   text-shadow: 0 0 10px color-mix(in srgb, #121212 10%, transparent);
   @supports (color: color-mix(in lab, red, red)) {
     text-shadow: 0 0 10px color-mix(in srgb, var(--color-primary) 10%, transparent);
@@ -5825,24 +5631,6 @@ html.cm-armed main, html.cm-armed footer, html.cm-armed .header .navbar, .cm-pen
   content: "";
   opacity: 0.85;
 }
-.cm-caret-live::after {
-  display: inline-block;
-  width: max(2px, 0.05em);
-  height: 0.74em;
-  margin-left: 0.08em;
-  background: var(--cm-accent);
-  content: "";
-  vertical-align: baseline;
-  animation: cm-caret-blink 1.06s steps(1, end) infinite;
-}
-@keyframes cm-caret-blink {
-  0%, 55% {
-    opacity: 0.85;
-  }
-  56%, 100% {
-    opacity: 0;
-  }
-}
 .cm-chip {
   animation: cm-chip-open 460ms var(--cm-ease) both;
 }
@@ -5885,9 +5673,6 @@ html.cm-armed main, html.cm-armed footer, html.cm-armed .header .navbar, .cm-pen
   .cm-pending, html.cm-armed main, html.cm-armed footer, html.cm-armed .header .navbar {
     opacity: 1 !important;
   }
-  .cm-caret-live::after {
-    animation: none;
-  }
 }
 @media print {
   .cm-pending, html.cm-armed main, html.cm-armed footer, html.cm-armed .header .navbar {
@@ -5917,6 +5702,35 @@ html.cm-armed main, html.cm-armed footer, html.cm-armed .header .navbar, .cm-pen
 }
 .experience-entry::before {
   content: none;
+}
+.code-theme-switcher__button i {
+  transition: transform 520ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.code-theme-switcher.is-open .code-theme-switcher__button i {
+  transform: rotate(120deg);
+}
+.code-theme-switcher__menu, .code-theme-switcher__menu--combined {
+  display: grid;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-0.4rem) scale(0.98);
+  transform-origin: top right;
+  transition: opacity 220ms ease, transform 320ms cubic-bezier(0.16, 1, 0.3, 1), visibility 0s linear 320ms;
+}
+.code-theme-switcher.is-open .code-theme-switcher__menu, .code-theme-switcher.is-open .code-theme-switcher__menu--combined {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+  transform: none;
+  transition: opacity 220ms ease, transform 320ms cubic-bezier(0.16, 1, 0.3, 1), visibility 0s;
+}
+html.style-swap::view-transition-old(root), html.style-swap::view-transition-new(root) {
+  animation-duration: 520ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+:root[data-ui-style="windows-95"] .landing-button--primary, :root[data-ui-style="windows-95"] .landing-button--primary:hover, :root[data-ui-style="windows-95"] .landing-button--primary:focus-visible {
+  color: var(--color-text-dark) !important;
 }
 @layer base {
   input:where([type='text']),input:where(:not([type])),input:where([type='email']),input:where([type='url']),input:where([type='password']),input:where([type='number']),input:where([type='date']),input:where([type='datetime-local']),input:where([type='month']),input:where([type='search']),input:where([type='tel']),input:where([type='time']),input:where([type='week']),select:where([multiple]),textarea,select {
