@@ -564,40 +564,6 @@ body.is-home .landing-hero__stripes {
     landing-glow-pulse 9s ease-in-out infinite;
 }
 
-body.is-home.home-motion-stage .landing-hero__kicker,
-body.is-home.home-motion-stage .landing-hero__name h1,
-body.is-home.home-motion-stage .landing-hero__summary,
-body.is-home.home-motion-stage .landing-hero__actions > *,
-body.is-home.home-motion-stage .landing-links__inner > *,
-body.is-home.home-motion-stage .header .site-top-controls > *,
-body.is-home.home-motion-stage .header .site-side-nav .nav-item,
-body.is-home.home-motion-stage .header label[for="nav-toggle"] {
-  opacity: 0;
-  will-change: transform, opacity;
-}
-
-body.is-home.home-motion-stage .landing-hero__kicker,
-body.is-home.home-motion-stage .landing-hero__name h1,
-body.is-home.home-motion-stage .landing-hero__summary,
-body.is-home.home-motion-stage .landing-hero__actions > *,
-body.is-home.home-motion-stage .landing-links__inner > * {
-  transform: translate3d(0, 1.2rem, 0) scale(0.985);
-}
-
-body.is-home.home-motion-stage .header .site-top-controls > *,
-body.is-home.home-motion-stage .header .site-side-nav .nav-item,
-body.is-home.home-motion-stage .header label[for="nav-toggle"] {
-  transform: translate3d(1rem, 0, 0);
-}
-
-body.is-home.home-motion-stage .landing-hero__kicker,
-body.is-home.home-motion-stage .landing-hero__name h1,
-body.is-home.home-motion-stage .landing-hero__summary,
-body.is-home.home-motion-stage .landing-hero__actions > *,
-body.is-home.home-motion-stage .landing-links__inner > *,
-body.is-home.home-motion-stage .header .site-top-controls > *,
-body.is-home.home-motion-stage .header .site-side-nav .nav-item,
-body.is-home.home-motion-stage .header label[for="nav-toggle"],
 body.is-home .landing-button,
 body.is-home .landing-link-group a,
 body.is-home .top-contact-link,
@@ -613,98 +579,6 @@ body.is-home .code-theme-switcher__button {
     background-color 220ms ease,
     box-shadow 260ms cubic-bezier(0.22, 1, 0.36, 1),
     filter 720ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-body.is-home.home-motion-stage .landing-hero__kicker,
-body.is-home.home-motion-stage .landing-hero__name h1,
-body.is-home.home-motion-stage .landing-hero__summary,
-body.is-home.home-motion-stage .landing-hero__actions > *,
-body.is-home.home-motion-stage .landing-links__inner > *,
-body.is-home.home-motion-stage .header .site-top-controls > *,
-body.is-home.home-motion-stage .header .site-side-nav .nav-item,
-body.is-home.home-motion-stage .header label[for="nav-toggle"] {
-  filter: blur(7px);
-}
-
-body.is-home.home-motion-stage.home-motion-ready .landing-hero__kicker,
-body.is-home.home-motion-stage.home-motion-ready .landing-hero__name h1,
-body.is-home.home-motion-stage.home-motion-ready .landing-hero__summary,
-body.is-home.home-motion-stage.home-motion-ready .landing-hero__actions > *,
-body.is-home.home-motion-stage.home-motion-ready .landing-links__inner > *,
-body.is-home.home-motion-stage.home-motion-ready .header .site-top-controls > *,
-body.is-home.home-motion-stage.home-motion-ready .header .site-side-nav .nav-item,
-body.is-home.home-motion-stage.home-motion-ready .header label[for="nav-toggle"] {
-  opacity: 1;
-  filter: blur(0);
-  transform: none;
-}
-
-body.is-home.home-motion-stage .landing-hero__kicker {
-  transition-delay: 120ms;
-}
-
-body.is-home.home-motion-stage .landing-hero__name h1 {
-  transition-delay: 220ms;
-}
-
-body.is-home.home-motion-stage .landing-hero__summary {
-  transition-delay: 340ms;
-}
-
-body.is-home.home-motion-stage .landing-hero__actions > *:nth-child(1) {
-  transition-delay: 460ms;
-}
-
-body.is-home.home-motion-stage .landing-hero__actions > *:nth-child(2) {
-  transition-delay: 540ms;
-}
-
-body.is-home.home-motion-stage .landing-links__inner > *:nth-child(1) {
-  transition-delay: 620ms;
-}
-
-body.is-home.home-motion-stage .landing-links__inner > *:nth-child(2) {
-  transition-delay: 700ms;
-}
-
-body.is-home.home-motion-stage .landing-links__inner > *:nth-child(3) {
-  transition-delay: 780ms;
-}
-
-body.is-home.home-motion-stage .header .site-top-controls > *:nth-child(1) {
-  transition-delay: 90ms;
-}
-
-body.is-home.home-motion-stage .header .site-top-controls > *:nth-child(2) {
-  transition-delay: 150ms;
-}
-
-body.is-home.home-motion-stage .header .site-top-controls > *:nth-child(3) {
-  transition-delay: 210ms;
-}
-
-body.is-home.home-motion-stage .header .site-top-controls > *:nth-child(4) {
-  transition-delay: 270ms;
-}
-
-body.is-home.home-motion-stage .header .site-side-nav .nav-item:nth-child(1) {
-  transition-delay: 220ms;
-}
-
-body.is-home.home-motion-stage .header .site-side-nav .nav-item:nth-child(2) {
-  transition-delay: 300ms;
-}
-
-body.is-home.home-motion-stage .header .site-side-nav .nav-item:nth-child(3) {
-  transition-delay: 380ms;
-}
-
-body.is-home.home-motion-stage .header .site-side-nav .nav-item:nth-child(4) {
-  transition-delay: 460ms;
-}
-
-body.is-home.home-motion-stage .header label[for="nav-toggle"] {
-  transition-delay: 120ms;
 }
 
 body.is-home .landing-button:hover,
@@ -728,15 +602,7 @@ body.is-home .site-side-nav .nav-link:focus-visible {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  body.is-home .landing-hero__stripes,
-  body.is-home.home-motion-stage .landing-hero__kicker,
-  body.is-home.home-motion-stage .landing-hero__name h1,
-  body.is-home.home-motion-stage .landing-hero__summary,
-  body.is-home.home-motion-stage .landing-hero__actions > *,
-  body.is-home.home-motion-stage .landing-links__inner > *,
-  body.is-home.home-motion-stage .header .site-top-controls > *,
-  body.is-home.home-motion-stage .header .site-side-nav .nav-item,
-  body.is-home.home-motion-stage .header label[for="nav-toggle"] {
+  body.is-home .landing-hero__stripes {
     opacity: 1;
     filter: none !important;
     transform: none !important;
@@ -3087,212 +2953,6 @@ body.is-home .landing-hero__stripes {
   display: none;
 }
 
-body.is-home.home-motion-stage .landing-hero__kicker,
-body.is-home.home-motion-stage .landing-hero__name h1,
-body.is-home.home-motion-stage .landing-hero__summary,
-body.is-home.home-motion-stage .landing-hero__actions > *,
-body.is-home.home-motion-stage .landing-links__inner > *,
-body.is-home.home-motion-stage .header .site-top-controls > *,
-body.is-home.home-motion-stage .header .site-side-nav .nav-item,
-body.is-home.home-motion-stage .header label[for="nav-toggle"] {
-  transition:
-    opacity var(--motion-duration-long) var(--motion-ease),
-    transform var(--motion-duration-long) var(--motion-ease),
-    filter var(--motion-duration-long) var(--motion-ease);
-}
-
-body.is-home.home-motion-stage .landing-hero__kicker {
-  transition-delay: 160ms;
-}
-
-body.is-home.home-motion-stage .landing-hero__name h1 {
-  transition-delay: 320ms;
-}
-
-body.is-home.home-motion-stage .landing-hero__summary {
-  transition-delay: 500ms;
-}
-
-body.is-home.home-motion-stage .landing-hero__actions > *:nth-child(1) {
-  transition-delay: 680ms;
-}
-
-body.is-home.home-motion-stage .landing-hero__actions > *:nth-child(2) {
-  transition-delay: 820ms;
-}
-
-body.is-home.home-motion-stage .landing-links__inner > *:nth-child(1) {
-  transition-delay: 940ms;
-}
-
-body.is-home.home-motion-stage .landing-links__inner > *:nth-child(2) {
-  transition-delay: 1080ms;
-}
-
-body.is-home.home-motion-stage .landing-links__inner > *:nth-child(3) {
-  transition-delay: 1220ms;
-}
-
-body.is-home.home-motion-stage .header .site-top-controls > *:nth-child(1) {
-  transition-delay: 120ms;
-}
-
-body.is-home.home-motion-stage .header .site-top-controls > *:nth-child(2) {
-  transition-delay: 200ms;
-}
-
-body.is-home.home-motion-stage .header .site-top-controls > *:nth-child(3) {
-  transition-delay: 280ms;
-}
-
-body.is-home.home-motion-stage .header .site-top-controls > *:nth-child(4) {
-  transition-delay: 360ms;
-}
-
-body.is-home.home-motion-stage .header .site-side-nav .nav-item:nth-child(1) {
-  transition-delay: 240ms;
-}
-
-body.is-home.home-motion-stage .header .site-side-nav .nav-item:nth-child(2) {
-  transition-delay: 340ms;
-}
-
-body.is-home.home-motion-stage .header .site-side-nav .nav-item:nth-child(3) {
-  transition-delay: 440ms;
-}
-
-body.is-home.home-motion-stage .header .site-side-nav .nav-item:nth-child(4) {
-  transition-delay: 540ms;
-}
-
-body.is-home.home-motion-stage .header label[for="nav-toggle"] {
-  transition-delay: 160ms;
-}
-
-body:not(.is-home).page-motion-stage .projects-page__header,
-body:not(.is-home).page-motion-stage .projects-page__rail a,
-body:not(.is-home).page-motion-stage .project-row,
-body:not(.is-home).page-motion-stage .experience-entry,
-body:not(.is-home).page-motion-stage .certification-row,
-body:not(.is-home).page-motion-stage .project-single__meta,
-body:not(.is-home).page-motion-stage .project-single__stack,
-body:not(.is-home).page-motion-stage .project-single__content > *,
-body:not(.is-home).page-motion-stage .section-page .content > *,
-body:not(.is-home).page-motion-stage .contact-list a,
-body:not(.is-home).page-motion-stage .about-layout__image,
-body:not(.is-home).page-motion-stage .about-layout .content > * {
-  opacity: 0;
-  filter: blur(8px);
-  transform: translate3d(0, 1.25rem, 0);
-  transition:
-    opacity var(--motion-duration-medium) var(--motion-ease),
-    transform var(--motion-duration-medium) var(--motion-ease),
-    filter var(--motion-duration-medium) var(--motion-ease);
-  will-change: opacity, transform, filter;
-}
-
-body:not(.is-home).page-motion-stage.page-motion-ready .projects-page__header,
-body:not(.is-home).page-motion-stage.page-motion-ready .projects-page__rail a,
-body:not(.is-home).page-motion-stage.page-motion-ready .project-row,
-body:not(.is-home).page-motion-stage.page-motion-ready .experience-entry,
-body:not(.is-home).page-motion-stage.page-motion-ready .certification-row,
-body:not(.is-home).page-motion-stage.page-motion-ready .project-single__meta,
-body:not(.is-home).page-motion-stage.page-motion-ready .project-single__stack,
-body:not(.is-home).page-motion-stage.page-motion-ready .project-single__content > *,
-body:not(.is-home).page-motion-stage.page-motion-ready .section-page .content > *,
-body:not(.is-home).page-motion-stage.page-motion-ready .contact-list a,
-body:not(.is-home).page-motion-stage.page-motion-ready .about-layout__image,
-body:not(.is-home).page-motion-stage.page-motion-ready .about-layout .content > * {
-  opacity: 1;
-  filter: blur(0);
-  transform: none;
-}
-
-body:not(.is-home).page-motion-stage .projects-page__header,
-body:not(.is-home).page-motion-stage .about-layout__image,
-body:not(.is-home).page-motion-stage .project-single__meta,
-body:not(.is-home).page-motion-stage .project-single__stack {
-  transition-delay: 140ms;
-}
-
-body:not(.is-home).page-motion-stage .projects-page__rail a:nth-child(1),
-body:not(.is-home).page-motion-stage .project-row:nth-child(1),
-body:not(.is-home).page-motion-stage .experience-entry:nth-child(1),
-body:not(.is-home).page-motion-stage .certification-row:nth-child(1),
-body:not(.is-home).page-motion-stage .contact-list a:nth-child(1),
-body:not(.is-home).page-motion-stage .section-page .content > *:nth-child(1),
-body:not(.is-home).page-motion-stage .project-single__content > *:nth-child(1),
-body:not(.is-home).page-motion-stage .about-layout .content > *:nth-child(1) {
-  transition-delay: 240ms;
-}
-
-body:not(.is-home).page-motion-stage .projects-page__rail a:nth-child(2),
-body:not(.is-home).page-motion-stage .project-row:nth-child(2),
-body:not(.is-home).page-motion-stage .experience-entry:nth-child(2),
-body:not(.is-home).page-motion-stage .certification-row:nth-child(2),
-body:not(.is-home).page-motion-stage .contact-list a:nth-child(2),
-body:not(.is-home).page-motion-stage .section-page .content > *:nth-child(2),
-body:not(.is-home).page-motion-stage .project-single__content > *:nth-child(2),
-body:not(.is-home).page-motion-stage .about-layout .content > *:nth-child(2) {
-  transition-delay: 340ms;
-}
-
-body:not(.is-home).page-motion-stage .projects-page__rail a:nth-child(3),
-body:not(.is-home).page-motion-stage .project-row:nth-child(3),
-body:not(.is-home).page-motion-stage .experience-entry:nth-child(3),
-body:not(.is-home).page-motion-stage .certification-row:nth-child(3),
-body:not(.is-home).page-motion-stage .contact-list a:nth-child(3),
-body:not(.is-home).page-motion-stage .section-page .content > *:nth-child(3),
-body:not(.is-home).page-motion-stage .project-single__content > *:nth-child(3),
-body:not(.is-home).page-motion-stage .about-layout .content > *:nth-child(3) {
-  transition-delay: 440ms;
-}
-
-body:not(.is-home).page-motion-stage .projects-page__rail a:nth-child(4),
-body:not(.is-home).page-motion-stage .project-row:nth-child(4),
-body:not(.is-home).page-motion-stage .experience-entry:nth-child(4),
-body:not(.is-home).page-motion-stage .certification-row:nth-child(4),
-body:not(.is-home).page-motion-stage .contact-list a:nth-child(4),
-body:not(.is-home).page-motion-stage .section-page .content > *:nth-child(4),
-body:not(.is-home).page-motion-stage .project-single__content > *:nth-child(4),
-body:not(.is-home).page-motion-stage .about-layout .content > *:nth-child(4) {
-  transition-delay: 540ms;
-}
-
-body:not(.is-home).page-motion-stage .projects-page__rail a:nth-child(5),
-body:not(.is-home).page-motion-stage .project-row:nth-child(5),
-body:not(.is-home).page-motion-stage .section-page .content > *:nth-child(5),
-body:not(.is-home).page-motion-stage .project-single__content > *:nth-child(5),
-body:not(.is-home).page-motion-stage .about-layout .content > *:nth-child(5) {
-  transition-delay: 640ms;
-}
-
-body:not(.is-home).page-motion-stage .section-page .content > *:nth-child(6),
-body:not(.is-home).page-motion-stage .project-single__content > *:nth-child(6),
-body:not(.is-home).page-motion-stage .about-layout .content > *:nth-child(6) {
-  transition-delay: 740ms;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  body:not(.is-home).page-motion-stage .projects-page__header,
-  body:not(.is-home).page-motion-stage .projects-page__rail a,
-  body:not(.is-home).page-motion-stage .project-row,
-  body:not(.is-home).page-motion-stage .experience-entry,
-  body:not(.is-home).page-motion-stage .certification-row,
-  body:not(.is-home).page-motion-stage .project-single__meta,
-  body:not(.is-home).page-motion-stage .project-single__stack,
-  body:not(.is-home).page-motion-stage .project-single__content > *,
-  body:not(.is-home).page-motion-stage .section-page .content > *,
-  body:not(.is-home).page-motion-stage .contact-list a,
-  body:not(.is-home).page-motion-stage .about-layout__image,
-  body:not(.is-home).page-motion-stage .about-layout .content > * {
-    opacity: 1;
-    filter: none !important;
-    transform: none !important;
-    transition: none !important;
-  }
-}
-
 .header .navbar {
   gap: calc(1rem * var(--chrome-scale));
   padding-inline: clamp(0.9rem, 2.55vw, 2.55rem);
@@ -3598,50 +3258,6 @@ html.is-desktop-viewport .about-layout__grid {
   width: min(100%, calc(42rem + 11rem + clamp(1.25rem, 3vw, 2.4rem)));
 }
 
-/* Animate the site chrome on inner pages as well as the home page. */
-body:not(.is-home).page-motion-stage .header .site-top-controls > *,
-body:not(.is-home).page-motion-stage .header .site-side-nav .nav-item,
-body:not(.is-home).page-motion-stage .header label[for="nav-toggle"] {
-  opacity: 0;
-  filter: blur(8px);
-  transform: translate3d(1rem, 0, 0);
-  transition:
-    opacity var(--motion-duration-medium) var(--motion-ease),
-    transform var(--motion-duration-medium) var(--motion-ease),
-    filter var(--motion-duration-medium) var(--motion-ease);
-  will-change: opacity, transform, filter;
-}
-
-body:not(.is-home).page-motion-stage.page-motion-ready .header .site-top-controls > *,
-body:not(.is-home).page-motion-stage.page-motion-ready .header .site-side-nav .nav-item,
-body:not(.is-home).page-motion-stage.page-motion-ready .header label[for="nav-toggle"] {
-  opacity: 1;
-  filter: blur(0);
-  transform: none;
-}
-
-body:not(.is-home).page-motion-stage .header .site-top-controls > *:nth-child(1) { transition-delay: 120ms; }
-body:not(.is-home).page-motion-stage .header .site-top-controls > *:nth-child(2) { transition-delay: 200ms; }
-body:not(.is-home).page-motion-stage .header .site-top-controls > *:nth-child(3) { transition-delay: 280ms; }
-body:not(.is-home).page-motion-stage .header .site-top-controls > *:nth-child(4) { transition-delay: 360ms; }
-body:not(.is-home).page-motion-stage .header .site-side-nav .nav-item:nth-child(1) { transition-delay: 240ms; }
-body:not(.is-home).page-motion-stage .header .site-side-nav .nav-item:nth-child(2) { transition-delay: 340ms; }
-body:not(.is-home).page-motion-stage .header .site-side-nav .nav-item:nth-child(3) { transition-delay: 440ms; }
-body:not(.is-home).page-motion-stage .header .site-side-nav .nav-item:nth-child(4) { transition-delay: 540ms; }
-body:not(.is-home).page-motion-stage .header .site-side-nav .nav-item:nth-child(5) { transition-delay: 640ms; }
-body:not(.is-home).page-motion-stage .header .site-side-nav .nav-item:nth-child(6) { transition-delay: 740ms; }
-
-@media (prefers-reduced-motion: reduce) {
-  body:not(.is-home).page-motion-stage .header .site-top-controls > *,
-  body:not(.is-home).page-motion-stage .header .site-side-nav .nav-item,
-  body:not(.is-home).page-motion-stage .header label[for="nav-toggle"] {
-    opacity: 1;
-    filter: none !important;
-    transform: none !important;
-    transition: none !important;
-  }
-}
-
 /* Final chrome sizing: theme styles must not change either control's footprint. */
 .header .site-search-trigger,
 .header .top-contact-link,
@@ -3678,15 +3294,6 @@ body:not(.is-home).page-motion-stage .header .site-side-nav .nav-item:nth-child(
   content: none !important;
 }
 
-/* Complete the home-page right-nav stagger for all six links. */
-body.is-home.home-motion-stage .header .site-side-nav .nav-item:nth-child(5) {
-  transition-delay: 640ms;
-}
-
-body.is-home.home-motion-stage .header .site-side-nav .nav-item:nth-child(6) {
-  transition-delay: 740ms;
-}
-
 /* The footer is now a single centered socials panel. */
 .landing-links__inner,
 html.is-desktop-viewport .landing-links__inner {
@@ -3700,4 +3307,350 @@ html.is-desktop-viewport .landing-links__inner {
   grid-row: 1;
   align-items: center;
   text-align: center;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Top chrome: bare text controls, one rhythm, soft blur behind them.          */
+/* -------------------------------------------------------------------------- */
+
+:root {
+  --chrome-control-height: 2rem;
+  --chrome-control-gap: 1.35rem;
+  --chrome-top: 1.4rem;
+}
+
+/* No boxes: the name, search and contact controls are plain text in every style. */
+:root:root:root .header.site-chrome .site-name-link,
+:root:root:root .header.site-chrome .site-name-link:hover,
+:root:root:root .header.site-chrome .site-name-link:focus-visible,
+:root:root:root .header.site-chrome .site-search-trigger,
+:root:root:root .header.site-chrome .site-search-trigger:hover,
+:root:root:root .header.site-chrome .site-search-trigger:focus-visible,
+:root:root:root .header.site-chrome .top-contact-link,
+:root:root:root .header.site-chrome .top-contact-link:hover,
+:root:root:root .header.site-chrome .top-contact-link:focus-visible,
+:root:root:root .header.site-chrome .site-search-trigger kbd {
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+:root:root:root .header.site-chrome .site-name-link {
+  top: var(--chrome-top);
+  min-height: 0;
+  height: var(--chrome-control-height);
+  padding: 0 !important;
+  font-size: 0.86rem;
+  letter-spacing: 0.01em;
+}
+
+/* Every top control is sized to its content so the gap alone sets the spacing. */
+:root:root:root .header.site-chrome .site-top-controls {
+  top: var(--chrome-top);
+  gap: var(--chrome-control-gap) !important;
+}
+
+:root:root:root .header.site-chrome .site-search-trigger,
+:root:root:root .header.site-chrome .top-contact-link {
+  width: auto !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  height: var(--chrome-control-height) !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  flex: 0 0 auto !important;
+  gap: 0.5rem !important;
+  padding: 0 !important;
+  font-size: 0.86rem;
+}
+
+:root:root:root .header.site-chrome .site-search-trigger {
+  color: var(--color-text-dark) !important;
+}
+
+:root:root:root .header.site-chrome .site-search-trigger kbd {
+  padding: 0 !important;
+  color: inherit !important;
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.68rem !important;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  opacity: 0.62;
+}
+
+:root:root:root .header.site-chrome .top-theme-switcher {
+  margin: 0 !important;
+  transform: none !important;
+}
+
+:root:root:root .header.site-chrome .code-theme-switcher__button,
+:root:root:root .header.site-chrome .top-github-link {
+  width: auto !important;
+  min-width: 0 !important;
+  height: var(--chrome-control-height) !important;
+  flex: 0 0 auto !important;
+  padding: 0 !important;
+  font-size: 1rem;
+}
+
+:root:root:root .header.site-chrome .site-name-link:hover,
+:root:root:root .header.site-chrome .site-name-link:focus-visible,
+:root:root:root .header.site-chrome .site-search-trigger:hover,
+:root:root:root .header.site-chrome .site-search-trigger:focus-visible,
+:root:root:root .header.site-chrome .top-contact-link:hover,
+:root:root:root .header.site-chrome .top-contact-link:focus-visible {
+  color: var(--color-primary) !important;
+}
+
+:root:root:root .header.site-chrome .site-name-link:hover,
+:root:root:root .header.site-chrome .site-name-link:focus-visible,
+:root:root:root .header.site-chrome .top-contact-link:hover,
+:root:root:root .header.site-chrome .top-contact-link:focus-visible {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.3rem;
+}
+
+/* Content scrolling under the fixed chrome is softly blurred so the controls stay in focus. */
+@media (min-width: 1301px) {
+  .header.site-chrome::before {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: -1;
+    height: 5rem;
+    background: linear-gradient(to bottom, color-mix(in srgb, var(--color-body) 22%, transparent), transparent);
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent);
+    mask-image: linear-gradient(to bottom, #000 55%, transparent);
+    content: "";
+    pointer-events: none;
+  }
+}
+
+html.is-desktop-viewport .header.site-chrome::before {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: -1;
+  height: 5rem;
+  background: linear-gradient(to bottom, color-mix(in srgb, var(--color-body) 22%, transparent), transparent);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent);
+  mask-image: linear-gradient(to bottom, #000 55%, transparent);
+  content: "";
+  pointer-events: none;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Code motion (assets/js/code-motion.js)                                     */
+/* -------------------------------------------------------------------------- */
+
+:root {
+  --cm-accent: var(--color-primary);
+}
+
+html.cm-armed main,
+html.cm-armed footer,
+html.cm-armed .header .navbar,
+.cm-pending {
+  opacity: 0 !important;
+}
+
+/* Decode: characters type in behind a block caret with scrambled glyphs leading. */
+.cm-decoding cm-c {
+  position: relative;
+  opacity: 0;
+}
+
+.cm-decoding cm-c.is-on {
+  opacity: 1;
+}
+
+.cm-decoding cm-c.is-g {
+  opacity: 1;
+  color: transparent !important;
+  text-shadow: none !important;
+}
+
+.cm-decoding cm-c.is-g::after {
+  position: absolute;
+  inset: 0;
+  color: var(--cm-accent);
+  content: attr(data-g);
+  opacity: 0.8;
+  text-align: center;
+  text-shadow: 0 0 0.5em color-mix(in srgb, var(--cm-accent) 55%, transparent);
+}
+
+.cm-decoding cm-c.is-caret::before,
+.cm-streaming cm-w.is-caret::after {
+  position: absolute;
+  top: 0.14em;
+  bottom: 0.08em;
+  left: calc(100% + 0.06em);
+  width: min(0.5em, 0.75rem);
+  background: var(--cm-accent);
+  box-shadow: 0 0 min(0.6em, 0.9rem) color-mix(in srgb, var(--cm-accent) 55%, transparent);
+  content: "";
+  opacity: 0.9;
+}
+
+/* The hero name keeps a blinking terminal caret once it has been typed. */
+cm-caret-live::after {
+  display: inline-block;
+  width: min(0.14em, 0.9rem);
+  height: 0.74em;
+  margin-left: 0.1em;
+  background: var(--cm-accent);
+  box-shadow: 0 0 0.35em color-mix(in srgb, var(--cm-accent) 45%, transparent);
+  content: "";
+  vertical-align: baseline;
+  animation: cm-caret-blink 1.06s steps(1, end) infinite;
+}
+
+@keyframes cm-caret-blink {
+  0%,
+  55% {
+    opacity: 0.9;
+  }
+  56%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Stream: words arrive like tokens and cool from the accent colour. */
+.cm-streaming cm-w {
+  position: relative;
+  opacity: 0;
+  transition:
+    color 560ms ease,
+    text-shadow 560ms ease;
+}
+
+.cm-streaming cm-w.is-on {
+  opacity: 1;
+}
+
+.cm-streaming cm-w.is-fresh {
+  color: var(--cm-accent);
+  text-shadow: 0 0 0.6em color-mix(in srgb, var(--cm-accent) 45%, transparent);
+  transition: none;
+}
+
+/* Chip: controls boot open in stepped slices inside a dashed wireframe. */
+cm-chip {
+  animation:
+    cm-chip-open 420ms steps(7, end) both,
+    cm-chip-frame 620ms ease-out both;
+}
+
+@keyframes cm-chip-open {
+  from {
+    clip-path: inset(-4px 100% -4px -4px);
+  }
+  to {
+    clip-path: inset(-4px -4px -4px -4px);
+  }
+}
+
+@keyframes cm-chip-frame {
+  from {
+    outline: 1px dashed var(--cm-accent);
+    outline-offset: 3px;
+  }
+  to {
+    outline: 1px dashed transparent;
+    outline-offset: 3px;
+  }
+}
+
+/* Render: media paints in scanlines while a sweep line rides down it. */
+.cm-render {
+  animation:
+    cm-render-rows 560ms steps(12, end) both,
+    cm-render-signal 760ms ease-out both;
+}
+
+@keyframes cm-render-rows {
+  from {
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes cm-render-signal {
+  from {
+    filter: saturate(0) contrast(1.5) brightness(1.25);
+  }
+  to {
+    filter: none;
+  }
+}
+
+.cm-scanline {
+  position: absolute;
+  z-index: 40;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--cm-accent) 18%, var(--cm-accent) 82%, transparent);
+  box-shadow: 0 0 14px 2px color-mix(in srgb, var(--cm-accent) 55%, transparent);
+  pointer-events: none;
+  animation: cm-scan 560ms steps(12, end) forwards;
+}
+
+@keyframes cm-scan {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  90% {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    transform: translateY(var(--cm-h, 0));
+  }
+}
+
+/* Draw: rules extend from the left like a progress bar. */
+.cm-draw {
+  transform-origin: left center;
+  animation: cm-draw 620ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes cm-draw {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cm-pending,
+  html.cm-armed main,
+  html.cm-armed footer,
+  html.cm-armed .header .navbar {
+    opacity: 1 !important;
+  }
+
+  cm-caret-live::after {
+    animation: none;
+  }
+}
+
+@media print {
+  .cm-pending,
+  html.cm-armed main,
+  html.cm-armed footer,
+  html.cm-armed .header .navbar {
+    opacity: 1 !important;
+  }
 }
