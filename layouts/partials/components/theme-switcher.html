@@ -2,13 +2,12 @@
 {{ if site.Params.theme_switcher }}
   {{ $themes := slice
     (dict "name" "Kernel Panic" "id" "kernel-panic" "colors" (slice "#2442b8" "#5d7cff" "#88f6ff" "#f7fbff"))
-    (dict "name" "Andromeda" "id" "andromeda" "colors" (slice "#00e8c6" "#82aaff" "#c792ea" "#d6deeb"))
     (dict "name" "Dracula" "id" "dracula" "colors" (slice "#ff79c6" "#bd93f9" "#50fa7b" "#f1fa8c"))
     (dict "name" "Monokai" "id" "monokai" "colors" (slice "#f92672" "#a6e22e" "#66d9ef" "#f8f8f2"))
     (dict "name" "Abyss" "id" "abyss" "colors" (slice "#001b44" "#005eff" "#00c2ff" "#d7e7ff"))
-    (dict "name" "Caffeine Light" "id" "caffeine" "colors" (slice "#f4e1c7" "#c88b3d" "#7c5631" "#fff9f2"))
+    (dict "name" "Caffeine" "id" "caffeine" "colors" (slice "#4a3223" "#6b4a35" "#d9a860" "#f3e6d6"))
     (dict "name" "Kodama Grove" "id" "kodama-grove" "colors" (slice "#2f7a43" "#7b5f2a" "#cbdba2" "#172917"))
-    (dict "name" "Cyberpunk" "id" "cyberpunk" "colors" (slice "#ff007c" "#faff00" "#00f0ff" "#120024"))
+    (dict "name" "Cyberpunk" "id" "cyberpunk" "colors" (slice "#ff007c" "#faff00" "#00f0ff" "#1d0838"))
     (dict "name" "Tokyo Night" "id" "tokyo-night" "colors" (slice "#7aa2f7" "#bb9af7" "#9ece6a" "#c0caf5"))
     (dict "name" "Mono" "id" "mono" "colors" (slice "#1f2328" "#6e7781" "#afb8c1" "#f6f8fa"))
     (dict "name" "Mono Dark" "id" "mono-dark" "colors" (slice "#050505" "#1a1a1a" "#808080" "#ff5f66"))
@@ -18,8 +17,6 @@
     (dict "name" "Material" "id" "material")
     (dict "name" "NeoBrutalism" "id" "neobrutalism")
     (dict "name" "Terminal" "id" "terminal")
-    (dict "name" "Glassmorphism" "id" "glassmorphism")
-    (dict "name" "Retro" "id" "retro-terminal")
     (dict "name" "Windows 95" "id" "windows-95")
   }}
   <div class="code-theme-switcher {{ $class }}" data-code-theme-switcher data-style-switcher>
@@ -45,8 +42,8 @@
   </div>
   <script>
     (function () {
-      var themes = {"kernel-panic":["Kernel Panic",true],"andromeda":["Andromeda",true],"dracula":["Dracula",true],"monokai":["Monokai",true],"abyss":["Abyss",true],"caffeine":["Caffeine Light",false],"kodama-grove":["Kodama Grove",false],"cyberpunk":["Cyberpunk",true],"tokyo-night":["Tokyo Night",true],"mono":["Mono",false],"mono-dark":["Mono Dark",true]};
-      var styles = {"minimal":"Minimal","material":"Material","neobrutalism":"NeoBrutalism","terminal":"Terminal","glassmorphism":"Glassmorphism","retro-terminal":"Retro","windows-95":"Windows 95"};
+      var themes = {"kernel-panic":["Kernel Panic",true],"dracula":["Dracula",true],"monokai":["Monokai",true],"abyss":["Abyss",true],"caffeine":["Caffeine",true],"kodama-grove":["Kodama Grove",false],"cyberpunk":["Cyberpunk",true],"tokyo-night":["Tokyo Night",true],"mono":["Mono",false],"mono-dark":["Mono Dark",true]};
+      var styles = {"minimal":"Minimal","material":"Material","neobrutalism":"NeoBrutalism","terminal":"Terminal","windows-95":"Windows 95"};
       var motionReady = false;
       function transition(fn) {
         if (!motionReady) { fn(); return; }
@@ -70,7 +67,15 @@
         document.querySelectorAll("[data-code-theme-current]").forEach(function (el) { el.textContent = t[0]; });
         document.querySelectorAll("[data-code-theme-option]").forEach(function (el) { el.setAttribute("aria-current", el.dataset.codeThemeOption === key ? "true" : "false"); });
       }); }
-      function paintStyle(id, save) { var key = styles[id] ? id : "minimal"; transition(function () {
+      // Styles change fonts, borders and radii, which CSS can't interpolate, so crossfade the whole page.
+      function styleTransition(fn) {
+        var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        if (!motionReady || reduce || !document.startViewTransition) { transition(fn); return; }
+        document.documentElement.classList.add("style-swap");
+        var vt = document.startViewTransition(fn);
+        vt.finished.finally(function () { document.documentElement.classList.remove("style-swap"); });
+      }
+      function paintStyle(id, save) { var key = styles[id] ? id : "minimal"; styleTransition(function () {
         document.documentElement.dataset.uiStyle = key; if (save) localStorage.setItem("ui-style", key);
         document.querySelectorAll("[data-ui-style-current]").forEach(function (el) { el.textContent = styles[key]; });
         document.querySelectorAll("[data-ui-style-option]").forEach(function (el) { el.setAttribute("aria-current", el.dataset.uiStyleOption === key ? "true" : "false"); });

@@ -15,11 +15,10 @@
 
   var themes = [
     ["Kernel Panic", "kernel-panic", "/kernel-panic"],
-    ["Andromeda", "andromeda", "/andromeda"],
     ["Dracula", "dracula", "/dracula"],
     ["Monokai", "monokai", "/monokai"],
     ["Abyss", "abyss", "/abyss"],
-    ["Caffeine Light", "caffeine", "/caffeine-light"],
+    ["Caffeine", "caffeine", "/caffeine"],
     ["Doom 64", "doom-64", "/doom-64"],
     ["Kodama Grove", "kodama-grove", "/kodama"],
     ["Marvel Light", "marvel", "/marvel-light"],
@@ -33,8 +32,7 @@
     ["Material", "material", "/style-material"],
     ["NeoBrutalism", "neobrutalism", "/style-neobrutal"],
     ["Terminal", "terminal", "/style-terminal"],
-    ["Glassmorphism", "glassmorphism", "/style-glass"],
-    ["Retro", "retro-terminal", "/style-retro"],
+    ["Windows 95", "windows-95", "/style-win95"],
   ];
   var shortcuts = [
     ["Command Palette (Global)", "Ctrl + Shift + P"],
