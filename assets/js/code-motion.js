@@ -1,15 +1,14 @@
-// Code motion: every visible piece of the page is "written" in as it enters
-// the viewport instead of fading in.
-//   - headings, nav and short labels decode character by character behind a
-//     caret, with a few scrambled glyphs running ahead of it
-//   - paragraphs and list items stream in word by word, like tokens, with the
-//     newest words briefly syntax-highlighted
-//   - buttons, chips and icons boot open in stepped slices while their label
-//     resolves from noise
-//   - images, tables and code blocks render top to bottom in scanlines
-// Everything runs off one requestAnimationFrame loop, is scheduled in
-// document order per lane (top bar / side nav / sidebar / content) and restores the original DOM
-// once finished.
+// Code motion: every visible piece of the page is written in as it enters the
+// viewport instead of fading in.
+//   - headings, nav and short labels are typed character by character behind
+//     a thin caret
+//   - paragraphs and list items are written word by word, each word settling
+//     softly into place
+//   - buttons, chips and icons slide open from the left
+//   - images, tables and code blocks wipe in from the top
+// Everything runs off one requestAnimationFrame loop, is scheduled in document
+// order per lane (top bar / side nav / sidebar / content) and restores the
+// original DOM once finished.
 (function () {
   "use strict";
 
@@ -30,11 +29,10 @@
     return;
   }
 
-  var GLYPHS = "01<>/{}[]()=+*#$%&_;:~^|!?";
   var SKIP =
     "script,style,noscript,template,.sr-only,[hidden],[aria-hidden='true'],[data-cm-skip]," +
     ".code-theme-switcher__menu,.command-palette,#search-modal,.search-modal";
-  var DECODE =
+  var TYPE =
     "h1,h2,h3,h4,h5,h6,.site-name-link,.top-contact-link,.site-side-nav .nav-link," +
     ".landing-hero__kicker,.project-row__stack-label,.experience-entry__eyebrow";
   var CHIP =
@@ -61,10 +59,6 @@
     return Math.max(min, Math.min(max, value));
   }
 
-  function glyph() {
-    return GLYPHS.charAt((Math.random() * GLYPHS.length) | 0);
-  }
-
   function matches(el, selector) {
     return (el.matches || el.msMatchesSelector).call(el, selector);
   }
@@ -85,13 +79,13 @@
   // ---------------------------------------------------------------------------
 
   function classify(el) {
-    if (matches(el, DECODE)) return "decode";
+    if (matches(el, TYPE)) return "type";
     if (matches(el, CHIP)) return "chip";
     if (matches(el, RENDER)) return "render";
     if (matches(el, DRAW)) return "draw";
     if (hasOwnText(el)) {
       return (el.textContent || "").trim().length <= SHORT_TEXT
-        ? "decode"
+        ? "type"
         : "stream";
     }
     return null;
@@ -184,19 +178,17 @@
     list._caret = index;
   }
 
-  // Characters type in behind a caret; a short run of scrambled glyphs leads it.
-  // With resolveAll, every character starts scrambled and resolves left to right.
-  function decode(el, opts) {
+  // Characters are typed one at a time behind a thin caret; each new
+  // character eases in rather than popping.
+  function type(el, opts) {
     var parts = split(el, "char");
     var chars = parts.units;
     var count = chars.length;
-    var ahead = opts.resolveAll ? count : Math.min(4, count);
-    var duration =
-      opts.duration || clamp(count * (opts.perChar || 30), 260, 1000);
-    var lastScramble = 0;
+    var duration = clamp(count * (opts.perChar || 30), 260, 1000);
+    var shown = 0;
     var keepCaret = el.hasAttribute("data-cm-caret");
 
-    el.classList.add("cm-decoding");
+    el.classList.add("cm-typing");
     if (!el.hasAttribute("aria-label") && !matches(el, "a,button")) {
       el.setAttribute("aria-label", el.textContent.replace(/\s+/g, " ").trim());
       el._cmLabel = true;
@@ -204,46 +196,31 @@
 
     return {
       duration: duration,
-      step: function (p, time) {
-        var done = Math.floor(p * count);
-        var scramble = time - lastScramble > 45;
-        if (scramble) lastScramble = time;
-        for (var i = 0; i < count; i += 1) {
-          var ch = chars[i];
-          if (i < done) {
-            if (ch._s !== 2) {
-              ch._s = 2;
-              ch.className = "is-on";
-            }
-          } else if (i < done + ahead) {
-            if (ch._s !== 1) {
-              ch._s = 1;
-              ch.className = "is-g";
-              ch.setAttribute("data-g", glyph());
-            } else if (scramble) {
-              ch.setAttribute("data-g", glyph());
-            }
-          } else if (ch._s) {
-            ch._s = 0;
-            ch.className = "";
-          }
+      step: function (p) {
+        var target = Math.ceil(p * count);
+        while (shown < target) {
+          chars[shown].className = "is-on";
+          shown += 1;
         }
-        if (!opts.resolveAll)
-          setCaret(chars, clamp(done + ahead - 1, 0, count - 1), "is-caret");
+        setCaret(chars, shown ? shown - 1 : null, "is-caret");
       },
       finish: function () {
-        parts.restore();
-        el.classList.remove("cm-decoding");
-        if (el._cmLabel) {
-          el.removeAttribute("aria-label");
-          el._cmLabel = false;
-        }
-        if (keepCaret) el.classList.add("cm-caret-live");
+        setCaret(chars, null, "is-caret");
+        // Let the last characters finish easing in before unwrapping.
+        window.setTimeout(function () {
+          parts.restore();
+          el.classList.remove("cm-typing");
+          if (el._cmLabel) {
+            el.removeAttribute("aria-label");
+            el._cmLabel = false;
+          }
+          if (keepCaret) el.classList.add("cm-caret-live");
+        }, 220);
       },
     };
   }
 
-  // Words stream in like tokens; the freshest ones glow in the accent colour.
+  // Longer text is written word by word, each word settling softly into place.
   function stream(el) {
     var parts = split(el, "word");
     var words = parts.units;
@@ -258,24 +235,17 @@
       step: function (p) {
         var target = Math.ceil(p * count);
         while (shown < target) {
-          var word = words[shown];
-          word.className = "is-on is-fresh";
-          (function (w) {
-            window.setTimeout(function () {
-              w.classList.remove("is-fresh");
-            }, 140);
-          })(word);
+          words[shown].className = "is-on";
           shown += 1;
         }
         setCaret(words, shown ? shown - 1 : null, "is-caret");
       },
       finish: function () {
         setCaret(words, null, "is-caret");
-        // Let the last highlighted tokens cool down before unwrapping.
         window.setTimeout(function () {
           parts.restore();
           el.classList.remove("cm-streaming");
-        }, 700);
+        }, 360);
       },
     };
   }
@@ -293,45 +263,6 @@
     };
   }
 
-  // A single scanline rides down the element while it renders in slices.
-  function render(el) {
-    var anim = cssAnimation(el, "cm-render", 760);
-    var start = anim.start;
-    anim.start = function () {
-      start();
-      var rect = el.getBoundingClientRect();
-      if (rect.height < 24 || rect.width < 24) return;
-      var line = document.createElement("div");
-      line.className = "cm-scanline";
-      line.setAttribute("aria-hidden", "true");
-      line.style.left = rect.left + window.scrollX + "px";
-      line.style.top = rect.top + window.scrollY + "px";
-      line.style.width = rect.width + "px";
-      line.style.setProperty("--cm-h", rect.height + "px");
-      document.body.appendChild(line);
-      window.setTimeout(function () {
-        if (line.parentNode) line.parentNode.removeChild(line);
-      }, 900);
-    };
-    return anim;
-  }
-
-  function chip(el) {
-    var anim = cssAnimation(el, "cm-chip", 460);
-    if (!textNodes(el).length) return anim;
-    var label = decode(el, { resolveAll: true, duration: 460 });
-    var start = anim.start;
-    return {
-      duration: 460,
-      start: start,
-      step: label.step,
-      finish: function () {
-        label.finish();
-        anim.finish();
-      },
-    };
-  }
-
   function perChar(el) {
     if (el.hasAttribute("data-cm-caret")) return 90;
     if (el.closest(".header")) return 30;
@@ -341,24 +272,24 @@
   // Rough length of an item's animation, used to overlap the queue naturally.
   function estimate(item) {
     var length = (item.el.textContent || "").replace(/\s+/g, "").length;
-    if (item.kind === "decode")
+    if (item.kind === "type")
       return clamp(length * perChar(item.el), 260, 1000);
     if (item.kind === "stream") return clamp((length / 5.5) * 16, 260, 1200);
-    if (item.kind === "render") return 760;
+    if (item.kind === "render") return 700;
     return 460;
   }
 
   function build(item) {
     var el = item.el;
     switch (item.kind) {
-      case "decode":
-        return decode(el, { perChar: perChar(el) });
+      case "type":
+        return type(el, { perChar: perChar(el) });
       case "stream":
         return stream(el);
       case "chip":
-        return chip(el);
+        return cssAnimation(el, "cm-chip", 460);
       case "render":
-        return render(el);
+        return cssAnimation(el, "cm-render", 700);
       default:
         return cssAnimation(el, "cm-draw", 620);
     }
