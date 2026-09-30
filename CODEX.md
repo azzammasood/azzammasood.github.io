@@ -45,7 +45,7 @@ hugo --gc --minify --templateMetrics --templateMetricsHints --forceSyncStatic
 - Custom cursor is generated in `themes/hugoplate/assets/js/main.js` from CSS variables.
 - Footer/bottom panel is in `layouts/partials/essentials/footer.html` and visually arranged by `.landing-links*` rules in `assets/css/custom.css`.
 - Right-side nav loading spinner is controlled by `static/js/nav-loading.js` and `.site-side-nav .nav-link.is-loading::before` CSS.
-- Neobrutalism shadow distance is currently tightened to `5.32px`; hover image shadow is `6.08px`.
+- Neobrutalism shadow distance is `4.5px`; hover image shadow is `5.2px`.
 
 ## Recent Content Notes
 

@@ -21,12 +21,6 @@
           <a class="landing-button" href="{{ `/contact/` | relLangURL }}">Contact Me</a>
         </div>
 
-        {{ $sql := "SELECT tool, COUNT(*) AS uses\nFROM stack\nGROUP BY tool\nORDER BY uses DESC\nLIMIT 10;" }}
-        <a class="query-teaser" href="{{ `/query/` | relLangURL }}?q={{ $sql | urlquery }}">
-          <span class="query-teaser__prompt" aria-hidden="true">sql&gt;</span>
-          <code>SELECT tool, COUNT(*) FROM stack GROUP BY tool;</code>
-          <span class="query-teaser__cta">Query my resume →</span>
-        </a>
       </div>
 
     </div>
