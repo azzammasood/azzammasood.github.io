@@ -1,0 +1,66 @@
+{{ define "main" }}
+  {{/* Everything a visitor can query, exported from the site's own content. */}}
+  {{ $projects := slice }}
+  {{ range where site.RegularPages "Section" "projects" }}
+    {{ $projects = $projects | append (dict "slug" .File.ContentBaseName "title" .Title "summary" (.Params.description | default (.Summary | plainify)) "published" (.Date.Format "2006-01-02") "url" .RelPermalink "tools" (.Params.tags | default slice)) }}
+  {{ end }}
+  {{ $competitions := slice }}
+  {{ range where site.RegularPages "Section" "competitions" }}
+    {{ $competitions = $competitions | append (dict "title" .Title "event_date" (.Date.Format "2006-01-02") "summary" (.Params.list_blurb | default .Params.description) "tools" (.Params.tags | default slice)) }}
+  {{ end }}
+  {{ $experience := slice }}
+  {{ with site.GetPage "/experience" }}
+    {{ range .Params.experiences }}
+      {{ $tools := slice }}
+      {{ range .skills }}{{ $tools = $tools | append .name }}{{ end }}
+      {{ $experience = $experience | append (dict "company" .company "role" .role "employment" .employment "period" .period "location" .location "mode" .mode "highlights" (.highlights | default slice) "tools" $tools) }}
+    {{ end }}
+  {{ end }}
+  {{ $certifications := slice }}
+  {{ with site.GetPage "/certifications" }}
+    {{ range .Params.certifications }}
+      {{ $certifications = $certifications | append (dict "title" .title "provider" .provider "credential" .date "tools" (.skills | default slice)) }}
+    {{ end }}
+  {{ end }}
+  {{ $data := dict "projects" $projects "competitions" $competitions "experience" $experience "certifications" $certifications }}
+
+  <section class="projects-page section-page query-page section-page--plain">
+    <div class="projects-page__shell">
+      <div class="projects-page__main">
+        <header class="projects-page__header">
+          <p class="landing-hero__kicker">SQL console</p>
+          <h1>Query my résumé</h1>
+          <p class="query-page__lede">
+            My projects, roles, tech stack and live pipeline runs, loaded into SQLite in your browser. Write any query, or start from an example.
+          </p>
+        </header>
+
+        <div class="query-console" data-query-console data-cm-skip>
+          <div class="query-console__examples" data-query-examples aria-label="Example queries"></div>
+
+          <div class="query-console__editor">
+            <label class="sr-only" for="query-input">SQL query</label>
+            <textarea id="query-input" spellcheck="false" autocomplete="off" rows="6" data-query-input></textarea>
+            <div class="query-console__bar">
+              <span class="query-console__status" data-query-status aria-live="polite">Loading SQLite…</span>
+              <button type="button" class="landing-button landing-button--primary" data-query-run disabled>
+                Run <kbd>Ctrl ↵</kbd>
+              </button>
+            </div>
+          </div>
+
+          <div class="query-console__output" data-query-output></div>
+
+          <details class="query-console__schema">
+            <summary>Schema</summary>
+            <div data-query-schema></div>
+          </details>
+        </div>
+
+        <script type="application/json" id="resume-data">{{ $data | jsonify | safeJS }}</script>
+      </div>
+    </div>
+  </section>
+  <script src="{{ `vendor/sql.js/sql-wasm.js` | relURL }}" defer></script>
+  <script src="{{ `js/query-console.js` | relURL }}" data-wasm="{{ `vendor/sql.js/` | relURL }}" data-pipeline="{{ site.Params.pipeline_status_url }}" defer></script>
+{{ end }}
