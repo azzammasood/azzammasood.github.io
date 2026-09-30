@@ -1,0 +1,84 @@
+{{ define "main" }}
+  <section class="projects-page section-page pipeline-page section-page--plain">
+    <div class="projects-page__shell">
+      <div class="projects-page__main">
+        <header class="projects-page__header">
+          <p class="landing-hero__kicker">Live pipeline</p>
+          <h1>flight-ingest</h1>
+          <p class="query-page__lede">
+            Every 30 minutes a GitHub Actions job pulls live aircraft positions over Pakistan from OpenSky and my public GitHub activity, runs data-quality checks, aggregates the results and publishes them for this page.
+          </p>
+        </header>
+
+        <ol class="pipeline-flow" aria-label="Pipeline architecture">
+          <li class="pipeline-flow__node pipeline-flow__node--source">
+            <span class="pipeline-flow__label">Sources</span>
+            <span>OpenSky API</span>
+            <span>GitHub API</span>
+          </li>
+          <li class="pipeline-flow__node" data-stage="extract">
+            <span class="pipeline-flow__label">Extract</span>
+            <span>HTTP pull, per-source timing</span>
+          </li>
+          <li class="pipeline-flow__node" data-stage="validate">
+            <span class="pipeline-flow__label">Validate</span>
+            <span>7 data-quality checks</span>
+          </li>
+          <li class="pipeline-flow__node" data-stage="transform">
+            <span class="pipeline-flow__label">Transform</span>
+            <span>Aggregate metrics</span>
+          </li>
+          <li class="pipeline-flow__node" data-stage="load">
+            <span class="pipeline-flow__label">Load</span>
+            <span>status.json, last 48 runs</span>
+          </li>
+          <li class="pipeline-flow__node pipeline-flow__node--source">
+            <span class="pipeline-flow__label">Serve</span>
+            <span>This site</span>
+          </li>
+        </ol>
+
+        <div class="pipeline-detail" data-pipeline-detail data-source="{{ site.Params.pipeline_status_url }}" data-cm-skip>
+          <p class="pipeline-detail__loading" data-pd="loading">Loading the latest run…</p>
+
+          <div class="pipeline-detail__body" data-pd="body" hidden>
+            <div class="pipeline-detail__status" data-pd="status"></div>
+            <div class="pipeline-kpis" data-pd="kpis"></div>
+
+            <section class="pipeline-panel">
+              <h2>Aircraft per run</h2>
+              <p class="pipeline-panel__note" data-pd="history-note"></p>
+              <div class="pipeline-chart" data-pd="history"></div>
+              <details class="pipeline-panel__table">
+                <summary>View as table</summary>
+                <div data-pd="history-table"></div>
+              </details>
+            </section>
+
+            <div class="pipeline-grid">
+              <section class="pipeline-panel">
+                <h2>Latest run: stage timings</h2>
+                <div data-pd="stages"></div>
+              </section>
+              <section class="pipeline-panel">
+                <h2>Where aircraft are registered</h2>
+                <div data-pd="countries"></div>
+              </section>
+            </div>
+
+            <section class="pipeline-panel">
+              <h2>Data-quality checks</h2>
+              <ul class="pipeline-checks" data-pd="checks"></ul>
+            </section>
+
+            <p class="pipeline-detail__links">
+              <a href="https://github.com/azzammasood/azzammasood.github.io/blob/main/scripts/pipeline/run.py" target="_blank" rel="noopener">Pipeline source</a>
+              <a href="https://github.com/azzammasood/azzammasood.github.io/actions/workflows/pipeline.yml" target="_blank" rel="noopener">Run history on GitHub Actions</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <script src="{{ `js/pipeline-page.js` | relURL }}" defer></script>
+{{ end }}

@@ -18,6 +18,14 @@
     (dict "name" "NeoBrutalism" "id" "neobrutalism")
     (dict "name" "Windows 95" "id" "windows-95")
   }}
+  {{/* Each font option is previewed in its own face; stacks live in assets/css/custom.css. */}}
+  {{ $fonts := slice
+    (dict "name" "JetBrains Mono" "id" "mono")
+    (dict "name" "IBM Plex Mono" "id" "plex-mono")
+    (dict "name" "Satoshi" "id" "sans")
+    (dict "name" "Space Grotesk" "id" "grotesk")
+    (dict "name" "Source Serif" "id" "serif")
+  }}
   <div class="code-theme-switcher {{ $class }}" data-code-theme-switcher data-style-switcher>
     <button type="button" class="code-theme-switcher__button" aria-haspopup="true" aria-expanded="false" aria-label="Switch theme and style" title="Theme and style" data-code-theme-toggle>
       <i class="fa-solid fa-sun"></i><span class="sr-only" data-code-theme-current>Theme</span>
@@ -35,6 +43,10 @@
         <p class="code-theme-switcher__heading">Styles</p>
         {{ range $styles }}
           <button type="button" class="code-theme-option" role="menuitem" data-ui-style-option="{{ .id }}">{{ .name }}</button>
+        {{ end }}
+        <p class="code-theme-switcher__heading code-theme-switcher__heading--fonts">Fonts</p>
+        {{ range $fonts }}
+          <button type="button" class="code-theme-option code-font-option" role="menuitem" data-ui-font-option="{{ .id }}">{{ .name }}</button>
         {{ end }}
       </div>
     </div>
@@ -79,10 +91,17 @@
         document.querySelectorAll("[data-ui-style-current]").forEach(function (el) { el.textContent = styles[key]; });
         document.querySelectorAll("[data-ui-style-option]").forEach(function (el) { el.setAttribute("aria-current", el.dataset.uiStyleOption === key ? "true" : "false"); });
       }); }
+      var fonts = {"mono":"JetBrains Mono","plex-mono":"IBM Plex Mono","sans":"Satoshi","grotesk":"Space Grotesk","serif":"Source Serif"};
+      function paintFont(id, save) { var key = fonts[id] ? id : "mono"; styleTransition(function () {
+        document.documentElement.dataset.uiFont = key; if (save) localStorage.setItem("ui-font", key);
+        document.querySelectorAll("[data-ui-font-option]").forEach(function (el) { el.setAttribute("aria-current", el.dataset.uiFontOption === key ? "true" : "false"); });
+      }); }
       window.portfolioThemes = { apply: function (id) { paintTheme(id, true); }, preview: function (id) { paintTheme(id, false); }, restore: function () { paintTheme(currentTheme(), false); }, names: themes };
       window.portfolioStyles = { apply: function (id) { paintStyle(id, true); }, preview: function (id) { paintStyle(id, false); }, restore: function () { paintStyle(currentStyle(), false); }, names: styles };
       window.portfolioThemes.apply(localStorage.getItem("code-theme") || document.documentElement.dataset.codeTheme || "kernel-panic");
       window.portfolioStyles.apply(localStorage.getItem("ui-style") || "neobrutalism");
+      window.portfolioFonts = { apply: function (id) { paintFont(id, true); }, names: fonts };
+      window.portfolioFonts.apply(localStorage.getItem("ui-font") || "mono");
       motionReady = true;
       document.addEventListener("DOMContentLoaded", function () {
         document.querySelectorAll("[data-code-theme-toggle]").forEach(function (button) {
@@ -93,6 +112,9 @@
         });
         document.querySelectorAll("[data-ui-style-option]").forEach(function (button) {
           button.addEventListener("click", function () { window.portfolioStyles.apply(button.dataset.uiStyleOption); });
+        });
+        document.querySelectorAll("[data-ui-font-option]").forEach(function (button) {
+          button.addEventListener("click", function () { window.portfolioFonts.apply(button.dataset.uiFontOption); });
         });
         document.addEventListener("click", function (event) { document.querySelectorAll(".code-theme-switcher.is-open").forEach(function (sw) { if (!sw.contains(event.target)) sw.classList.remove("is-open"); }); });
       });

@@ -170,8 +170,9 @@
     // Partition offsets and consumer lag, read out only inside the window.
     if (pointer.active > 0.02) {
       lanes.forEach(function (lane, index) {
-        var near = Math.exp(-Math.pow(pointer.y - lane.y, 2) / (2 * 170 * 170));
-        var alpha = (0.18 + near * 0.5 + commitFlash * 0.3) * pointer.active;
+        var near = Math.exp(-Math.pow(pointer.y - lane.y, 2) / (2 * 90 * 90));
+        if (near < 0.08) return;
+        var alpha = (near * 0.6 + commitFlash * 0.3) * pointer.active;
         ctx.fillStyle = mix(alpha, commitFlash > 0 ? colors.accent : colors.base);
         ctx.fillText(
           "p" + index + " · off " + lane.offset + " · lag " + (lane.offset - lane.committed),
@@ -181,26 +182,32 @@
       });
     }
 
-    // Tumbling window around the cursor.
+    // Tumbling window around the cursor: a soft glow and short brackets that
+    // fade out above and below, rather than full-height bars.
     if (pointer.active > 0.02) {
       var half = WINDOW_WIDTH / 2;
-      var left = pointer.x - half;
-      var gradient = ctx.createLinearGradient(left, 0, left + WINDOW_WIDTH, 0);
-      gradient.addColorStop(0, mix(0, colors.accent));
-      gradient.addColorStop(0.5, mix(0.06 * pointer.active, colors.accent));
-      gradient.addColorStop(1, mix(0, colors.accent));
-      ctx.fillStyle = gradient;
-      ctx.fillRect(left, 0, WINDOW_WIDTH, height);
+      var reach = 90;
+      var glow = ctx.createRadialGradient(pointer.x, pointer.y, 0, pointer.x, pointer.y, half * 1.4);
+      glow.addColorStop(0, mix(0.07 * pointer.active, colors.accent));
+      glow.addColorStop(1, mix(0, colors.accent));
+      ctx.fillStyle = glow;
+      ctx.fillRect(pointer.x - half * 1.4, pointer.y - half * 1.4, half * 2.8, half * 2.8);
 
-      ctx.strokeStyle = mix(0.28 * pointer.active, colors.accent);
-      ctx.setLineDash([3, 5]);
-      ctx.beginPath();
-      ctx.moveTo(left, 0);
-      ctx.lineTo(left, height);
-      ctx.moveTo(left + WINDOW_WIDTH, 0);
-      ctx.lineTo(left + WINDOW_WIDTH, height);
-      ctx.stroke();
-      ctx.setLineDash([]);
+      [-1, 1].forEach(function (side) {
+        var x = pointer.x + side * half;
+        var fade = ctx.createLinearGradient(0, pointer.y - reach, 0, pointer.y + reach);
+        fade.addColorStop(0, mix(0, colors.accent));
+        fade.addColorStop(0.5, mix(0.45 * pointer.active, colors.accent));
+        fade.addColorStop(1, mix(0, colors.accent));
+        ctx.strokeStyle = fade;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(x - side * 6, pointer.y - reach * 0.55);
+        ctx.lineTo(x, pointer.y - reach * 0.55);
+        ctx.lineTo(x, pointer.y + reach * 0.55);
+        ctx.lineTo(x - side * 6, pointer.y + reach * 0.55);
+        ctx.stroke();
+      });
 
       ctx.fillStyle = mix(0.75 * pointer.active, colors.accent);
       ctx.fillText("window " + windowHits.length + " rec/s", pointer.x + 14, pointer.y + 22);
