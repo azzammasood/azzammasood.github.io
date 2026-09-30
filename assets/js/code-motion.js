@@ -31,7 +31,7 @@
 
   var SKIP =
     "script,style,noscript,template,.sr-only,[hidden],[aria-hidden='true'],[data-cm-skip]," +
-    ".code-theme-switcher__menu,.command-palette,#search-modal,.search-modal";
+    ".code-theme-switcher__menu,.command-palette,#search-modal,.search-modal,textarea,input,select";
   var TYPE =
     "h1,h2,h3,h4,h5,h6,.site-name-link,.top-contact-link,.site-side-nav .nav-link," +
     ".landing-hero__kicker,.project-row__stack-label,.experience-entry__eyebrow";

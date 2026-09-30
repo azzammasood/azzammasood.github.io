@@ -2,6 +2,7 @@
   {{ $banner := .Params.banner }}
   <section class="landing-hero" aria-label="Introduction">
     <div class="landing-hero__stripes" aria-hidden="true"></div>
+    <canvas class="landing-streams" aria-hidden="true" data-landing-streams></canvas>
     <div class="landing-hero__inner">
       <div class="landing-hero__name">
         <p class="landing-hero__kicker">Data Engineer</p>
@@ -19,6 +20,28 @@
           {{ end }}
           <a class="landing-button" href="{{ `/contact/` | relLangURL }}">Contact Me</a>
         </div>
+
+        {{ with site.Params.pipeline_status_url }}
+          {{ $runs := "SELECT started_at, status, aircraft, checks_passed || '/' || checks_total AS checks, duration_ms\nFROM pipeline_runs\nORDER BY started_at DESC\nLIMIT 20;" }}
+          <a class="pipeline-card" href="{{ `/query/` | relLangURL }}?q={{ $runs | urlquery }}" data-pipeline-card data-source="{{ . }}" data-cm-skip hidden>
+            <span class="pipeline-card__head">
+              <span class="pipeline-card__pulse" aria-hidden="true"></span>
+              <span class="pipeline-card__name">flight-ingest</span>
+              <span class="pipeline-card__state" data-field="state"></span>
+              <span class="pipeline-card__ago" data-field="ago"></span>
+            </span>
+            <span class="pipeline-card__body">
+              <span class="pipeline-card__stats">
+                <span><strong data-field="aircraft"></strong> aircraft over Pakistan</span>
+                <span><strong data-field="checks"></strong> checks</span>
+                <span><strong data-field="duration"></strong></span>
+              </span>
+              <span class="pipeline-card__spark" data-field="spark"></span>
+            </span>
+            <span class="pipeline-card__stages" data-field="stages"></span>
+          </a>
+          <script src="{{ `js/pipeline-status.js` | relURL }}" defer></script>
+        {{ end }}
       </div>
 
     </div>
@@ -37,4 +60,5 @@
 
     </div>
   </section>
+  <script src="{{ `js/stream-field.js` | relURL }}" defer></script>
 {{ end }}

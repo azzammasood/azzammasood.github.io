@@ -31,6 +31,11 @@ name = "Competitions"
 url = "/competitions"
 weight = 6
 
+[[main]]
+name = "Query"
+url = "/query"
+weight = 7
+
 
 # footer menu
 [[footer]]
