@@ -163,23 +163,23 @@
 
 :root[data-code-theme="mono"] {
   --color-primary: #1f2328;
-  --color-body: #eef2f5;
-  --color-border: #c7d0d9;
-  --color-light: #dfe6ec;
+  --color-body: #dde3e9;
+  --color-border: #b4bfca;
+  --color-light: #cfd7df;
   --color-dark: #1f2328;
   --color-text: #3b434b;
   --color-text-dark: #1f2328;
   --color-text-light: #6e7781;
   --color-darkmode-primary: #1f2328;
-  --color-darkmode-body: #eef2f5;
-  --color-darkmode-border: #c7d0d9;
-  --color-darkmode-light: #dfe6ec;
+  --color-darkmode-body: #dde3e9;
+  --color-darkmode-border: #b4bfca;
+  --color-darkmode-light: #cfd7df;
   --color-darkmode-dark: #1f2328;
   --color-darkmode-text: #3b434b;
   --color-darkmode-text-dark: #1f2328;
   --color-darkmode-text-light: #6e7781;
   --landing-stripe: rgba(31, 35, 40, 0.16);
-  --landing-muted-band: #d2dbe3;
+  --landing-muted-band: #c4ced8;
 }
 
 :root[data-code-theme="mono-dark"] {
@@ -3546,12 +3546,14 @@ html.style-swap::view-transition-new(root) {
 }
 
 /* -------------------------------------------------------------------------- */
-/* Live pipeline card (static/js/pipeline-status.js)                          */
+/* Landing SQL teaser (links to /query/)                                      */
 /* -------------------------------------------------------------------------- */
 
-.pipeline-card {
-  display: inline-grid;
-  gap: 0.55rem;
+.query-teaser {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.4rem 0.7rem;
   max-width: 100%;
   margin-top: 2rem;
   border: 1px solid color-mix(in srgb, var(--color-primary) 22%, var(--color-border));
@@ -3559,140 +3561,27 @@ html.style-swap::view-transition-new(root) {
   background: color-mix(in srgb, var(--color-light) 55%, transparent);
   color: var(--color-text);
   font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: 0.74rem;
-  padding: 0.75rem 0.95rem;
+  font-size: 0.78rem;
+  padding: 0.7rem 0.95rem;
   text-decoration: none;
-  opacity: 0;
-  transform: translateY(0.4rem);
-  transition:
-    opacity 600ms ease,
-    transform 600ms cubic-bezier(0.16, 1, 0.3, 1),
-    border-color 200ms ease;
+  transition: border-color 200ms ease;
 }
 
-.pipeline-card.is-visible {
-  opacity: 1;
-  transform: none;
-}
-
-.pipeline-card:hover,
-.pipeline-card:focus-visible {
-  border-color: var(--color-primary);
-  color: var(--color-text);
-  text-decoration: none;
-}
-
-.pipeline-card__head,
-.pipeline-card__body,
-.pipeline-card__stats,
-.pipeline-card__stages {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.35rem 0.9rem;
-}
-
-.pipeline-card__body {
-  justify-content: space-between;
-}
-
-.pipeline-card__head {
-  gap: 0.55rem;
-}
-
-.pipeline-card__pulse {
-  position: relative;
-  width: 0.5rem;
-  height: 0.5rem;
-  border-radius: 999px;
-  background: #3ddc84;
-}
-
-.pipeline-card__pulse::after {
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: inherit;
-  content: "";
-  animation: pipeline-pulse 1.8s ease-out infinite;
-}
-
-.pipeline-card[data-state="degraded"] .pipeline-card__pulse {
-  background: #f5b841;
-}
-
-.pipeline-card[data-state="failed"] .pipeline-card__pulse {
-  background: #ff5f66;
-}
-
-@keyframes pipeline-pulse {
-  from {
-    opacity: 0.7;
-    transform: scale(1);
-  }
-  to {
-    opacity: 0;
-    transform: scale(2.8);
-  }
-}
-
-.pipeline-card__name {
+.query-teaser code {
   color: var(--color-text-dark);
-  font-weight: 700;
+  font-size: inherit;
 }
 
-.pipeline-card__state {
+.query-teaser__prompt,
+.query-teaser__cta {
   color: var(--color-primary);
 }
 
-.pipeline-card__ago,
-.pipeline-card__stages {
-  color: var(--color-text-light);
-}
-
-.pipeline-card__stats strong {
-  color: var(--color-text-dark);
-  font-weight: 700;
-}
-
-.pipeline-card__spark svg {
-  display: block;
-  width: 7.5rem;
-  height: 1.6rem;
-  overflow: visible;
-}
-
-.pipeline-card__spark polyline {
-  fill: none;
-  stroke: var(--color-primary);
-  stroke-width: 1.5;
-  stroke-linejoin: round;
-}
-
-.pipeline-card__spark circle {
-  fill: var(--color-primary);
-}
-
-.pipeline-card__stages {
-  gap: 0.4rem;
-}
-
-.pipeline-card__stage {
-  border-bottom: 1px solid color-mix(in srgb, #3ddc84 70%, transparent);
-}
-
-.pipeline-card__stage.is-warn {
-  border-bottom-color: #f5b841;
-}
-
-.pipeline-card__arrow {
-  opacity: 0.5;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .pipeline-card__pulse::after {
-    animation: none;
-  }
+.query-teaser:hover,
+.query-teaser:focus-visible {
+  border-color: var(--color-primary);
+  color: var(--color-text);
+  text-decoration: none;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -3881,4 +3770,72 @@ html.style-swap::view-transition-new(root) {
 .query-console__row-count {
   color: var(--color-text-light);
   font-size: 0.74rem;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Font presets (theme menu → Fonts). JetBrains Mono is the default.          */
+/* -------------------------------------------------------------------------- */
+
+:root[data-ui-font="mono"] {
+  --font-primary: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --font-secondary: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+:root[data-ui-font="plex-mono"] {
+  --font-primary: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --font-secondary: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+:root[data-ui-font="sans"] {
+  --font-primary: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-secondary: Satoshi, Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+:root[data-ui-font="grotesk"] {
+  --font-primary: "Space Grotesk", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-secondary: "Space Grotesk", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+:root[data-ui-font="serif"] {
+  --font-primary: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --font-secondary: "Source Serif 4", Georgia, "Times New Roman", serif;
+}
+
+.code-theme-switcher__heading--fonts {
+  margin-top: 0.9rem !important;
+}
+
+.code-font-option[data-ui-font-option="mono"] { font-family: "JetBrains Mono", monospace !important; }
+.code-font-option[data-ui-font-option="plex-mono"] { font-family: "IBM Plex Mono", monospace !important; }
+.code-font-option[data-ui-font-option="sans"] { font-family: Satoshi, Inter, sans-serif !important; }
+.code-font-option[data-ui-font-option="grotesk"] { font-family: "Space Grotesk", sans-serif !important; }
+.code-font-option[data-ui-font-option="serif"] { font-family: "Source Serif 4", Georgia, serif !important; }
+
+/* A smaller hero name; monospace faces run wide, so tighten slightly. */
+.landing-hero__name h1,
+html.is-desktop-viewport .landing-hero__name h1 {
+  max-width: none;
+  font-size: clamp(3.4rem, 6.8vw, 7.6rem);
+  letter-spacing: -0.03em;
+  line-height: 0.92;
+}
+
+@media (max-width: 767px) {
+  .landing-hero__name h1,
+  html.is-desktop-viewport .landing-hero__name h1 {
+    font-size: 2.9rem;
+  }
+}
+
+/* NeoBrutalism: images inside framed media get square corners to match the hard shadow. */
+:root[data-ui-style="neobrutalism"] .project-row__media img,
+:root[data-ui-style="neobrutalism"] .project-row__image,
+:root[data-ui-style="neobrutalism"] .project-single__content img {
+  border-radius: 0 !important;
+}
+
+:root[data-ui-style="neobrutalism"] .query-teaser {
+  border: 0;
+  border-radius: 0;
+  box-shadow: 5.32px 5.32px 0 #000;
 }

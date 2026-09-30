@@ -1,5 +1,5 @@
 // SQL console for /query/: loads the site's own content (exported by
-// layouts/query/list.html) and the live pipeline runs into an in-memory
+// layouts/query/list.html) into an in-memory
 // SQLite database (sql.js, self-hosted under /vendor/sql.js/).
 (function () {
   "use strict";
@@ -15,7 +15,6 @@
   var examplesEl = console_.querySelector("[data-query-examples]");
   var schemaEl = console_.querySelector("[data-query-schema]");
   var wasmBase = script.getAttribute("data-wasm");
-  var pipelineUrl = script.getAttribute("data-pipeline");
   var MAX_ROWS = 200;
 
   var EXAMPLES = [
@@ -40,8 +39,8 @@
       sql: "SELECT e.company, COUNT(s.tool) AS tools,\n       GROUP_CONCAT(s.tool, ', ') AS stack\nFROM experience e\nJOIN stack s ON s.source_type = 'experience' AND s.source = e.company\nGROUP BY e.company\nORDER BY tools DESC;",
     },
     {
-      label: "Live pipeline health",
-      sql: "SELECT status, COUNT(*) AS runs,\n       ROUND(AVG(duration_ms)) AS avg_ms,\n       MAX(aircraft) AS peak_aircraft\nFROM pipeline_runs\nGROUP BY status;",
+      label: "Biggest project stacks",
+      sql: "SELECT source AS project, COUNT(*) AS tools\nFROM stack\nWHERE source_type = 'project'\nGROUP BY source\nORDER BY tools DESC;",
     },
   ];
 
@@ -52,8 +51,6 @@
     "CREATE TABLE certifications (title TEXT, provider TEXT, credential TEXT);",
     "CREATE TABLE competitions (title TEXT, event_date TEXT, summary TEXT);",
     "CREATE TABLE stack (source_type TEXT, source TEXT, tool TEXT);",
-    "CREATE TABLE pipeline_runs (run_id TEXT PRIMARY KEY, started_at TEXT, status TEXT, duration_ms INTEGER, rows_loaded INTEGER, checks_passed INTEGER, checks_total INTEGER, aircraft INTEGER, airborne INTEGER);",
-    "CREATE TABLE pipeline_checks (run_id TEXT, check_name TEXT, passed INTEGER, detail TEXT);",
   ];
 
   var MONTHS = { jan: 1, feb: 2, mar: 3, apr: 4, may: 5, jun: 6, jul: 7, aug: 8, sep: 9, oct: 10, nov: 11, dec: 12 };
@@ -133,35 +130,6 @@
     }));
 
     insert(db, "stack", stack);
-  }
-
-  function loadPipeline(db, feed) {
-    var runs = (feed && feed.runs) || [];
-    var checks = [];
-    insert(db, "pipeline_runs", runs.map(function (r) {
-      var list = r.checks || [];
-      list.forEach(function (c) {
-        checks.push({ run_id: r.run_id, check_name: c.name, passed: c.passed ? 1 : 0, detail: c.detail || null });
-      });
-      var metrics = r.metrics || {};
-      return {
-        run_id: r.run_id, started_at: r.started_at, status: r.status, duration_ms: r.duration_ms,
-        rows_loaded: r.rows_loaded,
-        checks_passed: list.filter(function (c) { return c.passed; }).length,
-        checks_total: list.length,
-        aircraft: metrics.aircraft == null ? null : metrics.aircraft,
-        airborne: metrics.airborne == null ? null : metrics.airborne,
-      };
-    }));
-    insert(db, "pipeline_checks", checks);
-    return runs.length;
-  }
-
-  function fetchPipeline() {
-    if (!pipelineUrl || !window.fetch) return Promise.resolve(null);
-    return fetch(pipelineUrl, { cache: "no-store" })
-      .then(function (response) { return response.ok ? response.json() : null; })
-      .catch(function () { return null; });
   }
 
   function el(tag, className, text) {
@@ -283,18 +251,15 @@
       return;
     }
     var data = JSON.parse(document.getElementById("resume-data").textContent);
-    Promise.all([
-      window.initSqlJs({ locateFile: function (file) { return wasmBase + file; } }),
-      fetchPipeline(),
-    ])
-      .then(function (loaded) {
-        db = new loaded[0].Database();
+    window
+      .initSqlJs({ locateFile: function (file) { return wasmBase + file; } })
+      .then(function (SQL) {
+        db = new SQL.Database();
         SCHEMA.forEach(function (statement) { db.run(statement); });
         loadResume(db, data);
-        var runs = loadPipeline(db, loaded[1]);
         renderSchema(db);
         runButton.disabled = false;
-        status.textContent = "Ready · " + (runs ? runs + " pipeline runs loaded" : "pipeline feed unavailable");
+        status.textContent = "Ready";
         run();
       })
       .catch(function (error) {

@@ -18,12 +18,15 @@
         var root = document.documentElement;
         var theme = "kernel-panic";
         var style = "neobrutalism";
+        var font = "mono";
         try {
           theme = localStorage.getItem("code-theme") || theme;
           style = localStorage.getItem("ui-style") || style;
+          font = localStorage.getItem("ui-font") || font;
         } catch (error) {}
         root.dataset.codeTheme = theme;
         root.dataset.uiStyle = style;
+        root.dataset.uiFont = font;
         root.classList.toggle("dark", !/^(mono|kodama-grove)$/.test(theme));
         if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
         // Hide content until assets/js/code-motion.js takes over; never leave it hidden.

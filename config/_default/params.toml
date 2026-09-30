@@ -12,8 +12,6 @@ logo_height = "32px"
 logo_webp = true
 # logo text will only show when logo is missing.
 logo_text = "Ahmad Uzzam"
-# Live pipeline output, written by .github/workflows/pipeline.yml to the pipeline-data branch.
-pipeline_status_url = "https://raw.githubusercontent.com/azzammasood/azzammasood.github.io/pipeline-data/status.json"
 # navbar fixed to top
 navbar_fixed = true
 # theme-mode
