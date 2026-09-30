@@ -21,10 +21,8 @@
   {{/* Each font option is previewed in its own face; stacks live in assets/css/custom.css. */}}
   {{ $fonts := slice
     (dict "name" "JetBrains Mono" "id" "mono")
-    (dict "name" "IBM Plex Mono" "id" "plex-mono")
     (dict "name" "Satoshi" "id" "sans")
     (dict "name" "Space Grotesk" "id" "grotesk")
-    (dict "name" "Source Serif" "id" "serif")
   }}
   <div class="code-theme-switcher {{ $class }}" data-code-theme-switcher data-style-switcher>
     <button type="button" class="code-theme-switcher__button" aria-haspopup="true" aria-expanded="false" aria-label="Switch theme and style" title="Theme and style" data-code-theme-toggle>
@@ -91,7 +89,7 @@
         document.querySelectorAll("[data-ui-style-current]").forEach(function (el) { el.textContent = styles[key]; });
         document.querySelectorAll("[data-ui-style-option]").forEach(function (el) { el.setAttribute("aria-current", el.dataset.uiStyleOption === key ? "true" : "false"); });
       }); }
-      var fonts = {"mono":"JetBrains Mono","plex-mono":"IBM Plex Mono","sans":"Satoshi","grotesk":"Space Grotesk","serif":"Source Serif"};
+      var fonts = {"mono":"JetBrains Mono","sans":"Satoshi","grotesk":"Space Grotesk"};
       function paintFont(id, save) { var key = fonts[id] ? id : "mono"; styleTransition(function () {
         document.documentElement.dataset.uiFont = key; if (save) localStorage.setItem("ui-font", key);
         document.querySelectorAll("[data-ui-font-option]").forEach(function (el) { el.setAttribute("aria-current", el.dataset.uiFontOption === key ? "true" : "false"); });
