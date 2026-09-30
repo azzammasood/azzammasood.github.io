@@ -1,0 +1,225 @@
+{
+  "pipeline": "flight-ingest",
+  "runs": [
+    {
+      "run_id": "36697684056",
+      "started_at": "2026-09-30T09:41:20Z",
+      "status": "success",
+      "rows_loaded": 144,
+      "sources": [
+        {
+          "ok": true,
+          "rows": 78,
+          "ms": 580,
+          "name": "opensky"
+        },
+        {
+          "ok": true,
+          "rows": 66,
+          "ms": 554,
+          "name": "github"
+        }
+      ],
+      "checks": [
+        {
+          "name": "opensky_reachable",
+          "passed": true,
+          "detail": "78 state vectors"
+        },
+        {
+          "name": "row_count_positive",
+          "passed": true,
+          "detail": "78 rows"
+        },
+        {
+          "name": "schema_17_fields",
+          "passed": true,
+          "detail": "0 malformed rows"
+        },
+        {
+          "name": "icao24_unique",
+          "passed": true,
+          "detail": "0 duplicate aircraft ids"
+        },
+        {
+          "name": "positions_in_bbox",
+          "passed": true,
+          "detail": "0 of 78 outside the box"
+        },
+        {
+          "name": "velocity_non_negative",
+          "passed": true,
+          "detail": "0 negative velocities"
+        },
+        {
+          "name": "snapshot_fresh_15m",
+          "passed": true,
+          "detail": "snapshot is 9s old"
+        }
+      ],
+      "metrics": {
+        "aircraft": 78,
+        "airborne": 69,
+        "on_ground": 9,
+        "countries": 18,
+        "avg_altitude_m": 7792,
+        "max_speed_kmh": 1027,
+        "top_countries": [
+          {
+            "country": "India",
+            "count": 49
+          },
+          {
+            "country": "Pakistan",
+            "count": 5
+          },
+          {
+            "country": "United States",
+            "count": 3
+          },
+          {
+            "country": "Russian Federation",
+            "count": 3
+          },
+          {
+            "country": "Afghanistan",
+            "count": 2
+          }
+        ],
+        "github_events_7d": 25,
+        "github_commits_7d": 12
+      },
+      "stages": [
+        {
+          "name": "extract",
+          "ms": 1134
+        },
+        {
+          "name": "validate",
+          "ms": 0
+        },
+        {
+          "name": "transform",
+          "ms": 3
+        }
+      ],
+      "finished_at": "2026-09-30T09:41:21Z",
+      "duration_ms": 1137
+    }
+  ],
+  "generated_at": "2026-09-30T09:41:21Z",
+  "source": {
+    "opensky_bbox": {
+      "lamin": 23.5,
+      "lomin": 60.8,
+      "lamax": 37.1,
+      "lomax": 77.8
+    },
+    "github_user": "azzammasood"
+  },
+  "latest": {
+    "run_id": "36697684056",
+    "started_at": "2026-09-30T09:41:20Z",
+    "status": "success",
+    "rows_loaded": 144,
+    "sources": [
+      {
+        "ok": true,
+        "rows": 78,
+        "ms": 580,
+        "name": "opensky"
+      },
+      {
+        "ok": true,
+        "rows": 66,
+        "ms": 554,
+        "name": "github"
+      }
+    ],
+    "checks": [
+      {
+        "name": "opensky_reachable",
+        "passed": true,
+        "detail": "78 state vectors"
+      },
+      {
+        "name": "row_count_positive",
+        "passed": true,
+        "detail": "78 rows"
+      },
+      {
+        "name": "schema_17_fields",
+        "passed": true,
+        "detail": "0 malformed rows"
+      },
+      {
+        "name": "icao24_unique",
+        "passed": true,
+        "detail": "0 duplicate aircraft ids"
+      },
+      {
+        "name": "positions_in_bbox",
+        "passed": true,
+        "detail": "0 of 78 outside the box"
+      },
+      {
+        "name": "velocity_non_negative",
+        "passed": true,
+        "detail": "0 negative velocities"
+      },
+      {
+        "name": "snapshot_fresh_15m",
+        "passed": true,
+        "detail": "snapshot is 9s old"
+      }
+    ],
+    "metrics": {
+      "aircraft": 78,
+      "airborne": 69,
+      "on_ground": 9,
+      "countries": 18,
+      "avg_altitude_m": 7792,
+      "max_speed_kmh": 1027,
+      "top_countries": [
+        {
+          "country": "India",
+          "count": 49
+        },
+        {
+          "country": "Pakistan",
+          "count": 5
+        },
+        {
+          "country": "United States",
+          "count": 3
+        },
+        {
+          "country": "Russian Federation",
+          "count": 3
+        },
+        {
+          "country": "Afghanistan",
+          "count": 2
+        }
+      ],
+      "github_events_7d": 25,
+      "github_commits_7d": 12
+    },
+    "stages": [
+      {
+        "name": "extract",
+        "ms": 1134
+      },
+      {
+        "name": "validate",
+        "ms": 0
+      },
+      {
+        "name": "transform",
+        "ms": 3
+      }
+    ],
+    "finished_at": "2026-09-30T09:41:21Z",
+    "duration_ms": 1137
+  }
+}
