@@ -21,26 +21,12 @@
           <a class="landing-button" href="{{ `/contact/` | relLangURL }}">Contact Me</a>
         </div>
 
-        {{ with site.Params.pipeline_status_url }}
-          <a class="pipeline-card" href="{{ `/pipeline/` | relLangURL }}" data-pipeline-card data-source="{{ . }}" data-cm-skip hidden>
-            <span class="pipeline-card__head">
-              <span class="pipeline-card__pulse" aria-hidden="true"></span>
-              <span class="pipeline-card__name">flight-ingest</span>
-              <span class="pipeline-card__state" data-field="state"></span>
-              <span class="pipeline-card__ago" data-field="ago"></span>
-            </span>
-            <span class="pipeline-card__body">
-              <span class="pipeline-card__stats">
-                <span><strong data-field="aircraft"></strong> aircraft over Pakistan</span>
-                <span><strong data-field="checks"></strong> checks</span>
-                <span><strong data-field="duration"></strong></span>
-              </span>
-              <span class="pipeline-card__spark" data-field="spark"></span>
-            </span>
-            <span class="pipeline-card__stages" data-field="stages"></span>
-          </a>
-          <script src="{{ `js/pipeline-status.js` | relURL }}" defer></script>
-        {{ end }}
+        {{ $sql := "SELECT tool, COUNT(*) AS uses\nFROM stack\nGROUP BY tool\nORDER BY uses DESC\nLIMIT 10;" }}
+        <a class="query-teaser" href="{{ `/query/` | relLangURL }}?q={{ $sql | urlquery }}">
+          <span class="query-teaser__prompt" aria-hidden="true">sql&gt;</span>
+          <code>SELECT tool, COUNT(*) FROM stack GROUP BY tool;</code>
+          <span class="query-teaser__cta">Query my resume →</span>
+        </a>
       </div>
 
     </div>

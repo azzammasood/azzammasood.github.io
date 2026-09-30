@@ -31,7 +31,7 @@
           <p class="landing-hero__kicker">SQL console</p>
           <h1>Query my resume</h1>
           <p class="query-page__lede">
-            My projects, roles, tech stack and live pipeline runs, loaded into SQLite in your browser. Write any query, or start from an example.
+            My projects, roles, certifications and tech stack, loaded into SQLite in your browser. Write any query, or start from an example.
           </p>
         </header>
 
@@ -62,5 +62,5 @@
     </div>
   </section>
   <script src="{{ `vendor/sql.js/sql-wasm.js` | relURL }}" defer></script>
-  <script src="{{ `js/query-console.js` | relURL }}" data-wasm="{{ `vendor/sql.js/` | relURL }}" data-pipeline="{{ site.Params.pipeline_status_url }}" defer></script>
+  <script src="{{ `js/query-console.js` | relURL }}" data-wasm="{{ `vendor/sql.js/` | relURL }}" defer></script>
 {{ end }}
