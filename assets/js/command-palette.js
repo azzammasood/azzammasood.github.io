@@ -11,7 +11,7 @@
   var indexLoaded = false;
   var activeIndex = 0;
   var closeTimer = null;
-  var paletteTransitionMs = 620;
+  var paletteTransitionMs = 560;
 
   var themes = [
     ["Kernel Panic", "kernel-panic", "/kernel-panic"],

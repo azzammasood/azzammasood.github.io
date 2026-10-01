@@ -13,15 +13,22 @@
 
         <div class="projects-list">
           {{ range .Params.certifications }}
+            {{ $cert := . }}
             <article class="project-row certification-row" id="{{ .title | urlize }}">
               <div class="project-row__body">
                 <p class="certification-row__meta">{{ .provider }}{{ with .date }} | {{ . }}{{ end }}</p>
                 <h2>{{ .title }}</h2>
               </div>
 
-              <a class="project-row__media certification-row__media" href="{{ .link }}" target="_blank" rel="noopener" aria-label="Open {{ .title }}">
-                <img src="{{ .image | relURL }}" alt="{{ .title }}" class="project-row__image certification-row__image" loading="lazy" width="960" height="600" />
-              </a>
+              {{ if .link }}
+                <a class="project-row__media certification-row__media" href="{{ .link }}" target="_blank" rel="noopener" aria-label="Open {{ .title }}">
+                  <img src="{{ .image | relURL }}" alt="{{ .title }}" class="project-row__image certification-row__image" loading="lazy" width="960" height="600" />
+                </a>
+              {{ else }}
+                <div class="project-row__media certification-row__media">
+                  <img src="{{ .image | relURL }}" alt="{{ .title }}" class="project-row__image certification-row__image" loading="lazy" width="960" height="600" />
+                </div>
+              {{ end }}
 
               <div class="project-row__body">
                 {{ with .skills }}
@@ -33,7 +40,9 @@
                   </div>
                 {{ end }}
                 <p>{{ .summary }}</p>
-                <a class="project-row__link" href="{{ .link }}" target="_blank" rel="noopener">View certification</a>
+                {{ with .link }}
+                  <a class="project-row__link" href="{{ . }}" target="_blank" rel="noopener" data-link-preview data-preview-image="{{ $cert.image | relURL }}" data-preview-title="{{ $cert.title }}">View certification</a>
+                {{ end }}
               </div>
             </article>
           {{ end }}

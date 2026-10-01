@@ -1,5 +1,7 @@
-// Landing-page background: small records drifting left to right along
-// invisible partitions, like messages streaming through a topic.
+// Landing-page background: records drifting through 3D space, like messages
+// streaming through a topic. Each record has a depth; nearer ones are larger,
+// brighter and faster, and the whole field tilts slightly with the cursor for
+// parallax. Records near the cursor light up in the accent colour.
 (function () {
   "use strict";
 
@@ -11,13 +13,18 @@
   var root = document.documentElement;
   var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  var LANE_GAP = 58;
+  var COUNT_PER_PX = 1 / 5200; // density: records per square pixel
+  var FOCAL = 520; // perspective focal length
+  var DEPTH = 1400; // far plane
+  var GLOW_RADIUS = 140;
   var width = 0;
   var height = 0;
-  var lanes = [];
   var records = [];
-  var color = [154, 164, 199];
+  var base = [154, 164, 199];
+  var accent = [137, 247, 255];
   var probe = document.createElement("canvas").getContext("2d");
+  var pointer = { x: -9999, y: -9999, active: 0, seen: -1e9 };
+  var tilt = { x: 0, y: 0 };
   var visible = true;
   var last = 0;
 
@@ -26,15 +33,35 @@
   }
 
   // Theme colours can be hex or oklch; paint one pixel to get plain RGB.
-  function readColor() {
-    var value = getComputedStyle(root).getPropertyValue("--color-text-light").trim();
-    if (!value || !probe) return;
+  function toRgb(value, fallback) {
+    if (!value || !probe) return fallback;
     probe.clearRect(0, 0, 1, 1);
     probe.fillStyle = "#000";
     probe.fillStyle = value;
     probe.fillRect(0, 0, 1, 1);
     var d = probe.getImageData(0, 0, 1, 1).data;
-    color = [d[0], d[1], d[2]];
+    return [d[0], d[1], d[2]];
+  }
+
+  function readColors() {
+    var style = getComputedStyle(root);
+    base = toRgb(style.getPropertyValue("--color-text-light").trim(), base);
+    accent = toRgb(style.getPropertyValue("--color-primary").trim(), accent);
+  }
+
+  // World space: x spans a little wider than the view so records enter from
+  // off-screen at every depth; z runs from near (0) to far (DEPTH).
+  function spawn(atLeftEdge) {
+    var z = rand(0, DEPTH);
+    var spread = (width / 2) * (1 + z / FOCAL) + 80;
+    return {
+      x: atLeftEdge ? -spread : rand(-spread, spread),
+      y: rand(-height / 2, height / 2) * (1 + z / FOCAL),
+      z: z,
+      len: rand(6, 11),
+      speed: rand(40, 90),
+      glow: 0,
+    };
   }
 
   function resize() {
@@ -45,42 +72,69 @@
     canvas.width = width * dpr;
     canvas.height = height * dpr;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-    var count = Math.max(4, Math.floor(height / LANE_GAP));
-    var gap = height / (count + 1);
-    lanes = [];
-    for (var i = 0; i < count; i += 1) {
-      lanes.push({ y: gap * (i + 1), speed: rand(28, 74), next: rand(0, 1.2) });
-    }
+    var target = Math.round(width * height * COUNT_PER_PX);
     records = [];
-    lanes.forEach(function (lane, index) {
-      for (var x = rand(0, 120); x < width; x += rand(70, 190)) {
-        records.push({ lane: index, x: x, len: rand(5, 9) });
-      }
-    });
+    for (var i = 0; i < target; i += 1) records.push(spawn(false));
   }
 
-  function step(dt) {
-    lanes.forEach(function (lane, index) {
-      lane.next -= dt;
-      if (lane.next <= 0) {
-        records.push({ lane: index, x: -12, len: rand(5, 9) });
-        lane.next = rand(0.9, 2.6) * (60 / lane.speed);
-      }
-    });
-    for (var i = records.length - 1; i >= 0; i -= 1) {
+  function project(r) {
+    var scale = FOCAL / (FOCAL + r.z);
+    return {
+      x: width / 2 + (r.x + tilt.x * r.z) * scale,
+      y: height / 2 + (r.y + tilt.y * r.z) * scale,
+      scale: scale,
+    };
+  }
+
+  function step(dt, time) {
+    pointer.active += ((time - pointer.seen < 2500 ? 1 : 0) - pointer.active) * Math.min(1, dt * 3);
+    // Parallax: the field leans gently away from the cursor.
+    var tx = pointer.active * ((pointer.x - width / 2) / width) * -0.12;
+    var ty = pointer.active * ((pointer.y - height / 2) / height) * -0.08;
+    tilt.x += (tx - tilt.x) * Math.min(1, dt * 2);
+    tilt.y += (ty - tilt.y) * Math.min(1, dt * 2);
+
+    for (var i = 0; i < records.length; i += 1) {
       var r = records[i];
-      r.x += lanes[r.lane].speed * dt;
-      if (r.x > width + 20) records.splice(i, 1);
+      r.x += r.speed * dt * (1 + (DEPTH - r.z) / DEPTH);
+      var p = project(r);
+      if (p.x - r.len * p.scale > width + 20) {
+        records[i] = spawn(true);
+        continue;
+      }
+      var dx = p.x - pointer.x;
+      var dy = p.y - pointer.y;
+      var near = pointer.active * Math.max(0, 1 - Math.sqrt(dx * dx + dy * dy) / GLOW_RADIUS);
+      r.glow += (near - r.glow) * Math.min(1, dt * (near > r.glow ? 10 : 2.5));
     }
   }
 
   function draw() {
     ctx.clearRect(0, 0, width, height);
-    ctx.fillStyle = "rgba(" + color[0] + "," + color[1] + "," + color[2] + ",0.26)";
+    // Far records first so near ones paint on top.
+    records.sort(function (a, b) { return b.z - a.z; });
     records.forEach(function (r) {
-      ctx.fillRect(r.x - r.len / 2, lanes[r.lane].y - 1.5, r.len, 3);
+      var p = project(r);
+      var depth = 1 - r.z / DEPTH;
+      var len = r.len * p.scale * 1.6;
+      var thick = Math.max(1, 3 * p.scale);
+      var g = r.glow;
+      var c = [
+        Math.round(base[0] + (accent[0] - base[0]) * g),
+        Math.round(base[1] + (accent[1] - base[1]) * g),
+        Math.round(base[2] + (accent[2] - base[2]) * g),
+      ];
+      var alpha = 0.08 + depth * 0.26 + g * 0.6;
+      ctx.fillStyle = "rgba(" + c[0] + "," + c[1] + "," + c[2] + "," + Math.min(1, alpha).toFixed(3) + ")";
+      if (g > 0.05) {
+        ctx.shadowColor = "rgba(" + accent[0] + "," + accent[1] + "," + accent[2] + "," + (g * 0.8).toFixed(3) + ")";
+        ctx.shadowBlur = 10 * g;
+      } else {
+        ctx.shadowBlur = 0;
+      }
+      ctx.fillRect(p.x - len / 2, p.y - thick / 2, len, thick);
     });
+    ctx.shadowBlur = 0;
   }
 
   function frame(time) {
@@ -90,7 +144,7 @@
     }
     var dt = last ? Math.min(0.05, (time - last) / 1000) : 0;
     last = time;
-    step(dt);
+    step(dt, time);
     draw();
     window.requestAnimationFrame(frame);
   }
@@ -103,10 +157,20 @@
     if (!last) window.requestAnimationFrame(frame);
   }
 
-  readColor();
+  function onMove(event) {
+    var rect = hero.getBoundingClientRect();
+    var x = event.clientX - rect.left;
+    var y = event.clientY - rect.top;
+    if (x < 0 || y < 0 || x > rect.width || y > rect.height) return;
+    pointer.x = x;
+    pointer.y = y;
+    pointer.seen = performance.now();
+  }
+
+  readColors();
   resize();
   new MutationObserver(function () {
-    window.requestAnimationFrame(readColor);
+    window.requestAnimationFrame(readColors);
   }).observe(root, { attributes: true, attributeFilter: ["data-code-theme", "class"] });
 
   if ("ResizeObserver" in window) {
@@ -126,5 +190,6 @@
     if (visible) start();
   });
 
+  window.addEventListener("pointermove", onMove, { passive: true });
   start();
 })();

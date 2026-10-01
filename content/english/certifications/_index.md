@@ -4,6 +4,16 @@ meta_title: "Certifications"
 description: "Certifications and structured learning across data engineering, software quality, SQL, and deep learning."
 draft: false
 certifications:
+  - title: "Claude Certified Developer: Foundations"
+    provider: "Anthropic"
+    date: "2026"
+    image: "/images/certifications/claude-certified-developer.jpg"
+    skills:
+      - "Claude API"
+      - "Prompt engineering"
+      - "Tool use"
+      - "Agentic workflows"
+    summary: "Anthropic's foundations certification for building with Claude, covering the Claude API, prompt design, tool use and building reliable agentic workflows."
   - title: "IBM Data Engineering Specialization"
     provider: "Coursera / IBM"
     date: "Professional Certificate"
