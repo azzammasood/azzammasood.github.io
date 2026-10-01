@@ -35,7 +35,7 @@
               <div class="project-row__body">
                 <p>{{ .Params.list_blurb | default (.Summary | plainify) }}</p>
                 {{ with .Params.linkedin_post }}
-                  <a class="competition-link" href="{{ . }}" target="_blank" rel="noopener">View on LinkedIn</a>
+                  <a class="competition-link" href="{{ . }}" target="_blank" rel="noopener" data-link-preview data-preview-image="{{ with $hackathon.Params.image }}{{ . | relURL }}{{ end }}" data-preview-title="{{ $hackathon.Title }}">View on LinkedIn</a>
                 {{ end }}
               </div>
             </article>
