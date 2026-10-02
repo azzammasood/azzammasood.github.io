@@ -2,7 +2,7 @@
   <nav class="navbar container py-1" aria-label="Primary navigation">
     <div class="order-0 hidden lg:block">
       {{ if not .IsHome }}
-        <a class="site-name-link" href="{{ site.Home.RelPermalink }}">Ahmad Uzzam<svg class="site-name-link__spark" viewBox="-10 -10 20 20" aria-hidden="true" focusable="false"><defs><filter id="spark-rough" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="1" seed="3"/><feDisplacementMap in="SourceGraphic" scale="0.9"/></filter></defs><g filter="url(#spark-rough)"><path style="--i:0" pathLength="1" d="M1.35 -0.06Q4.76 -0.71 8.22 -0.35"/><path style="--i:1" pathLength="1" d="M1.26 0.93Q3.26 2.42 5.28 3.90"/><path style="--i:2" pathLength="1" d="M0.67 1.49Q2.14 3.55 2.72 6.01"/><path style="--i:3" pathLength="1" d="M-0.59 1.94Q-0.96 4.29 -1.97 6.45"/><path style="--i:4" pathLength="1" d="M-1.78 1.21Q-4.13 2.96 -6.63 4.51"/><path style="--i:5" pathLength="1" d="M-1.24 -0.14Q-5.02 -0.32 -8.75 -1.00"/><path style="--i:6" pathLength="1" d="M-1.13 -0.68Q-3.48 -2.54 -6.22 -3.75"/><path style="--i:7" pathLength="1" d="M-0.68 -1.65Q-2.04 -4.55 -3.12 -7.57"/><path style="--i:8" pathLength="1" d="M0.40 -1.20Q0.92 -3.82 2.10 -6.22"/><path style="--i:9" pathLength="1" d="M1.36 -0.90Q3.77 -2.37 6.07 -4.02"/></g></svg></a>
+        <a class="site-name-link" href="{{ site.Home.RelPermalink }}">Ahmad Uzzam<span class="site-name-link__spinner" aria-hidden="true"></span></a>
       {{ end }}
     </div>
     <input id="nav-toggle" type="checkbox" class="hidden" />

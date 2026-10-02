@@ -17,7 +17,7 @@ certifications:
   - title: "IBM Data Engineering Specialization"
     provider: "Coursera / IBM"
     date: "Professional Certificate"
-    image: "/images/certifications/ibm-data-engineering-specialization.svg"
+    image: "/images/certifications/ibm-data-engineering.jpg"
     link: "https://www.coursera.org/account/accomplishments/professional-cert/HT7WSBV83ICR"
     skills:
       - "Data engineering"
@@ -30,7 +30,7 @@ certifications:
   - title: "Mastering Advanced SQL Queries"
     provider: "Coursera"
     date: "Completed Jan 13, 2026"
-    image: "/images/certifications/mastering-advanced-sql-queries.svg"
+    image: "/images/certifications/mastering-advanced-sql-queries.jpg"
     link: "https://www.coursera.org/account/accomplishments/records/G0AOCOZIF0EK"
     skills:
       - "SQL"
@@ -41,7 +41,7 @@ certifications:
   - title: "Deep Learning Specialization"
     provider: "Coursera / DeepLearning.AI"
     date: "Specialization"
-    image: "/images/certifications/deep-learning-specialization.svg"
+    image: "/images/certifications/deep-learning.jpg"
     link: "https://www.coursera.org/account/accomplishments/specialization/B4GNAR2SB8EE?utm_source=link&utm_medium=certificate&utm_content=cert_image&utm_campaign=sharing_cta&utm_product=s12n"
     skills:
       - "Neural networks"

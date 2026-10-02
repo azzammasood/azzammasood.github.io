@@ -3239,23 +3239,18 @@ html.cm-armed .header .navbar,
 }
 
 /* Type: characters ease in one at a time behind a thin caret. */
+/* Opacity only: a per-word blur() filter made the first second of every page
+   janky, because each word repaints its own filter layer. */
 .cm-typing cm-c,
 .cm-streaming cm-w {
   position: relative;
   opacity: 0;
-  transition:
-    opacity 200ms ease-out,
-    filter 320ms ease-out;
-}
-
-.cm-streaming cm-w {
-  filter: blur(3px);
+  transition: opacity 220ms ease-out;
 }
 
 .cm-typing cm-c.is-on,
 .cm-streaming cm-w.is-on {
   opacity: 1;
-  filter: none;
 }
 
 .cm-typing cm-c.is-caret::after,
@@ -3792,56 +3787,34 @@ html.is-desktop-viewport .landing-hero__name h1 {
 }
 
 /* -------------------------------------------------------------------------- */
-/* Hand-drawn spark after the name: rays sketch in quickly one after another, */
-/* the spark breathes and turns a little, then erases and redraws.            */
+/* Rotating line after the name: spins quickly while drifting slightly.      */
 /* -------------------------------------------------------------------------- */
 
-.site-name-link__spark {
-  width: 1.15em;
-  height: 1.15em;
-  margin-left: 0.45em;
-  overflow: visible;
-  vertical-align: -0.2em;
-  animation: spark-turn 2.4s ease-in-out infinite;
+.site-name-link__spinner {
+  display: inline-block;
+  width: 0.7em;
+  height: 1.5px;
+  margin-left: 0.55em;
+  background: currentColor;
+  vertical-align: middle;
+  animation: name-spinner 1.1s linear infinite;
 }
 
-.site-name-link__spark path {
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.35;
-  stroke-linecap: round;
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-  animation: spark-ray 2.4s cubic-bezier(0.3, 0.7, 0.4, 1) infinite;
-  animation-delay: calc(var(--i) * 35ms);
-}
-
-@keyframes spark-ray {
+@keyframes name-spinner {
   0% {
-    stroke-dashoffset: 1;
+    transform: translate(0, 0) rotate(0deg);
   }
-  14%,
-  74% {
-    stroke-dashoffset: 0;
+  25% {
+    transform: translate(1.5px, -1.5px) rotate(90deg);
   }
-  88%,
-  100% {
-    stroke-dashoffset: -1;
+  50% {
+    transform: translate(3px, 0.5px) rotate(180deg);
   }
-}
-
-@keyframes spark-turn {
-  0% {
-    transform: translate(0, 0) rotate(0deg) scale(0.92);
-  }
-  40% {
-    transform: translate(1px, -1px) rotate(18deg) scale(1.04);
-  }
-  70% {
-    transform: translate(2px, 0.5px) rotate(28deg) scale(1);
+  75% {
+    transform: translate(1px, 2px) rotate(270deg);
   }
   100% {
-    transform: translate(0, 0) rotate(36deg) scale(0.92);
+    transform: translate(0, 0) rotate(360deg);
   }
 }
 
@@ -3901,13 +3874,8 @@ html.is-desktop-viewport .landing-hero__name h1 {
 
 @media (prefers-reduced-motion: reduce) {
   .site-status__emoji,
-  .site-name-link__spark,
-  .site-name-link__spark path {
+  .site-name-link__spinner {
     animation: none;
-  }
-
-  .site-name-link__spark path {
-    stroke-dashoffset: 0;
   }
 }
 
@@ -4070,4 +4038,74 @@ html.is-desktop-viewport .landing-hero__name h1 {
 
 [data-site-status-text].is-changing {
   opacity: 0;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Smaller page titles and item headings on every page except home.          */
+/* -------------------------------------------------------------------------- */
+
+body:not(.is-home) .projects-page__header h1 {
+  font-size: clamp(2rem, 4.6vw, 4rem);
+}
+
+body:not(.is-home).project-single-page .projects-page__header h1,
+body:not(.is-home) .project-single-page .projects-page__header h1 {
+  font-size: clamp(1.7rem, 3vw, 3rem);
+}
+
+body:not(.is-home) .project-row__body h2 {
+  font-size: clamp(1.15rem, 1.8vw, 1.7rem);
+}
+
+body:not(.is-home) .section-page .content h2 {
+  font-size: clamp(1.3rem, 2vw, 1.9rem);
+}
+
+@media (max-width: 767px) {
+  body:not(.is-home) .projects-page__header h1 {
+    font-size: clamp(1.7rem, 9vw, 2.4rem);
+  }
+
+  body:not(.is-home) .project-row__body h2 {
+    font-size: clamp(1.1rem, 5.5vw, 1.45rem);
+  }
+}
+
+/* Left rail: only the active (and hovered) entry gets a frame. */
+:root:root:root:root .projects-page__rail a:not(.is-active):not(:hover):not(:focus-visible) {
+  border-color: transparent !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* The particle field fades in once it starts (after first paint). */
+.landing-streams {
+  opacity: 0;
+  transition: opacity 900ms ease;
+}
+
+.landing-streams.is-ready {
+  opacity: 1;
+}
+
+/* About photo bloom (static/js/about-bloom.js): sits behind page content. */
+.about-bloom {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+}
+
+.about-layout__image {
+  position: relative;
+  z-index: 1;
+  cursor: var(--portfolio-cursor-pointer, pointer);
+}
+
+/* Keep the About content above the bloom canvas that shares its section. */
+.about-layout > .projects-page__shell {
+  position: relative;
+  z-index: 1;
 }

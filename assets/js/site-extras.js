@@ -10,113 +10,64 @@
     var emojiEl = status.querySelector("[data-site-status-emoji]");
     var textEl = status.querySelector("[data-site-status-text]");
     var TZ = "Asia/Karachi";
-    var ROTATE_MS = 9000;
-    // [from hour, to hour (exclusive), emoji, sentences]. One sentence is
-    // picked at random from the current slot and rotated every few seconds.
-    var SCHEDULE = [
-      [0, 7, "😴", [
-        "I am probably sleeping.",
-        "I am probably dreaming in DAGs.",
-        "I am probably asleep while the nightly batch runs.",
-        "I am probably offline, my cron jobs are not.",
-        "I am probably asleep, hoping no pager goes off.",
-        "I am probably recharging, like a warehouse on auto-suspend.",
-        "I am probably asleep while backfills churn through history.",
-        "I am probably counting partitions instead of sheep.",
+    // The status depends only on the time in Islamabad: [from hour, to hour
+    // (exclusive), emoji, sentences]. Within a slot the sentence is chosen by
+    // the hour, so it is stable across reloads and page changes and only
+    // moves on as the clock does.
+    var WEEKDAY = [
+      [0, 7, "😴", ["I am probably sleeping."]],
+      [7, 9, "☕", ["I am probably having coffee before work.", "I am probably reading the overnight alerts."]],
+      [9, 12, "📊", [
+        "I am probably checking pipeline statuses.",
+        "I am probably reviewing dashboards from overnight runs.",
+        "I am probably triaging failed jobs and data-quality checks.",
       ]],
-      [7, 9, "☕", [
-        "I am probably having my first coffee.",
-        "I am probably checking last night's pipeline runs.",
-        "I am probably reading the overnight alerts with coffee.",
-        "I am probably warming up, like a cold cache.",
-        "I am probably triaging data-quality failures from overnight.",
-        "I am probably skimming the dbt test results.",
+      [12, 13, "🏗️", ["I am probably building pipelines."]],
+      [13, 15, "🍽️", ["I am probably on my lunch break.", "I am probably still on my lunch break."]],
+      [15, 19, "⚙️", [
+        "I am probably optimizing slow queries.",
+        "I am probably tuning pipelines for cost and speed.",
+        "I am probably refactoring a data model.",
+        "I am probably reviewing pull requests.",
       ]],
-      [9, 13, "💻", [
-        "I am probably building pipelines.",
-        "I am probably writing a MERGE statement.",
-        "I am probably reviewing a pull request.",
-        "I am probably modelling a fact table.",
-        "I am probably tuning a slow Snowflake query.",
-        "I am probably debugging an Airflow DAG.",
-        "I am probably arguing with a schema change.",
-        "I am probably adding tests to a dbt model.",
-        "I am probably reading a query plan.",
-        "I am probably chasing a late-arriving partition.",
-      ]],
-      [13, 14, "🍽️", [
-        "I am probably having lunch.",
-        "I am probably away from the keyboard, eating.",
-        "I am probably having lunch while a job retries.",
-        "I am probably taking a break, the scheduler is not.",
-      ]],
-      [14, 18, "🛠️", [
-        "I am probably working.",
-        "I am probably refactoring an old ETL job.",
-        "I am probably designing a medallion layer.",
-        "I am probably wiring up CDC from a database.",
-        "I am probably cutting cloud costs somewhere.",
-        "I am probably optimising Spark shuffles.",
-        "I am probably writing documentation nobody asked for.",
-        "I am probably backfilling a table.",
-        "I am probably in a design review.",
-        "I am probably tracing lineage for a broken metric.",
-      ]],
-      [18, 20, "🚶", [
-        "I am probably out for a walk.",
-        "I am probably stepping away from the screen.",
-        "I am probably thinking through a design on a walk.",
-        "I am probably getting some fresh air.",
-      ]],
-      [20, 23, "📚", [
-        "I am probably reading.",
-        "I am probably reading Fundamentals of Data Engineering.",
-        "I am probably catching up on Substack.",
-        "I am probably tinkering with a side project.",
-        "I am probably learning something new.",
-        "I am probably reading about lakehouse table formats.",
-      ]],
-      [23, 24, "🌙", [
-        "I am probably winding down.",
-        "I am probably closing my laptop.",
-        "I am probably queueing tomorrow's tasks.",
-        "I am probably about to sleep.",
+      [19, 21, "🌇", ["I am probably relaxing after work.", "I am probably having dinner."]],
+      [21, 24, "🛠️", [
+        "I am probably working on a side project.",
+        "I am probably relaxing with a side project.",
+        "I am probably tinkering with something new.",
       ]],
     ];
+    var WEEKEND = [
+      [0, 9, "😴", ["I am probably sleeping in."]],
+      [9, 13, "🛋️", ["I am probably chilling.", "I am probably taking it slow this weekend.", "I am probably out with family."]],
+      [13, 15, "🍽️", ["I am probably having a long lunch."]],
+      [15, 19, "📚", [
+        "I am probably going deep on data engineering internals.",
+        "I am probably learning a new data tool.",
+        "I am probably broadening into new parts of the stack.",
+        "I am probably reading about table formats and query engines.",
+      ]],
+      [19, 24, "🛠️", ["I am probably relaxing.", "I am probably working on a side project.", "I am probably winding down."]],
+    ];
     var clock = new Intl.DateTimeFormat("en-US", { timeZone: TZ, hour: "numeric", minute: "2-digit", second: "2-digit" });
-    var hourOf = new Intl.DateTimeFormat("en-US", { timeZone: TZ, hour: "numeric", hourCycle: "h23" });
-    var slotNow = null;
-    var lastSentence = "";
-    var rotatedAt = 0;
-
-    var pickSentence = function (slot) {
-      var options = slot[3].filter(function (s) { return s !== lastSentence; });
-      return options[(Math.random() * options.length) | 0] || slot[3][0];
-    };
-
-    var setSentence = function (text) {
-      lastSentence = text;
-      textEl.classList.add("is-changing");
-      window.setTimeout(function () {
-        textEl.textContent = text;
-        textEl.classList.remove("is-changing");
-      }, 260);
-    };
+    var parts = new Intl.DateTimeFormat("en-US", { timeZone: TZ, hour: "numeric", hourCycle: "h23", weekday: "short" });
+    var lastKey = "";
 
     var tick = function () {
       var now = new Date();
       timeEl.textContent = clock.format(now);
-      var hour = parseInt(hourOf.format(now), 10) % 24;
-      var slot = SCHEDULE.filter(function (s) { return hour >= s[0] && hour < s[1]; })[0] || SCHEDULE[0];
-      if (slot !== slotNow) {
-        slotNow = slot;
+      var fields = {};
+      parts.formatToParts(now).forEach(function (p) { fields[p.type] = p.value; });
+      var hour = parseInt(fields.hour, 10) % 24;
+      var weekend = fields.weekday === "Sat" || fields.weekday === "Sun";
+      var schedule = weekend ? WEEKEND : WEEKDAY;
+      var slot = schedule.filter(function (s) { return hour >= s[0] && hour < s[1]; })[0] || schedule[0];
+      var sentence = slot[3][(hour - slot[0]) % slot[3].length];
+      var key = slot[2] + sentence;
+      if (key !== lastKey) {
+        lastKey = key;
         emojiEl.textContent = slot[2];
-        lastSentence = pickSentence(slot);
-        textEl.textContent = lastSentence;
-        rotatedAt = Date.now();
-      } else if (Date.now() - rotatedAt > ROTATE_MS) {
-        rotatedAt = Date.now();
-        setSentence(pickSentence(slot));
+        textEl.textContent = sentence;
       }
     };
     tick();
