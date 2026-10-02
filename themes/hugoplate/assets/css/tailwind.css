@@ -1007,6 +1007,9 @@
     --tw-invert: invert(100%);
     filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
   }
+  .filter {
+    filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
+  }
   .backdrop-blur-sm {
     --tw-backdrop-blur: blur(var(--blur-sm));
     -webkit-backdrop-filter: var(--tw-backdrop-blur,) var(--tw-backdrop-brightness,) var(--tw-backdrop-contrast,) var(--tw-backdrop-grayscale,) var(--tw-backdrop-hue-rotate,) var(--tw-backdrop-invert,) var(--tw-backdrop-opacity,) var(--tw-backdrop-saturate,) var(--tw-backdrop-sepia,);
@@ -5877,107 +5880,65 @@ html.style-swap::view-transition-old(root), html.style-swap::view-transition-new
 .hackathons-page .competition-link {
   margin: 0.25rem 0 0;
 }
+.command-palette__panel::before {
+  inset: 0 0 auto 0 !important;
+  height: 1.5px;
+  background: var(--color-primary) !important;
+  mix-blend-mode: normal !important;
+  border-radius: 0 !important;
+  opacity: 0 !important;
+  transform: scaleX(0) !important;
+  transform-origin: 50% 50%;
+  transition: none !important;
+}
+.command-palette.is-open .command-palette__panel::before {
+  animation: palette-hairline 900ms cubic-bezier(0.65, 0, 0.35, 1) both;
+}
 .command-palette.is-open .command-palette__panel-shell {
-  transform-origin: 50% 0;
-  animation: palette-boot 1300ms cubic-bezier(0.2, 0.9, 0.25, 1) both;
+  animation: palette-rise 620ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 .command-palette.is-closing .command-palette__panel-shell {
-  animation: palette-shutdown 520ms cubic-bezier(0.6, 0, 0.8, 0.3) both;
+  animation: palette-sink 300ms cubic-bezier(0.4, 0, 1, 1) both;
 }
-.command-palette.is-open .command-palette__panel {
-  animation: palette-frame 1500ms ease-out both;
-}
-.command-palette__panel::after {
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-  border-radius: inherit;
-  background: linear-gradient(to bottom, transparent 0, color-mix(in srgb, #121212 70%, transparent) 50%, transparent 100%) 0 -40px / 100% 40px no-repeat, linear-gradient(color-mix(in srgb, #121212 22%, transparent) 1px, transparent 1px) 0 0 / 100% 14px, linear-gradient(90deg, color-mix(in srgb, #121212 16%, transparent) 1px, transparent 1px) 0 0 / 14px 100%;
-  @supports (color: color-mix(in lab, red, red)) {
-    background: linear-gradient(to bottom, transparent 0, color-mix(in srgb, var(--color-primary) 70%, transparent) 50%, transparent 100%) 0 -40px / 100% 40px no-repeat, linear-gradient(color-mix(in srgb, var(--color-primary) 22%, transparent) 1px, transparent 1px) 0 0 / 100% 14px, linear-gradient(90deg, color-mix(in srgb, var(--color-primary) 16%, transparent) 1px, transparent 1px) 0 0 / 14px 100%;
-  }
-  content: "";
-  opacity: 0;
-  pointer-events: none;
-}
-.command-palette.is-open .command-palette__panel::after {
-  animation: palette-scan 1250ms cubic-bezier(0.45, 0, 0.2, 1) both;
-}
-@keyframes palette-boot {
-  0% {
+@keyframes palette-rise {
+  from {
     opacity: 0;
-    filter: blur(6px) brightness(1.8);
-    transform: perspective(1100px) translateY(14vh) rotateX(62deg) scale(0.82);
-    clip-path: inset(0 0 100% 0 round 12px);
+    filter: blur(8px);
+    transform: translateY(14px) scale(0.985);
   }
-  30% {
+  to {
     opacity: 1;
-    filter: blur(1px) brightness(1.4);
-    transform: perspective(1100px) translateY(3vh) rotateX(22deg) scale(0.95);
-    clip-path: inset(0 0 55% 0 round 12px);
-  }
-  58% {
-    filter: drop-shadow(3px 0 0 rgba(255, 0, 90, 0.55)) drop-shadow(-3px 0 0 rgba(0, 240, 255, 0.55));
-    transform: perspective(1100px) translateY(-0.6vh) rotateX(-5deg) scale(1.01);
-    clip-path: inset(0 0 0 0 round 12px);
-  }
-  64% {
-    filter: drop-shadow(-2px 0 0 rgba(255, 0, 90, 0.5)) drop-shadow(2px 0 0 rgba(0, 240, 255, 0.5));
-    transform: perspective(1100px) translateX(3px) rotateX(-2deg);
-  }
-  70% {
-    filter: none;
-    transform: perspective(1100px) translateX(-2px) rotateX(1deg);
-  }
-  100% {
-    opacity: 1;
-    filter: none;
+    filter: blur(0);
     transform: none;
-    clip-path: inset(0 0 0 0 round 12px);
   }
 }
-@keyframes palette-scan {
-  0% {
-    opacity: 1;
-    background-position: 0 -40px, 0 0, 0 0;
-  }
-  70% {
-    opacity: 1;
-    background-position: 0 calc(100% + 40px), 0 0, 0 0;
-  }
-  100% {
-    opacity: 0;
-    background-position: 0 calc(100% + 40px), 0 0, 0 0;
-  }
-}
-@keyframes palette-shutdown {
-  0% {
+@keyframes palette-sink {
+  from {
     opacity: 1;
     transform: none;
-    clip-path: inset(0 0 0 0 round 12px);
   }
-  45% {
-    opacity: 1;
-    filter: brightness(1.8);
-    clip-path: inset(48% 0 48% 0 round 12px);
-  }
-  100% {
+  to {
     opacity: 0;
-    filter: brightness(2.4);
-    transform: scaleX(0.02);
-    clip-path: inset(49.5% 0 49.5% 0 round 12px);
+    filter: blur(6px);
+    transform: translateY(8px) scale(0.99);
   }
 }
-@keyframes palette-frame {
-  0%, 40% {
-    box-shadow: 0 0 0 1px var(--color-primary), 0 0 46px color-mix(in srgb, var(--color-primary) 50%, transparent);
+@keyframes palette-hairline {
+  0% {
+    opacity: 1;
+    transform: scaleX(0);
+  }
+  55% {
+    opacity: 1;
+    transform: scaleX(1);
   }
   100% {
-    box-shadow: 0 24px 60px color-mix(in srgb, #000 30%, transparent);
+    opacity: 0.35;
+    transform: scaleX(1);
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .command-palette.is-open .command-palette__panel-shell, .command-palette.is-closing .command-palette__panel-shell, .command-palette.is-open .command-palette__panel, .command-palette.is-open .command-palette__panel::after {
+  .command-palette.is-open .command-palette__panel-shell, .command-palette.is-closing .command-palette__panel-shell, .command-palette.is-open .command-palette__panel::before {
     animation: none;
   }
 }
@@ -5998,30 +5959,47 @@ html.style-swap::view-transition-old(root), html.style-swap::view-transition-new
     pointer-events: none;
   }
 }
-.site-name-link__spinner {
-  display: inline-block;
-  width: 0.7em;
-  height: 1.5px;
-  margin-left: 0.55em;
-  background: currentColor;
-  vertical-align: middle;
-  animation: name-spinner 2.6s linear infinite;
+.site-name-link__spark {
+  width: 1.15em;
+  height: 1.15em;
+  margin-left: 0.45em;
+  overflow: visible;
+  vertical-align: -0.2em;
+  animation: spark-turn 2.4s ease-in-out infinite;
 }
-@keyframes name-spinner {
+.site-name-link__spark path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.35;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: spark-ray 2.4s cubic-bezier(0.3, 0.7, 0.4, 1) infinite;
+  animation-delay: calc(var(--i) * 35ms);
+}
+@keyframes spark-ray {
   0% {
-    transform: translate(0, 0) rotate(0deg);
+    stroke-dashoffset: 1;
   }
-  25% {
-    transform: translate(1.5px, -1.5px) rotate(90deg);
+  14%, 74% {
+    stroke-dashoffset: 0;
   }
-  50% {
-    transform: translate(3px, 0.5px) rotate(180deg);
+  88%, 100% {
+    stroke-dashoffset: -1;
   }
-  75% {
-    transform: translate(1px, 2px) rotate(270deg);
+}
+@keyframes spark-turn {
+  0% {
+    transform: translate(0, 0) rotate(0deg) scale(0.92);
+  }
+  40% {
+    transform: translate(1px, -1px) rotate(18deg) scale(1.04);
+  }
+  70% {
+    transform: translate(2px, 0.5px) rotate(28deg) scale(1);
   }
   100% {
-    transform: translate(0, 0) rotate(360deg);
+    transform: translate(0, 0) rotate(36deg) scale(0.92);
   }
 }
 .site-status, .site-signature {
@@ -6050,7 +6028,7 @@ html.style-swap::view-transition-old(root), html.style-swap::view-transition-new
 .site-status__emoji {
   display: inline-block;
   font-size: 1.15rem;
-  animation: status-rock 2.4s ease-in-out infinite alternate;
+  animation: status-rock 0.8s ease-in-out infinite alternate;
 }
 @keyframes status-rock {
   from {
@@ -6066,8 +6044,11 @@ html.style-swap::view-transition-old(root), html.style-swap::view-transition-new
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .site-status__emoji, .site-name-link__spinner {
+  .site-status__emoji, .site-name-link__spark, .site-name-link__spark path {
     animation: none;
+  }
+  .site-name-link__spark path {
+    stroke-dashoffset: 0;
   }
 }
 .is-dblclick-faded {
@@ -6162,6 +6143,39 @@ html.style-swap::view-transition-old(root), html.style-swap::view-transition-new
 }
 :root:root:root .header.site-chrome .site-search-trigger kbd {
   transform: translateY(1px);
+}
+:root:root .experience-company-header {
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  padding: 0;
+}
+.link-preview[data-kind="shot"] .link-preview__image {
+  height: 11.25rem;
+  object-fit: cover;
+  object-position: top center;
+}
+.link-preview.is-loading .link-preview__frame, .link-preview.is-loading .link-preview__image {
+  visibility: hidden;
+}
+.link-preview.is-loading .link-preview__frame-wrap, .link-preview.is-loading[data-kind="shot"] {
+  background: linear-gradient(100deg, transparent 30%, color-mix(in srgb, #121212 12%, transparent) 50%, transparent 70%) 0 0 / 200% 100%, var(--color-light);
+  @supports (color: color-mix(in lab, red, red)) {
+    background: linear-gradient(100deg, transparent 30%, color-mix(in srgb, var(--color-primary) 12%, transparent) 50%, transparent 70%) 0 0 / 200% 100%, var(--color-light);
+  }
+  animation: preview-shimmer 1.1s linear infinite;
+}
+@keyframes preview-shimmer {
+  to {
+    background-position: -200% 0, 0 0;
+  }
+}
+[data-site-status-text] {
+  transition: opacity 260ms ease;
+}
+[data-site-status-text].is-changing {
+  opacity: 0;
 }
 @layer base {
   input:where([type='text']),input:where(:not([type])),input:where([type='email']),input:where([type='url']),input:where([type='password']),input:where([type='number']),input:where([type='date']),input:where([type='datetime-local']),input:where([type='month']),input:where([type='search']),input:where([type='tel']),input:where([type='time']),input:where([type='week']),select:where([multiple]),textarea,select {
