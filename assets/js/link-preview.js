@@ -1,10 +1,9 @@
 // Hover previews for links.
 //   - Links to other pages on this site show a live, scaled-down render of
 //     the destination page in an iframe.
-//   - External links with data-preview-image (LinkedIn posts, certificates)
-//     show that image with the title and domain; external pages themselves
-//     can't be embedded because they forbid framing.
-//   - Other external links show the site's icon and domain.
+//   - External links can't be framed (sites forbid it), so they show a
+//     screenshot of the destination from WordPress's mShots service, falling
+//     back to data-preview-image or the site's icon if that fails.
 (function () {
   "use strict";
 
@@ -15,7 +14,7 @@
   var FRAME_W = 1280;
   var FRAME_H = 800;
   var SCALE = 0.25;
-  var SKIP = ".command-palette, .code-theme-switcher__menu, .link-preview, [data-no-preview]";
+  var SKIP = ".command-palette, .code-theme-switcher__menu, .link-preview, .site-side-nav, [data-no-preview]";
 
   var card = null;
   var frame = null;
@@ -79,21 +78,53 @@
 
     if (info.kind === "page") {
       var src = info.url.pathname + info.url.search;
-      if (frame.getAttribute("src") !== src) frame.setAttribute("src", src);
+      if (frame.getAttribute("src") !== src) {
+        // Hide the previous page until the new one has loaded.
+        card.classList.add("is-loading");
+        frame.onload = function () {
+          card.classList.remove("is-loading");
+        };
+        frame.setAttribute("src", src);
+      }
       titleEl.textContent = (link.textContent || "").trim() || info.url.pathname;
       domainEl.textContent = info.url.pathname;
-    } else if (info.kind === "image") {
-      img.src = link.getAttribute("data-preview-image");
-      titleEl.textContent = link.getAttribute("data-preview-title") || link.textContent.trim();
-      domainEl.textContent = domain + " ↗";
     } else {
-      img.src = "https://www.google.com/s2/favicons?sz=128&domain=" + encodeURIComponent(info.url.hostname);
+      screenshot(link, info.url);
       titleEl.textContent = link.getAttribute("data-preview-title") || (link.textContent || "").trim() || domain;
       domainEl.textContent = domain + " ↗";
     }
 
     if (lastEvent) place(lastEvent);
     card.classList.add("is-visible");
+  }
+
+  // mShots answers with a 400x300 "generating" placeholder until the capture
+  // is ready, so poll a few times before settling.
+  function screenshot(link, url) {
+    var fallback = link.getAttribute("data-preview-image") ||
+      "https://www.google.com/s2/favicons?sz=128&domain=" + encodeURIComponent(url.hostname);
+    var shot = "https://s0.wp.com/mshots/v1/" + encodeURIComponent(url.href) + "?w=1280&h=800";
+    var tries = 0;
+    card.dataset.kind = "shot";
+    card.classList.add("is-loading");
+    img.onerror = function () {
+      img.onerror = null;
+      img.onload = null;
+      card.dataset.kind = link.hasAttribute("data-preview-image") ? "image" : "site";
+      card.classList.remove("is-loading");
+      img.src = fallback;
+    };
+    img.onload = function () {
+      if (img.naturalWidth === 400 && img.naturalHeight === 300 && tries < 4 && current === link) {
+        tries += 1;
+        window.setTimeout(function () {
+          if (current === link) img.src = shot + "&r=" + tries;
+        }, 1800);
+        return;
+      }
+      card.classList.remove("is-loading");
+    };
+    img.src = shot;
   }
 
   function hide() {

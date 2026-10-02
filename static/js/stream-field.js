@@ -15,12 +15,14 @@
   var root = document.documentElement;
   var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  var COUNT_PER_PX = 1 / 5600;
+  var COUNT_PER_PX = 1.1 / 5600;
   var FOCAL = 520;
   var FAR = 1500;
   var NEAR = -380;
   var GLOW_RADIUS = 140;
   var PICK_RADIUS = 30;
+  var EDGE_FADE = 110; // px over which records fade out near the viewport edges
+  var NEAR_FADE = 160; // depth over which records fade out as they pass the camera
   var TOPICS = ["orders.cdc", "clickstream", "telemetry.raw", "payments", "inventory.v2", "sensor.readings"];
   var CONCEPTS = [
     ["Change Data Capture", "Streams inserts, updates and deletes from a database log so downstream copies stay in sync without full reloads."],
@@ -50,6 +52,7 @@
   var pointer = { x: -9999, y: -9999, active: 0, seen: -1e9 };
   var tilt = { x: 0, y: 0 };
   var selected = null;
+  var selectedAt = 0;
   var card = null;
   var cardTimer = null;
   var offsets = {};
@@ -93,9 +96,10 @@
       x: rand(-width * 0.7, width * 0.7) * spread,
       y: rand(-height * 0.6, height * 0.6) * spread,
       z: z,
-      vx: rand(25, 70),
-      vy: rand(-18, 18),
-      vz: -rand(90, 190),
+      vx: rand(27.5, 77),
+      vy: rand(-19.8, 19.8),
+      vz: -rand(99, 209),
+      age: fresh ? 1 : 0,
       len: rand(7, 13),
       glow: 0,
       topic: topic,
@@ -140,8 +144,10 @@
       r.x += r.vx * dt;
       r.y += r.vy * dt;
       r.z += r.vz * dt;
+      r.age = Math.min(1, r.age + dt / 0.6);
       var p = project(r.x, r.y, r.z);
-      if (r.z < NEAR || p.x < -60 || p.x > width + 60 || p.y < -60 || p.y > height + 60) {
+      // Only recycle once a record has fully faded out past an edge.
+      if (r.z < NEAR || p.x < -EDGE_FADE || p.x > width + EDGE_FADE || p.y < -EDGE_FADE || p.y > height + EDGE_FADE) {
         records[i] = spawn(false);
         continue;
       }
@@ -169,7 +175,15 @@
         Math.round(base[1] + (accent[1] - base[1]) * g),
         Math.round(base[2] + (accent[2] - base[2]) * g),
       ];
-      var alpha = 0.06 + depth * 0.3 + g * 0.6;
+      // Fade in when spawned, and out toward the viewport edges and the
+      // camera, so records never pop in or vanish abruptly.
+      var edge = Math.min(head.x, width - head.x, head.y, height - head.y);
+      var fade = Math.max(0, Math.min(1, (edge + EDGE_FADE * 0.25) / EDGE_FADE));
+      fade *= Math.max(0, Math.min(1, (r.z - NEAR) / NEAR_FADE));
+      fade *= r.age;
+      if (r === selected) fade = 1;
+      var alpha = (0.06 + depth * 0.3 + g * 0.6) * fade;
+      if (alpha < 0.005) return;
       ctx.strokeStyle = "rgba(" + c[0] + "," + c[1] + "," + c[2] + "," + Math.min(1, alpha).toFixed(3) + ")";
       ctx.lineWidth = Math.max(0.8, 3 * head.scale);
       if (g > 0.05) {
@@ -183,11 +197,17 @@
       ctx.lineTo(head.x, head.y);
       ctx.stroke();
       if (r === selected) {
+        // A circle that draws itself around the record, sized to enclose it.
+        var cx = (head.x + tail.x) / 2;
+        var cy = (head.y + tail.y) / 2;
+        var radius = Math.hypot(head.x - tail.x, head.y - tail.y) / 2 + ctx.lineWidth + 7;
+        var t = Math.min(1, (performance.now() - selectedAt) / 480);
+        var sweep = 1 - Math.pow(1 - t, 3);
         ctx.shadowBlur = 0;
-        ctx.strokeStyle = "rgba(" + accent[0] + "," + accent[1] + "," + accent[2] + ",0.7)";
-        ctx.lineWidth = 1;
+        ctx.strokeStyle = "rgba(" + accent[0] + "," + accent[1] + "," + accent[2] + ",0.75)";
+        ctx.lineWidth = 1.25;
         ctx.beginPath();
-        ctx.arc(head.x, head.y, 9, 0, Math.PI * 2);
+        ctx.arc(cx, cy, radius, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * sweep);
         ctx.stroke();
       }
     });
@@ -254,6 +274,7 @@
       return;
     }
     selected = best;
+    selectedAt = performance.now();
     var p = project(best.x, best.y, best.z);
     showCard(best, p.x, p.y);
   }

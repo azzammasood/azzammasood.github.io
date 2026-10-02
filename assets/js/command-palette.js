@@ -11,7 +11,7 @@
   var indexLoaded = false;
   var activeIndex = 0;
   var closeTimer = null;
-  var paletteTransitionMs = 560;
+  var paletteTransitionMs = 300;
 
   var themes = [
     ["Kernel Panic", "kernel-panic", "/kernel-panic"],
@@ -98,10 +98,11 @@
     d.textContent = t;
     return d.innerHTML;
   }
-  function item(title, url, summary, hint) { return { title: title, url: url, summary: summary || "", hint: hint || "" }; }
+  // Commands keep their summary for matching but only search results display one.
+  function item(title, url, summary, hint, showSummary) { return { title: title, url: url, summary: summary || "", hint: hint || "", showSummary: !!showSummary }; }
   function render(items) {
     list.innerHTML = "";
-    if (!items.length) items = [item("No matches", "", "Try another command or keyword.", "")];
+    if (!items.length) items = [item("No matches", "", "Try another command or keyword.", "", true)];
     activeIndex = items.findIndex(function (it) { return !!it.url; });
     if (activeIndex < 0) activeIndex = 0;
     items.forEach(function (it, idx) {
@@ -112,7 +113,7 @@
       li.setAttribute("role", "option");
       li.setAttribute("aria-selected", idx === activeIndex ? "true" : "false");
       li.style.transitionDelay = Math.min(idx * 28, 180) + "ms";
-      li.innerHTML = '<div class="flex items-center justify-between gap-4"><span class="font-medium">' + escapeHtml(it.title) + '</span>' + (it.hint ? '<kbd class="shrink-0 rounded border border-border px-1.5 py-0.5 text-[10px] dark:border-darkmode-border">' + escapeHtml(it.hint) + "</kbd>" : "") + "</div>" + (it.summary ? '<div class="mt-0.5 text-xs text-text-light dark:text-darkmode-text-light">' + escapeHtml(it.summary) + "</div>" : "");
+      li.innerHTML = '<div class="flex items-center justify-between gap-4"><span class="font-medium">' + escapeHtml(it.title) + '</span>' + (it.hint ? '<kbd class="shrink-0 rounded border border-border px-1.5 py-0.5 text-[10px] dark:border-darkmode-border">' + escapeHtml(it.hint) + "</kbd>" : "") + "</div>" + (it.summary && it.showSummary ? '<div class="mt-0.5 text-xs text-text-light dark:text-darkmode-text-light">' + escapeHtml(it.summary) + "</div>" : "");
       li.addEventListener("mousedown", function (e) { e.preventDefault(); go(it.url); });
       li.addEventListener("mouseenter", function () {
         setActive(idx);
@@ -157,7 +158,7 @@
     if (mode === "search") {
       index.forEach(function (p) {
         var text = (p.title || "") + " " + (p.summary || p.description || "");
-        if (normalize(text).indexOf(n) !== -1) out.push(item(p.title, p.url || p.permalink || p.relpermalink, (p.summary || p.description || "").slice(0, 150), ""));
+        if (normalize(text).indexOf(n) !== -1) out.push(item(p.title, p.url || p.permalink || p.relpermalink, (p.summary || p.description || "").slice(0, 150), "", true));
       });
     }
     render(out.slice(0, 24));

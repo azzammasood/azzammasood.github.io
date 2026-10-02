@@ -29,6 +29,8 @@
         root.dataset.uiFont = font;
         root.classList.toggle("dark", !/^(mono|kodama-grove)$/.test(theme));
         if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+        // Pages rendered inside a link preview show their content immediately.
+        if (window.self !== window.top) return;
         // Hide content until assets/js/code-motion.js takes over; never leave it hidden.
         root.classList.add("cm-armed");
         window.setTimeout(function () {
