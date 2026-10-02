@@ -57,6 +57,7 @@
   var cardTimer = null;
   var offsets = {};
   var visible = true;
+  var booted = false;
   var last = 0;
 
   function rand(min, max) {
@@ -294,6 +295,7 @@
   }
 
   function start() {
+    if (!booted) return;
     if (reduce) {
       draw();
       return;
@@ -339,5 +341,16 @@
   document.addEventListener("keydown", function (event) {
     if (event.key === "Escape") hideCard();
   });
-  start();
+  // Let the page's first paint and entrance animation finish before the
+  // field starts drawing, so the two don't compete for the first second.
+  var boot = function () {
+    booted = true;
+    canvas.classList.add("is-ready");
+    start();
+  };
+  if (window.requestIdleCallback) {
+    window.requestIdleCallback(boot, { timeout: 900 });
+  } else {
+    window.setTimeout(boot, 500);
+  }
 })();
