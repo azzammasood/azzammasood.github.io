@@ -23,6 +23,7 @@
     (dict "name" "JetBrains Mono" "id" "mono")
     (dict "name" "Satoshi" "id" "sans")
     (dict "name" "Space Grotesk" "id" "grotesk")
+    (dict "name" "Fira Code Light" "id" "fira-light")
   }}
   <div class="code-theme-switcher {{ $class }}" data-code-theme-switcher data-style-switcher>
     <button type="button" class="code-theme-switcher__button" aria-haspopup="true" aria-expanded="false" aria-label="Switch theme and style" title="Theme and style" data-code-theme-toggle>
@@ -89,7 +90,7 @@
         document.querySelectorAll("[data-ui-style-current]").forEach(function (el) { el.textContent = styles[key]; });
         document.querySelectorAll("[data-ui-style-option]").forEach(function (el) { el.setAttribute("aria-current", el.dataset.uiStyleOption === key ? "true" : "false"); });
       }); }
-      var fonts = {"mono":"JetBrains Mono","sans":"Satoshi","grotesk":"Space Grotesk"};
+      var fonts = {"mono":"JetBrains Mono","sans":"Satoshi","grotesk":"Space Grotesk","fira-light":"Fira Code Light"};
       function paintFont(id, save) { var key = fonts[id] ? id : "mono"; styleTransition(function () {
         document.documentElement.dataset.uiFont = key; if (save) localStorage.setItem("ui-font", key);
         document.querySelectorAll("[data-ui-font-option]").forEach(function (el) { el.setAttribute("aria-current", el.dataset.uiFontOption === key ? "true" : "false"); });

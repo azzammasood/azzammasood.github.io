@@ -145,6 +145,9 @@ lazy = false
 link = "js/link-preview.js"
 lazy = false
 [[params.plugins.js]]
+link = "js/site-extras.js"
+lazy = false
+[[params.plugins.js]]
 link = "plugins/swiper/swiper-bundle.js" 
 # https://github.com/gethugothemes/hugo-modules/tree/master/gallery-slider
 lazy = false

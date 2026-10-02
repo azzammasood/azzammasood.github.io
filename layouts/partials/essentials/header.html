@@ -2,7 +2,7 @@
   <nav class="navbar container py-1" aria-label="Primary navigation">
     <div class="order-0 hidden lg:block">
       {{ if not .IsHome }}
-        <a class="site-name-link" href="{{ site.Home.RelPermalink }}">Ahmad Uzzam</a>
+        <a class="site-name-link" href="{{ site.Home.RelPermalink }}">Ahmad Uzzam<span class="site-name-link__spinner" aria-hidden="true"></span></a>
       {{ end }}
     </div>
     <input id="nav-toggle" type="checkbox" class="hidden" />
@@ -138,5 +138,12 @@
 
     </div>
   </nav>
+  <div class="site-status" data-site-status aria-label="Local time and status in Islamabad">
+    <span>Islamabad, PK</span>
+    <span class="site-status__time" data-site-status-time></span>
+    <span class="site-status__emoji" data-site-status-emoji aria-hidden="true"></span>
+    <span data-site-status-text></span>
+  </div>
+  <div class="site-signature">Splenic Manifestor 5/1 : INFP-T</div>
   <script src="{{ `js/nav-loading.js` | relURL }}" defer></script>
 </header>
