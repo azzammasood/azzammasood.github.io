@@ -20,7 +20,8 @@
     function paintCursor() {
       var lightCursorTheme = root.dataset.codeTheme === "mono" || root.dataset.codeTheme === "kodama-grove";
       var fill = lightCursorTheme ? "#ffffff" : token("--color-primary", "#111111");
-      var stroke = "#000000";
+      // Mono Dark's near-black page would swallow a black outline.
+      var stroke = root.dataset.codeTheme === "mono-dark" ? "#ffffff" : "#000000";
 
       var arrowSvg = [
         '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28">',
