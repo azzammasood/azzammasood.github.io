@@ -3,12 +3,10 @@
     <div class="projects-page__shell">
       <article class="projects-page__main">
         <header class="projects-page__header">
-          <p class="landing-hero__kicker">Selected Work</p>
           <h1>{{ .Title }}</h1>
         </header>
         <ul class="project-single__meta">
           <li>
-            <i class="fa-regular fa-clock mr-2"></i>
             {{ time.Format ":date_long" .PublishDate }}
           </li>
         </ul>

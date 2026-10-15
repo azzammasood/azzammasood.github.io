@@ -58,6 +58,7 @@
   var offsets = {};
   var visible = true;
   var booted = false;
+  var sortTick = 11; // so the first frame sorts
   var last = 0;
 
   function rand(min, max) {
@@ -114,11 +115,13 @@
     var rect = hero.getBoundingClientRect();
     width = Math.max(1, Math.round(rect.width));
     height = Math.max(1, Math.round(rect.height));
-    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    // Thin dashes on a soft background don't need full retina resolution;
+    // capping the backing store keeps fill cost down on 2x/3x screens.
+    var dpr = Math.min(window.devicePixelRatio || 1, 1.5);
     canvas.width = width * dpr;
     canvas.height = height * dpr;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    var target = Math.round(width * height * COUNT_PER_PX);
+    var target = Math.min(260, Math.round(width * height * COUNT_PER_PX));
     records = [];
     for (var i = 0; i < target; i += 1) records.push(spawn(true));
   }
@@ -161,7 +164,9 @@
 
   function draw() {
     ctx.clearRect(0, 0, width, height);
-    records.sort(function (a, b) { return b.z - a.z; });
+    // Depth order changes slowly, so re-sort only every few frames.
+    sortTick = (sortTick + 1) % 12;
+    if (!sortTick) records.sort(function (a, b) { return b.z - a.z; });
     ctx.lineCap = "round";
     records.forEach(function (r) {
       var head = project(r.x, r.y, r.z);
@@ -187,11 +192,17 @@
       if (alpha < 0.005) return;
       ctx.strokeStyle = "rgba(" + c[0] + "," + c[1] + "," + c[2] + "," + Math.min(1, alpha).toFixed(3) + ")";
       ctx.lineWidth = Math.max(0.8, 3 * head.scale);
+      // Glow as a wide faint stroke under the dash: far cheaper than shadowBlur.
       if (g > 0.05) {
-        ctx.shadowColor = "rgba(" + accent[0] + "," + accent[1] + "," + accent[2] + "," + (g * 0.8).toFixed(3) + ")";
-        ctx.shadowBlur = 10 * g;
-      } else {
-        ctx.shadowBlur = 0;
+        var lw = ctx.lineWidth;
+        ctx.strokeStyle = "rgba(" + accent[0] + "," + accent[1] + "," + accent[2] + "," + (g * 0.22).toFixed(3) + ")";
+        ctx.lineWidth = lw + 6 * g;
+        ctx.beginPath();
+        ctx.moveTo(tail.x, tail.y);
+        ctx.lineTo(head.x, head.y);
+        ctx.stroke();
+        ctx.lineWidth = lw;
+        ctx.strokeStyle = "rgba(" + c[0] + "," + c[1] + "," + c[2] + "," + Math.min(1, alpha).toFixed(3) + ")";
       }
       ctx.beginPath();
       ctx.moveTo(tail.x, tail.y);
@@ -204,15 +215,13 @@
         var radius = Math.hypot(head.x - tail.x, head.y - tail.y) / 2 + ctx.lineWidth + 7;
         var t = Math.min(1, (performance.now() - selectedAt) / 480);
         var sweep = 1 - Math.pow(1 - t, 3);
-        ctx.shadowBlur = 0;
-        ctx.strokeStyle = "rgba(" + accent[0] + "," + accent[1] + "," + accent[2] + ",0.75)";
+            ctx.strokeStyle = "rgba(" + accent[0] + "," + accent[1] + "," + accent[2] + ",0.75)";
         ctx.lineWidth = 1.25;
         ctx.beginPath();
         ctx.arc(cx, cy, radius, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * sweep);
         ctx.stroke();
       }
     });
-    ctx.shadowBlur = 0;
   }
 
   // ------------------------------------------------------------ inspector
@@ -341,16 +350,20 @@
   document.addEventListener("keydown", function (event) {
     if (event.key === "Escape") hideCard();
   });
-  // Let the page's first paint and entrance animation finish before the
-  // field starts drawing, so the two don't compete for the first second.
+  // Start only after the page's entrance animation has settled (code-motion
+  // announces it), then on the next idle moment, so the two never compete
+  // for the first second. A fallback timer covers pages without it.
   var boot = function () {
+    if (booted) return;
     booted = true;
     canvas.classList.add("is-ready");
     start();
   };
-  if (window.requestIdleCallback) {
-    window.requestIdleCallback(boot, { timeout: 900 });
-  } else {
-    window.setTimeout(boot, 500);
-  }
+  var whenIdle = function () {
+    if (window.requestIdleCallback) window.requestIdleCallback(boot, { timeout: 600 });
+    else window.setTimeout(boot, 200);
+  };
+  if (window.__cmSettled) whenIdle();
+  else document.addEventListener("cm:settled", whenIdle, { once: true });
+  window.setTimeout(whenIdle, 3500);
 })();
