@@ -20,6 +20,15 @@
               {{ end }}
             </div>
           {{ end }}
+          {{ if or .Params.website .Params.loom }}
+            <p class="project-single__links">
+              {{ with .Params.website }}<a href="{{ . }}" target="_blank" rel="noopener">{{ strings.TrimPrefix "https://" . }} ↗</a>{{ end }}
+              {{ with .Params.loom }}<a href="{{ . }}" target="_blank" rel="noopener">Watch the walkthrough ↗</a>{{ end }}
+            </p>
+          {{ end }}
+          {{ if eq .Params.animation "logicgate" }}
+            <div class="project-single__demo">{{ partial "components/logicgate-demo.html" . }}</div>
+          {{ end }}
           <div class="content project-single__content mb-10">
             {{ .Content }}
           </div>
