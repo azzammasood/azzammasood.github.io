@@ -1,0 +1,40 @@
+{{/* Animated LogicGate demo (static/js/logicgate-demo.js): a metric is
+     edited visually, reviewed, approved, then compiled to SQL/Python/dbt. */}}
+<div class="lg-demo" data-logicgate-demo data-cm-skip role="img" aria-label="LogicGate demo: the Active customer metric is changed from 30 to 90 days, reviewed with a diff, approved by the data lead, and compiled to SQL, Python and dbt.">
+  <div class="lg-demo__bar" aria-hidden="true">
+    <span class="lg-demo__dots"><i></i><i></i><i></i></span>
+    <span class="lg-demo__url">logicgate.space</span>
+  </div>
+  <div class="lg-demo__body" aria-hidden="true">
+    <div class="lg-def">
+      <div class="lg-def__head">
+        <span class="lg-def__name">Active customer</span>
+        <span class="lg-pill" data-lg-status>v3 · Live</span>
+      </div>
+      <div class="lg-rule">
+        <span class="lg-chip">orders</span>
+        <span class="lg-chip lg-chip--op">placed in last</span>
+        <span class="lg-chip lg-chip--val" data-lg-days>30 days</span>
+        <span class="lg-chip lg-chip--op">≥</span>
+        <span class="lg-chip">1</span>
+      </div>
+      <div class="lg-change" data-lg-change>
+        <div class="lg-diff"><span class="lg-del">− 30 days</span><span class="lg-add">+ 90 days</span></div>
+        <div class="lg-meta"><span class="lg-avatar">S</span> Sara · Finance<br /><q>Align with the retention report</q></div>
+      </div>
+      <div class="lg-approval" data-lg-approval>
+        <span class="lg-avatar lg-avatar--lead">DL</span>
+        <span data-lg-approval-text>Awaiting approval · Data Lead</span>
+      </div>
+    </div>
+    <div class="lg-out">
+      <div class="lg-tabs">
+        <span data-lg-tab="sql">SQL</span>
+        <span data-lg-tab="py">Python</span>
+        <span data-lg-tab="dbt">dbt</span>
+      </div>
+      <pre class="lg-code"><code data-lg-code></code></pre>
+    </div>
+  </div>
+</div>
+<script src="{{ `js/logicgate-demo.js` | relURL }}" defer></script>

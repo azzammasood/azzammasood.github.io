@@ -18,6 +18,14 @@
     root.classList.remove("cm-armed");
   }
 
+  // Tell heavier effects (the landing particle field) when the first wave of
+  // entrance animation is done, so they don't start mid-animation.
+  function announceSettled() {
+    if (window.__cmSettled) return;
+    window.__cmSettled = true;
+    document.dispatchEvent(new Event("cm:settled"));
+  }
+
   if (
     !root.classList.contains("cm-armed") ||
     !("IntersectionObserver" in window) ||
@@ -26,6 +34,7 @@
       window.matchMedia("(prefers-reduced-motion: reduce)").matches)
   ) {
     disarm();
+    announceSettled();
     return;
   }
 
@@ -317,6 +326,7 @@
       raf(tick);
     } else {
       running = false;
+      announceSettled();
     }
   }
 
