@@ -35,7 +35,7 @@
   ];
   var shortcuts = [
     ["Command Palette (Global)", "Ctrl + Shift + P"],
-    ["Search", "Ctrl + K"],
+    ["Search", "/"],
     ["Theme Picker", "Ctrl + P"],
     ["Style Switcher", "Ctrl + S"],
     ["Help / Shortcuts List", "Ctrl + /"],
@@ -61,7 +61,7 @@
     { title: "Experience", url: withBase("/experience/"), hint: "/experience", cmd: "/experience", summary: "Open experience" },
     { title: "Certifications", url: withBase("/certifications/"), hint: "/certifications", cmd: "/certifications", summary: "Open certifications" },
     { title: "Contact", url: withBase("/contact/"), hint: "/contact", cmd: "/contact", summary: "Open contact" },
-    { title: "Search", url: "#mode-search", hint: "Ctrl + K", cmd: "/search", summary: "Search site content" },
+    { title: "Search", url: "#mode-search", hint: "/", cmd: "/search", summary: "Search site content" },
     { title: "Theme Picker", url: "#mode-themes", hint: "Ctrl + P", cmd: "/themes", summary: "Switch color theme" },
     { title: "Style Switcher", url: "#mode-styles", hint: "Ctrl + S", cmd: "/styles", summary: "Switch UI style" },
     { title: "Help / Shortcuts", url: "#mode-help", hint: "Ctrl + /", cmd: "/help", summary: "Show shortcuts" },
@@ -223,6 +223,9 @@
     if (e.key === "Escape" && !modal.classList.contains("hidden")) close();
     if ((e.ctrlKey || e.metaKey) && e.shiftKey && k === "p") { e.preventDefault(); open("commands"); }
     else if ((e.ctrlKey || e.metaKey) && k === "k") { e.preventDefault(); open("search"); }
+    // "/" opens search, unless the visitor is typing in a field.
+    else if (e.key === "/" && !e.ctrlKey && !e.metaKey && !e.altKey && modal.classList.contains("hidden") &&
+      !(e.target.closest && e.target.closest("input, textarea, select, [contenteditable]"))) { e.preventDefault(); open("search"); }
     else if ((e.ctrlKey || e.metaKey) && k === "p") { e.preventDefault(); open("themes"); }
     else if ((e.ctrlKey || e.metaKey) && k === "s") { e.preventDefault(); open("styles"); }
     else if ((e.ctrlKey || e.metaKey) && k === "/") { e.preventDefault(); open("help"); }

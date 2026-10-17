@@ -4115,13 +4115,14 @@ body:not(.is-home) .section-page .content h2 {
 /* -------------------------------------------------------------------------- */
 
 .lg-demo {
-  --lg-bg: #0f1420;
-  --lg-panel: #161d2c;
-  --lg-line: #263049;
-  --lg-chip: #1f2a42;
-  --lg-text: #dbe3f0;
-  --lg-muted: #8592ab;
-  --lg-accent: #8ab4ff;
+  /* LogicGate's own palette: near-black with its green accent. */
+  --lg-bg: #0b0d10;
+  --lg-panel: #12161b;
+  --lg-line: #232a31;
+  --lg-chip: #1a2026;
+  --lg-text: #e6ebef;
+  --lg-muted: #8a949e;
+  --lg-accent: #3ddc84;
   --lg-good: #3ddc84;
   --lg-warn: #f5b841;
   --lg-bad: #ff6b7a;
@@ -4495,4 +4496,71 @@ body:not(.is-home) .section-page .content h2 {
     transition: none !important;
     animation: none !important;
   }
+}
+
+.project-single__shot {
+  display: block;
+  width: 100%;
+  max-width: min(100%, 48rem);
+  height: auto;
+  margin: 0.5rem 0 1.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+}
+
+:root[data-ui-style="neobrutalism"] .project-single__shot {
+  border: 2px solid var(--nb-shadow);
+  border-radius: 0;
+  box-shadow: 4.5px 4.5px 0 var(--nb-shadow);
+}
+
+/* -------------------------------------------------------------------------- */
+/* First-visit intro (layouts/partials/essentials/intro.html)                */
+/* -------------------------------------------------------------------------- */
+
+.site-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: none;
+  background: var(--color-body);
+  transition: background-color 700ms ease;
+}
+
+html.intro-active .site-intro {
+  display: block;
+}
+
+html.intro-active body {
+  overflow: hidden;
+}
+
+/* While dissolving, the page shows through and the records fade out. */
+.site-intro.is-opening {
+  background: transparent;
+  pointer-events: none;
+}
+
+.site-intro__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.site-intro__count {
+  position: absolute;
+  bottom: 2.2rem;
+  left: 50%;
+  color: var(--color-text-light);
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace !important;
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.08em;
+  transform: translateX(-50%);
+  transition: opacity 300ms ease;
+}
+
+.site-intro.is-opening .site-intro__count {
+  opacity: 0;
 }

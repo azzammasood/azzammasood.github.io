@@ -25,6 +25,9 @@
             </p>
           {{ end }}
           {{ if eq .Params.animation "logicgate" }}
+            {{ with .Params.image }}
+              <img class="project-single__shot" src="{{ . | relURL }}" alt="{{ $.Title }} landing page" width="1919" height="1076" />
+            {{ end }}
             <div class="project-single__demo">{{ partial "components/logicgate-demo.html" . }}</div>
           {{ end }}
           <div class="content project-single__content mb-10">
