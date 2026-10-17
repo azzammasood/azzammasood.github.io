@@ -379,10 +379,9 @@
     { rootMargin: "0px 0px -6% 0px", threshold: 0.01 },
   );
 
-  // skipVisible: leave whatever is already on screen as it is (used after the
-  // first-visit intro, which reveals the finished page) and only animate
-  // content further down as it scrolls in.
-  function init(skipVisible) {
+  // skip: an element to leave exactly as it is (the hero heading, which the
+  // first-visit intro has just assembled); everything else animates in.
+  function init(skip) {
     var containers = document.querySelectorAll(".header .navbar, main, footer");
     var found = [];
     Array.prototype.forEach.call(containers, function (container) {
@@ -394,20 +393,21 @@
       // Things that are not on screen right now (collapsed menus, etc.) are
       // simply left alone rather than hidden until they happen to intersect.
       if (!isRendered(item.el)) return;
-      if (skipVisible === true && item.el.getBoundingClientRect().top < window.innerHeight) return;
+      if (skip && (item.el === skip || skip.contains(item.el))) return;
       item.el.classList.add("cm-pending");
       items.set(item.el, item);
       observer.observe(item.el);
     });
 
     disarm();
-    if (skipVisible === true) announceSettled();
   }
 
-  // On a first visit the intro overlay opens onto the finished page, so the
-  // visible content is shown as-is the moment the aperture starts to open.
+  // On a first visit the intro assembles the hero heading; at the handover the
+  // heading stays as-is and the rest of the page types in around it.
   if (root.classList.contains("intro-active")) {
-    document.addEventListener("intro:reveal", function () { init(true); }, { once: true });
+    document.addEventListener("intro:reveal", function () {
+      init(document.querySelector(".landing-hero__name h1"));
+    }, { once: true });
   } else {
     init();
   }
