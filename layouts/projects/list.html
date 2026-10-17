@@ -23,7 +23,7 @@
                 </h2>
               </div>
               <a class="project-row__media" href="{{ .RelPermalink }}" aria-label="Open {{ .Title }}">
-                {{ if eq .Params.animation "logicgate" }}
+                {{ if and (eq .Params.animation "logicgate") (not .Params.image) }}
                   {{ partial "components/logicgate-demo.html" . }}
                 {{ else }}
                   {{ with .Params.image }}

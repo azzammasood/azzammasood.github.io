@@ -379,7 +379,10 @@
     { rootMargin: "0px 0px -6% 0px", threshold: 0.01 },
   );
 
-  function init() {
+  // skipVisible: leave whatever is already on screen as it is (used after the
+  // first-visit intro, which reveals the finished page) and only animate
+  // content further down as it scrolls in.
+  function init(skipVisible) {
     var containers = document.querySelectorAll(".header .navbar, main, footer");
     var found = [];
     Array.prototype.forEach.call(containers, function (container) {
@@ -391,15 +394,23 @@
       // Things that are not on screen right now (collapsed menus, etc.) are
       // simply left alone rather than hidden until they happen to intersect.
       if (!isRendered(item.el)) return;
+      if (skipVisible === true && item.el.getBoundingClientRect().top < window.innerHeight) return;
       item.el.classList.add("cm-pending");
       items.set(item.el, item);
       observer.observe(item.el);
     });
 
     disarm();
+    if (skipVisible === true) announceSettled();
   }
 
-  init();
+  // On a first visit the intro overlay opens onto the finished page, so the
+  // visible content is shown as-is the moment the aperture starts to open.
+  if (root.classList.contains("intro-active")) {
+    document.addEventListener("intro:reveal", function () { init(true); }, { once: true });
+  } else {
+    init();
+  }
 
   window.addEventListener("beforeprint", function () {
     items.forEach(function (_, el) {

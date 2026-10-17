@@ -4,6 +4,7 @@ meta_title: "LogicGate: a home for business logic"
 description: "One source of truth for metric definitions: stakeholders define rules visually, every change is versioned and approved, and each definition compiles to SQL, Python, or dbt."
 date: 2026-10-14T10:00:00Z
 weight: 1
+image: "/images/projects/logicgate/logicgate.png"
 animation: "logicgate"
 website: "https://logicgate.space"
 loom: "https://www.loom.com/share/c6bc4fa4ae5a409fad0a14015eefeb62"

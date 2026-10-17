@@ -58,7 +58,6 @@
   var offsets = {};
   var visible = true;
   var booted = false;
-  var sortTick = 11; // so the first frame sorts
   var last = 0;
 
   function rand(min, max) {
@@ -111,19 +110,33 @@
     };
   }
 
+  // Resizing reallocates the canvas, which is expensive. During page load the
+  // hero's box shifts several times (fonts swapping in, content revealing),
+  // so ignore sub-pixel/1-2px changes, debounce the rest, and keep existing
+  // records, only topping up or trimming to the new density.
+  var resizeTimer = null;
+
   function resize() {
     var rect = hero.getBoundingClientRect();
-    width = Math.max(1, Math.round(rect.width));
-    height = Math.max(1, Math.round(rect.height));
+    var w = Math.max(1, Math.round(rect.width));
+    var h = Math.max(1, Math.round(rect.height));
+    if (Math.abs(w - width) < 3 && Math.abs(h - height) < 3 && records.length) return;
+    width = w;
+    height = h;
     // Thin dashes on a soft background don't need full retina resolution;
     // capping the backing store keeps fill cost down on 2x/3x screens.
     var dpr = Math.min(window.devicePixelRatio || 1, 1.5);
     canvas.width = width * dpr;
     canvas.height = height * dpr;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    var target = Math.min(260, Math.round(width * height * COUNT_PER_PX));
-    records = [];
-    for (var i = 0; i < target; i += 1) records.push(spawn(true));
+    var target = Math.min(220, Math.round(width * height * COUNT_PER_PX));
+    if (records.length > target) records.length = target;
+    while (records.length < target) records.push(spawn(true));
+  }
+
+  function scheduleResize() {
+    window.clearTimeout(resizeTimer);
+    resizeTimer = window.setTimeout(resize, 150);
   }
 
   function project(x, y, z) {
@@ -162,60 +175,108 @@
     }
   }
 
+  // Records are bucketed by opacity and thickness, and each bucket is drawn as
+  // a single path with one stroke() call. That turns ~260 stroke calls (each
+  // with its own colour string) into a few dozen, which matters on slower
+  // machines and high-density screens. Only records lit by the cursor, and
+  // the inspected one, are drawn individually on top.
+  var ALPHA_STEPS = 10;
+  var WIDTH_STEPS = [0.8, 1.2, 1.7, 2.4, 3.2, 4.4];
+  var buckets = [];
+  for (var bi = 0; bi < ALPHA_STEPS * WIDTH_STEPS.length; bi += 1) buckets.push([]);
+
+  function widthIndex(w) {
+    for (var i = 0; i < WIDTH_STEPS.length - 1; i += 1) {
+      if (w < (WIDTH_STEPS[i] + WIDTH_STEPS[i + 1]) / 2) return i;
+    }
+    return WIDTH_STEPS.length - 1;
+  }
+
+  function segment(r) {
+    var head = project(r.x, r.y, r.z);
+    // The tail sits a short way back along the record's 3D velocity, so each
+    // dash points the way it is travelling.
+    var back = 0.12;
+    var tail = project(r.x - r.vx * back, r.y - r.vy * back, r.z - r.vz * back);
+    var depth = Math.max(0, Math.min(1, 1 - r.z / FAR));
+    // Fade in when spawned, and out toward the viewport edges and the camera,
+    // so records never pop in or vanish abruptly.
+    var edge = Math.min(head.x, width - head.x, head.y, height - head.y);
+    var fade = Math.max(0, Math.min(1, (edge + EDGE_FADE * 0.25) / EDGE_FADE));
+    fade *= Math.max(0, Math.min(1, (r.z - NEAR) / NEAR_FADE));
+    fade *= r.age;
+    return { head: head, tail: tail, depth: depth, fade: fade, width: Math.max(0.8, 3 * head.scale) };
+  }
+
+  function rgba(c, a) {
+    return "rgba(" + c[0] + "," + c[1] + "," + c[2] + "," + Math.max(0, Math.min(1, a)).toFixed(3) + ")";
+  }
+
   function draw() {
     ctx.clearRect(0, 0, width, height);
-    // Depth order changes slowly, so re-sort only every few frames.
-    sortTick = (sortTick + 1) % 12;
-    if (!sortTick) records.sort(function (a, b) { return b.z - a.z; });
     ctx.lineCap = "round";
-    records.forEach(function (r) {
-      var head = project(r.x, r.y, r.z);
-      // The tail sits a short way back along the record's 3D velocity, so each
-      // dash points the way it is travelling.
-      var back = 0.12;
-      var tail = project(r.x - r.vx * back, r.y - r.vy * back, r.z - r.vz * back);
-      var depth = Math.max(0, Math.min(1, 1 - r.z / FAR));
+    var lit = [];
+    var i;
+    for (i = 0; i < buckets.length; i += 1) buckets[i].length = 0;
+
+    for (i = 0; i < records.length; i += 1) {
+      var r = records[i];
+      if (r === selected || r.glow > 0.05) {
+        lit.push(r);
+        continue;
+      }
+      var sg = segment(r);
+      var alpha = (0.06 + sg.depth * 0.3) * sg.fade;
+      if (alpha < 0.01) continue;
+      var ai = Math.min(ALPHA_STEPS - 1, Math.floor(alpha * ALPHA_STEPS / 0.36));
+      buckets[ai * WIDTH_STEPS.length + widthIndex(sg.width)].push(sg);
+    }
+
+    for (i = 0; i < buckets.length; i += 1) {
+      var list = buckets[i];
+      if (!list.length) continue;
+      var aIndex = Math.floor(i / WIDTH_STEPS.length);
+      ctx.strokeStyle = rgba(base, ((aIndex + 0.5) / ALPHA_STEPS) * 0.36);
+      ctx.lineWidth = WIDTH_STEPS[i % WIDTH_STEPS.length];
+      ctx.beginPath();
+      for (var j = 0; j < list.length; j += 1) {
+        ctx.moveTo(list[j].tail.x, list[j].tail.y);
+        ctx.lineTo(list[j].head.x, list[j].head.y);
+      }
+      ctx.stroke();
+    }
+
+    lit.forEach(function (r) {
+      var sg = segment(r);
       var g = r === selected ? 1 : r.glow;
+      var fade = r === selected ? 1 : sg.fade;
       var c = [
         Math.round(base[0] + (accent[0] - base[0]) * g),
         Math.round(base[1] + (accent[1] - base[1]) * g),
         Math.round(base[2] + (accent[2] - base[2]) * g),
       ];
-      // Fade in when spawned, and out toward the viewport edges and the
-      // camera, so records never pop in or vanish abruptly.
-      var edge = Math.min(head.x, width - head.x, head.y, height - head.y);
-      var fade = Math.max(0, Math.min(1, (edge + EDGE_FADE * 0.25) / EDGE_FADE));
-      fade *= Math.max(0, Math.min(1, (r.z - NEAR) / NEAR_FADE));
-      fade *= r.age;
-      if (r === selected) fade = 1;
-      var alpha = (0.06 + depth * 0.3 + g * 0.6) * fade;
-      if (alpha < 0.005) return;
-      ctx.strokeStyle = "rgba(" + c[0] + "," + c[1] + "," + c[2] + "," + Math.min(1, alpha).toFixed(3) + ")";
-      ctx.lineWidth = Math.max(0.8, 3 * head.scale);
+      var alpha = (0.06 + sg.depth * 0.3 + g * 0.6) * fade;
       // Glow as a wide faint stroke under the dash: far cheaper than shadowBlur.
-      if (g > 0.05) {
-        var lw = ctx.lineWidth;
-        ctx.strokeStyle = "rgba(" + accent[0] + "," + accent[1] + "," + accent[2] + "," + (g * 0.22).toFixed(3) + ")";
-        ctx.lineWidth = lw + 6 * g;
-        ctx.beginPath();
-        ctx.moveTo(tail.x, tail.y);
-        ctx.lineTo(head.x, head.y);
-        ctx.stroke();
-        ctx.lineWidth = lw;
-        ctx.strokeStyle = "rgba(" + c[0] + "," + c[1] + "," + c[2] + "," + Math.min(1, alpha).toFixed(3) + ")";
-      }
+      ctx.strokeStyle = rgba(accent, g * 0.22 * fade);
+      ctx.lineWidth = sg.width + 6 * g;
       ctx.beginPath();
-      ctx.moveTo(tail.x, tail.y);
-      ctx.lineTo(head.x, head.y);
+      ctx.moveTo(sg.tail.x, sg.tail.y);
+      ctx.lineTo(sg.head.x, sg.head.y);
+      ctx.stroke();
+      ctx.strokeStyle = rgba(c, alpha);
+      ctx.lineWidth = sg.width;
+      ctx.beginPath();
+      ctx.moveTo(sg.tail.x, sg.tail.y);
+      ctx.lineTo(sg.head.x, sg.head.y);
       ctx.stroke();
       if (r === selected) {
         // A circle that draws itself around the record, sized to enclose it.
-        var cx = (head.x + tail.x) / 2;
-        var cy = (head.y + tail.y) / 2;
-        var radius = Math.hypot(head.x - tail.x, head.y - tail.y) / 2 + ctx.lineWidth + 7;
+        var cx = (sg.head.x + sg.tail.x) / 2;
+        var cy = (sg.head.y + sg.tail.y) / 2;
+        var radius = Math.hypot(sg.head.x - sg.tail.x, sg.head.y - sg.tail.y) / 2 + sg.width + 7;
         var t = Math.min(1, (performance.now() - selectedAt) / 480);
         var sweep = 1 - Math.pow(1 - t, 3);
-            ctx.strokeStyle = "rgba(" + accent[0] + "," + accent[1] + "," + accent[2] + ",0.75)";
+        ctx.strokeStyle = rgba(accent, 0.75);
         ctx.lineWidth = 1.25;
         ctx.beginPath();
         ctx.arc(cx, cy, radius, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * sweep);
@@ -329,9 +390,9 @@
   }).observe(root, { attributes: true, attributeFilter: ["data-code-theme", "class"] });
 
   if ("ResizeObserver" in window) {
-    new ResizeObserver(resize).observe(hero);
+    new ResizeObserver(scheduleResize).observe(hero);
   } else {
-    window.addEventListener("resize", resize);
+    window.addEventListener("resize", scheduleResize);
   }
 
   if ("IntersectionObserver" in window) {

@@ -1,0 +1,101 @@
+{{/* First-visit intro: a counter driven by real load progress, a bar that
+     fills with streaming records through extract -> transform -> load, then
+     an aperture opening from the bar's end reveals the page. Shown once per
+     browser (localStorage "intro-seen"); baseof.html decides. */}}
+<div class="site-intro" aria-hidden="true" data-site-intro>
+  <div class="site-intro__core">
+    <div class="site-intro__count"><span data-intro-count>000</span><span class="site-intro__pct">%</span></div>
+    <div class="site-intro__bar"><span class="site-intro__fill" data-intro-fill></span><span class="site-intro__head" data-intro-head></span></div>
+    <div class="site-intro__stages">
+      <span data-intro-stage="0">extract</span><span class="site-intro__arrow">→</span>
+      <span data-intro-stage="1">transform</span><span class="site-intro__arrow">→</span>
+      <span data-intro-stage="2">load</span>
+    </div>
+  </div>
+</div>
+<script>
+  (function () {
+    var root = document.documentElement;
+    var intro = document.querySelector("[data-site-intro]");
+    if (!intro) return;
+    if (!root.classList.contains("intro-active")) {
+      intro.parentNode.removeChild(intro);
+      return;
+    }
+
+    var MIN_MS = 1900; // never flicker past, even on a cached load
+    var MAX_MS = 5500; // never hold a visitor hostage on a slow network
+    var countEl = intro.querySelector("[data-intro-count]");
+    var fill = intro.querySelector("[data-intro-fill]");
+    var head = intro.querySelector("[data-intro-head]");
+    var stages = intro.querySelectorAll("[data-intro-stage]");
+    var start = performance.now();
+    var shown = 0;
+    var target = 8;
+    var finished = false;
+
+    // Real progress: parsed DOM, fonts, then the full load event.
+    document.addEventListener("DOMContentLoaded", function () { target = Math.max(target, 40); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { target = Math.max(target, 70); });
+    window.addEventListener("load", function () { target = 100; });
+
+    function frame(now) {
+      var elapsed = now - start;
+      // The display may not run ahead of the time floor, so it reads as a count.
+      var cap = Math.min(100, (elapsed / MIN_MS) * 100);
+      var goal = elapsed > MAX_MS ? 100 : Math.min(target, cap);
+      shown += (goal - shown) * 0.12;
+      if (goal - shown < 0.4) shown = goal;
+      var pct = Math.round(shown);
+      countEl.textContent = ("00" + pct).slice(-3);
+      fill.style.transform = "scaleX(" + (shown / 100).toFixed(3) + ")";
+      head.style.left = shown.toFixed(2) + "%";
+      for (var i = 0; i < stages.length; i += 1) {
+        stages[i].classList.toggle("is-on", pct >= [0, 34, 67][i]);
+      }
+      if (pct >= 100 && !finished) {
+        finished = true;
+        window.setTimeout(reveal, 260);
+        return;
+      }
+      window.requestAnimationFrame(frame);
+    }
+
+    // The bar's leading dot becomes an aperture that opens over the page.
+    function reveal() {
+      var r = head.getBoundingClientRect();
+      var cx = r.left + r.width / 2;
+      var cy = r.top + r.height / 2;
+      var far = Math.hypot(Math.max(cx, window.innerWidth - cx), Math.max(cy, window.innerHeight - cy));
+      var t0 = performance.now();
+      var D = 900;
+      intro.classList.add("is-opening");
+      document.dispatchEvent(new Event("intro:reveal"));
+      function open(now) {
+        var t = Math.min(1, (now - t0) / D);
+        var e = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+        var radius = e * far;
+        var mask = "radial-gradient(circle at " + cx + "px " + cy + "px, transparent " + radius + "px, #000 " + (radius + 1) + "px)";
+        intro.style.webkitMaskImage = mask;
+        intro.style.maskImage = mask;
+        if (t < 1) {
+          window.requestAnimationFrame(open);
+        } else {
+          done();
+        }
+      }
+      window.requestAnimationFrame(open);
+    }
+
+    function done() {
+      try {
+        localStorage.setItem("intro-seen", "1");
+      } catch (error) {}
+      intro.parentNode.removeChild(intro);
+      root.classList.remove("intro-active");
+      document.dispatchEvent(new Event("intro:done"));
+    }
+
+    window.requestAnimationFrame(frame);
+  })();
+</script>

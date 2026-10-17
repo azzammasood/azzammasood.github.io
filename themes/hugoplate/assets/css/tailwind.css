@@ -6207,13 +6207,13 @@ body:not(.is-home) .section-page .content h2 {
   z-index: 1;
 }
 .lg-demo {
-  --lg-bg: #0f1420;
-  --lg-panel: #161d2c;
-  --lg-line: #263049;
-  --lg-chip: #1f2a42;
-  --lg-text: #dbe3f0;
-  --lg-muted: #8592ab;
-  --lg-accent: #8ab4ff;
+  --lg-bg: #0b0d10;
+  --lg-panel: #12161b;
+  --lg-line: #232a31;
+  --lg-chip: #1a2026;
+  --lg-text: #e6ebef;
+  --lg-muted: #8a949e;
+  --lg-accent: #3ddc84;
   --lg-good: #3ddc84;
   --lg-warn: #f5b841;
   --lg-bad: #ff6b7a;
@@ -6541,6 +6541,113 @@ body:not(.is-home) .section-page .content h2 {
     transition: none !important;
     animation: none !important;
   }
+}
+.project-single__shot {
+  display: block;
+  width: 100%;
+  max-width: min(100%, 48rem);
+  height: auto;
+  margin: 0.5rem 0 1.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+}
+:root[data-ui-style="neobrutalism"] .project-single__shot {
+  border: 2px solid var(--nb-shadow);
+  border-radius: 0;
+  box-shadow: 4.5px 4.5px 0 var(--nb-shadow);
+}
+.site-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: none;
+  place-items: center;
+  background: var(--color-body);
+  color: var(--color-text-dark);
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace !important;
+}
+html.intro-active .site-intro {
+  display: grid;
+}
+html.intro-active body {
+  overflow: hidden;
+}
+.site-intro__core {
+  display: grid;
+  justify-items: center;
+  gap: 1.1rem;
+  width: min(22rem, 80vw);
+  transition: opacity 300ms ease, transform 400ms ease;
+}
+.site-intro.is-opening .site-intro__core {
+  opacity: 0;
+  transform: scale(0.96);
+}
+.site-intro__count {
+  font-size: clamp(2.6rem, 6vw, 4rem);
+  font-variant-numeric: tabular-nums;
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+.site-intro__pct {
+  margin-left: 0.15em;
+  color: var(--color-primary);
+  font-size: 0.5em;
+  vertical-align: 0.6em;
+}
+.site-intro__bar {
+  position: relative;
+  width: 100%;
+  height: 2px;
+  background: color-mix(in srgb, #717171 22%, transparent);
+  @supports (color: color-mix(in lab, red, red)) {
+    background: color-mix(in srgb, var(--color-text-light) 22%, transparent);
+  }
+}
+.site-intro__fill {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(90deg, var(--color-primary) 0 7px, transparent 7px 11px);
+  background-size: 22px 100%;
+  transform: scaleX(0);
+  transform-origin: left center;
+  animation: intro-stream 0.6s linear infinite;
+}
+@keyframes intro-stream {
+  to {
+    background-position: 22px 0;
+  }
+}
+.site-intro__head {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--color-primary);
+  box-shadow: 0 0 12px color-mix(in srgb, #121212 70%, transparent);
+  @supports (color: color-mix(in lab, red, red)) {
+    box-shadow: 0 0 12px color-mix(in srgb, var(--color-primary) 70%, transparent);
+  }
+  transform: translate(-50%, -50%);
+}
+.site-intro__stages {
+  display: flex;
+  gap: 0.6rem;
+  color: var(--color-text-light);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+}
+.site-intro__stages span {
+  transition: color 300ms ease;
+}
+.site-intro__stages .is-on {
+  color: var(--color-primary);
+}
+.site-intro__arrow {
+  opacity: 0.5;
 }
 @layer base {
   input:where([type='text']),input:where(:not([type])),input:where([type='email']),input:where([type='url']),input:where([type='password']),input:where([type='number']),input:where([type='date']),input:where([type='datetime-local']),input:where([type='month']),input:where([type='search']),input:where([type='tel']),input:where([type='time']),input:where([type='week']),select:where([multiple]),textarea,select {
