@@ -69,9 +69,9 @@
           }, 1452);
         });
       }
-      function currentTheme() { return localStorage.getItem("code-theme") || document.documentElement.dataset.codeTheme || "kernel-panic"; }
+      function currentTheme() { return localStorage.getItem("code-theme") || document.documentElement.dataset.codeTheme || "mono-dark"; }
       function currentStyle() { return localStorage.getItem("ui-style") || document.documentElement.dataset.uiStyle || "neobrutalism"; }
-      function paintTheme(id, save) { var t = themes[id] || themes["kernel-panic"], key = themes[id] ? id : "kernel-panic"; transition(function () {
+      function paintTheme(id, save) { var t = themes[id] || themes["mono-dark"], key = themes[id] ? id : "mono-dark"; transition(function () {
         document.documentElement.dataset.codeTheme = key; document.documentElement.classList.toggle("dark", !!t[1]);
         if (save) { localStorage.setItem("theme", t[1] ? "dark" : "light"); localStorage.setItem("code-theme", key); }
         document.querySelectorAll("[data-code-theme-current]").forEach(function (el) { el.textContent = t[0]; });
@@ -97,7 +97,7 @@
       }); }
       window.portfolioThemes = { apply: function (id) { paintTheme(id, true); }, preview: function (id) { paintTheme(id, false); }, restore: function () { paintTheme(currentTheme(), false); }, names: themes };
       window.portfolioStyles = { apply: function (id) { paintStyle(id, true); }, preview: function (id) { paintStyle(id, false); }, restore: function () { paintStyle(currentStyle(), false); }, names: styles };
-      window.portfolioThemes.apply(localStorage.getItem("code-theme") || document.documentElement.dataset.codeTheme || "kernel-panic");
+      window.portfolioThemes.apply(localStorage.getItem("code-theme") || document.documentElement.dataset.codeTheme || "mono-dark");
       window.portfolioStyles.apply(localStorage.getItem("ui-style") || "neobrutalism");
       window.portfolioFonts = { apply: function (id) { paintFont(id, true); }, names: fonts };
       window.portfolioFonts.apply(localStorage.getItem("ui-font") || "mono");

@@ -6562,17 +6562,14 @@ body:not(.is-home) .section-page .content h2 {
   z-index: 200;
   display: none;
   background: var(--color-body);
-  transition: background-color 700ms ease;
 }
 html.intro-active .site-intro {
   display: block;
 }
-html.intro-active body {
-  overflow: hidden;
-}
 .site-intro.is-opening {
   background: transparent;
   pointer-events: none;
+  transition: none;
 }
 .site-intro__canvas {
   position: absolute;
