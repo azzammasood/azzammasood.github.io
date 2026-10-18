@@ -379,8 +379,8 @@
     { rootMargin: "0px 0px -6% 0px", threshold: 0.01 },
   );
 
-  // skip: an element to leave exactly as it is (the hero heading, which the
-  // first-visit intro has just assembled); everything else animates in.
+  // skip: an optional element to leave exactly as it is; everything else
+  // animates in.
   function init(skip) {
     var containers = document.querySelectorAll(".header .navbar, main, footer");
     var found = [];
@@ -402,11 +402,11 @@
     disarm();
   }
 
-  // On a first visit the intro assembles the hero heading; at the handover the
-  // heading stays as-is and the rest of the page types in around it.
+  // On a first visit the page waits for the intro's counter to reach 100,
+  // then types in while the particles behind it slow down.
   if (root.classList.contains("intro-active")) {
     document.addEventListener("intro:reveal", function () {
-      init(document.querySelector(".landing-hero__name h1"));
+      init();
     }, { once: true });
   } else {
     init();

@@ -1,11 +1,14 @@
-{{/* First-visit intro, "records assemble": scattered records fly together and
-     form the name exactly where the hero heading sits (or centred on other
-     pages), paced by real load progress. When the name is complete the
-     overlay dissolves into the real heading underneath. Shown once per
-     browser (localStorage "intro-seen"); baseof.html decides. */}}
+{{/* First-visit intro, "warp": the landing page's own particle field
+     (static/js/stream-field.js) races at warp speed while a counter runs from
+     0 to 100, paced by real load progress. At 100 the page types in with its
+     normal entrance animation and the particles ease down to cruising speed.
+     Nothing is swapped or cross-faded: the particles are the real background
+     the whole time. Home page only, once per browser (localStorage
+     "intro-seen"); baseof.html decides. */}}
 <div class="site-intro" aria-hidden="true" data-site-intro>
-  <canvas class="site-intro__canvas" data-intro-canvas></canvas>
-  <div class="site-intro__count"><span data-intro-count>000</span>%</div>
+  <div class="site-intro__count"><span data-intro-count>000</span><span class="site-intro__pct">%</span></div>
+  <div class="site-intro__line" data-intro-line>Warming up</div>
+  <div class="site-intro__bar"><span data-intro-bar></span></div>
 </div>
 <script>
   (function () {
@@ -17,205 +20,77 @@
       return;
     }
 
-    var MIN_MS = 4200; // the assembly always gets this long, even when cached
-    var MAX_MS = 7500; // never hold a visitor on a slow network
-    var canvas = intro.querySelector("[data-intro-canvas]");
+    var MIN_MS = 2600; // the warp always gets this long, even when cached
+    var MAX_MS = 7000; // never hold a visitor on a slow network
+    var LINES = [
+      "Warming up",
+      "Waking up the pixels",
+      "Untangling the cables",
+      "Brewing fresh coffee",
+      "Aligning the stars",
+      "Polishing the buttons",
+      "Feeding the hamsters",
+      "Tuning the vibes",
+      "Almost there",
+    ];
     var countEl = intro.querySelector("[data-intro-count]");
-    var ctx = canvas.getContext("2d");
+    var lineEl = intro.querySelector("[data-intro-line]");
+    var barEl = intro.querySelector("[data-intro-bar]");
     var start = performance.now();
-    var target = 0.08;
+    var target = 0.1;
     var shown = 0;
-    var records = [];
-    var colors = { ink: "#f7fbff", accent: "#89f7ff" };
-    var W = window.innerWidth;
-    var H = window.innerHeight;
-    var dpr = Math.min(window.devicePixelRatio || 1, 2);
-    var phase = "loading";
-    var fadeStart = 0;
-
-    canvas.width = W * dpr;
-    canvas.height = H * dpr;
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    var lineIndex = 0;
+    var finished = false;
 
     // Real progress: parsed DOM, fonts, then the full load event.
-    document.addEventListener("DOMContentLoaded", function () { target = Math.max(target, 0.45); });
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { target = Math.max(target, 0.75); });
+    document.addEventListener("DOMContentLoaded", function () { target = Math.max(target, 0.5); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { target = Math.max(target, 0.8); });
     window.addEventListener("load", function () { target = 1; });
 
-    function readColors() {
-      var style = getComputedStyle(root);
-      colors.ink = style.getPropertyValue("--color-text-dark").trim() || colors.ink;
-      colors.accent = style.getPropertyValue("--color-primary").trim() || colors.accent;
-    }
-
-    // Draw the name where the real heading is (word by word, so wrapped lines
-    // match too), or centred if this page has no hero, then sample its pixels.
-    function sampleName() {
-      var off = document.createElement("canvas");
-      off.width = W;
-      off.height = H;
-      var o = off.getContext("2d");
-      o.fillStyle = "#fff";
-      o.textBaseline = "alphabetic";
-      var h1 = document.querySelector(".landing-hero__name h1");
-      var drawn = false;
-      if (h1 && h1.firstChild) {
-        var cs = getComputedStyle(h1);
-        o.font = cs.fontWeight + " " + cs.fontSize + " " + cs.fontFamily;
-        var ascent = o.measureText("Mg").fontBoundingBoxAscent || parseFloat(cs.fontSize) * 0.8;
-        // Each character is drawn at the exact box of the real one, so
-        // letter-spacing, kerning and line wrapping all match the heading.
-        var node = h1.firstChild;
-        var text = node && node.nodeType === 3 ? node.data : "";
-        for (var ci = 0; ci < text.length; ci += 1) {
-          if (!/\S/.test(text[ci])) continue;
-          var range = document.createRange();
-          range.setStart(node, ci);
-          range.setEnd(node, ci + 1);
-          var r = range.getBoundingClientRect();
-          if (r.width && r.bottom > 0 && r.top < H) {
-            o.fillText(text[ci], r.left, r.top + ascent);
-            drawn = true;
-          }
-        }
-      }
-      if (!drawn) {
-        var size = Math.min(W / 7.5, 120);
-        o.font = "700 " + size + "px 'JetBrains Mono', ui-monospace, monospace";
-        o.textAlign = "center";
-        o.fillText("Ahmad Uzzam", W / 2, H / 2 + size * 0.35);
-      }
-      var data = o.getImageData(0, 0, W, H).data;
-      // Pick a sampling step that keeps the point count reasonable.
-      var lit = 0;
-      for (var k = 3; k < data.length; k += 64) if (data[k] > 128) lit += 16;
-      var step = Math.max(3, Math.round(Math.sqrt(lit / 1600)));
-      var pts = [];
-      for (var y = 0; y < H; y += step) {
-        for (var x = 0; x < W; x += step) {
-          if (data[(y * W + x) * 4 + 3] > 128) pts.push([x, y]);
-        }
-      }
-      return { pts: pts, size: step };
-    }
-
-    function build() {
-      readColors();
-      var s = sampleName();
-      var minX = Infinity;
-      var maxX = -Infinity;
-      s.pts.forEach(function (p) { minX = Math.min(minX, p[0]); maxX = Math.max(maxX, p[0]); });
-      records = s.pts.map(function (p) {
-        var angle = Math.random() * Math.PI * 2;
-        var dist = 0.35 * Math.max(W, H) + Math.random() * 0.5 * Math.max(W, H);
-        return {
-          tx: p[0],
-          ty: p[1],
-          sx: p[0] + Math.cos(angle) * dist,
-          sy: p[1] + Math.sin(angle) * dist,
-          // Letters assemble left to right, with a little jitter.
-          delay: ((p[0] - minX) / Math.max(1, maxX - minX)) * 0.38 + Math.random() * 0.1,
-          size: Math.max(1.6, s.size * 0.75),
-        };
-      });
-    }
-
-    function ease(t) {
-      return 1 - Math.pow(1 - t, 3);
-    }
-
-    function draw(progress, fade) {
-      ctx.clearRect(0, 0, W, H);
-      var flying = [];
-      ctx.globalAlpha = fade;
-      ctx.fillStyle = colors.ink;
-      for (var i = 0; i < records.length; i += 1) {
-        var r = records[i];
-        var t = Math.max(0, Math.min(1, (progress - r.delay) / 0.52));
-        if (t >= 1) {
-          ctx.fillRect(r.tx - r.size / 2, r.ty - r.size / 2, r.size, r.size);
-        } else if (t > 0) {
-          flying.push([r, ease(t), t]);
-        }
-      }
-      // In flight they are short dashes pointing along their path.
-      ctx.strokeStyle = colors.accent;
-      ctx.lineCap = "round";
-      ctx.beginPath();
-      for (var j = 0; j < flying.length; j += 1) {
-        var f = flying[j];
-        var rr = f[0];
-        var e = f[1];
-        var x = rr.sx + (rr.tx - rr.sx) * e;
-        var y = rr.sy + (rr.ty - rr.sy) * e;
-        // A short dash pointing along the path, shrinking as it lands.
-        var dx = rr.tx - rr.sx;
-        var dy = rr.ty - rr.sy;
-        var len = Math.hypot(dx, dy) || 1;
-        var dash = 9 * (1 - f[2]) + 1.5;
-        ctx.moveTo(x - (dx / len) * dash, y - (dy / len) * dash);
-        ctx.lineTo(x, y);
-      }
-      ctx.lineWidth = 1.4;
-      ctx.globalAlpha = 0.8 * fade;
-      ctx.stroke();
-      ctx.globalAlpha = 1;
+    function setLine(i) {
+      if (i === lineIndex) return;
+      lineIndex = i;
+      lineEl.classList.add("is-swapping");
+      window.setTimeout(function () {
+        lineEl.textContent = LINES[i];
+        lineEl.classList.remove("is-swapping");
+      }, 140);
     }
 
     function frame(now) {
+      if (finished) return;
       var elapsed = now - start;
-      if (phase === "loading") {
-        var cap = Math.min(1, elapsed / MIN_MS);
-        var goal = elapsed > MAX_MS ? 1 : Math.min(target, cap);
-        shown += (goal - shown) * 0.05;
-        if (goal - shown < 0.002) shown = goal;
-        countEl.textContent = ("00" + Math.round(shown * 100)).slice(-3);
-        draw(shown * 1.0, 1);
-        if (shown >= 1) {
-          phase = "hold";
-          fadeStart = now + 450;
-        }
-      } else if (phase === "hold") {
-        draw(1, 1);
-        if (now >= fadeStart) {
-          phase = "reveal";
-          intro.classList.add("is-opening");
-          // The real page (and heading) is shown under the dissolving overlay.
-          document.dispatchEvent(new Event("intro:reveal"));
-        }
-      } else {
-        var t = Math.min(1, (now - fadeStart) / 420);
-        draw(1, 1 - t);
-        if (t >= 1) {
-          done();
-          return;
-        }
+      var cap = Math.min(1, elapsed / MIN_MS);
+      var goal = elapsed > MAX_MS ? 1 : Math.min(target, cap);
+      shown += (goal - shown) * 0.08;
+      if (goal - shown < 0.004) shown = goal;
+      var pct = Math.round(shown * 100);
+      countEl.textContent = ("00" + pct).slice(-3);
+      barEl.style.transform = "scaleX(" + shown.toFixed(3) + ")";
+      setLine(pct >= 100 ? LINES.length - 1 : Math.min(LINES.length - 2, Math.floor(shown * (LINES.length - 1))));
+      if (shown >= 1) {
+        finished = true;
+        window.setTimeout(reveal, 260);
+        return;
       }
       window.requestAnimationFrame(frame);
     }
 
-    function done() {
+    // The counter fades away, the page starts typing in (code-motion listens
+    // for intro:reveal) and the particles decelerate (stream-field listens too).
+    function reveal() {
+      document.dispatchEvent(new Event("intro:reveal"));
+      root.classList.remove("intro-active");
+      intro.classList.add("is-done");
       try {
         localStorage.setItem("intro-seen", "1");
       } catch (error) {}
-      if (intro.parentNode) intro.parentNode.removeChild(intro);
-      root.classList.remove("intro-active");
-      document.dispatchEvent(new Event("intro:done"));
+      window.setTimeout(function () {
+        if (intro.parentNode) intro.parentNode.removeChild(intro);
+        document.dispatchEvent(new Event("intro:done"));
+      }, 700);
     }
 
-    // Measure once the heading exists and the real font is in (or soon).
-    function begin() {
-      var go = function () {
-        build();
-        window.requestAnimationFrame(frame);
-      };
-      if (document.fonts && document.fonts.ready) {
-        Promise.race([document.fonts.ready, new Promise(function (r) { window.setTimeout(r, 900); })]).then(go);
-      } else {
-        go();
-      }
-    }
-    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", begin);
-    else begin();
+    window.requestAnimationFrame(frame);
   })();
 </script>

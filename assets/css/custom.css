@@ -4518,50 +4518,106 @@ body:not(.is-home) .section-page .content h2 {
 /* First-visit intro (layouts/partials/essentials/intro.html)                */
 /* -------------------------------------------------------------------------- */
 
+/* The overlay is see-through: the hero's particle field behind it is the
+   real background, running at warp speed until the counter reaches 100. */
 .site-intro {
   position: fixed;
   inset: 0;
   z-index: 200;
-  display: none;
-  background: var(--color-body);
-}
-
-html.intro-active .site-intro {
-  display: block;
-}
-
-/* The page keeps its scrollbar during the intro: toggling it would shift the
-   layout sideways at the handover and misalign the assembled name. */
-
-/* At the handover the backdrop drops at once: the real heading sits exactly
-   under the assembled records, which cross-fade into it, and the rest of the
-   page then types in with the normal entrance animation. */
-.site-intro.is-opening {
-  background: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.9rem;
+  color: var(--color-text-dark);
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace !important;
   pointer-events: none;
-  transition: none;
+  transition: opacity 450ms ease;
 }
 
-.site-intro__canvas {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
+.site-intro.is-done {
+  opacity: 0;
 }
 
 .site-intro__count {
-  position: absolute;
-  bottom: 2.2rem;
-  left: 50%;
-  color: var(--color-text-light);
-  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace !important;
-  font-size: 0.8rem;
+  font-size: clamp(3rem, 9vw, 6.5rem);
+  font-weight: 700;
   font-variant-numeric: tabular-nums;
-  letter-spacing: 0.08em;
-  transform: translateX(-50%);
-  transition: opacity 300ms ease;
+  letter-spacing: -0.02em;
+  line-height: 1;
 }
 
-.site-intro.is-opening .site-intro__count {
+.site-intro__pct {
+  margin-left: 0.08em;
+  color: var(--color-primary);
+  font-size: 0.45em;
+  vertical-align: super;
+}
+
+.site-intro__line {
+  min-height: 1.3em;
+  color: var(--color-text-light);
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  transition: opacity 140ms ease, transform 140ms ease;
+}
+
+.site-intro__line::after {
+  content: "_";
+  margin-left: 0.15em;
+  color: var(--color-primary);
+  animation: site-intro-caret 0.9s steps(1) infinite;
+}
+
+.site-intro__line.is-swapping {
   opacity: 0;
+  transform: translateY(-4px);
+}
+
+.site-intro__bar {
+  width: min(16rem, 60vw);
+  height: 2px;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--color-text-light) 22%, transparent);
+}
+
+.site-intro__bar span {
+  display: block;
+  height: 100%;
+  background: var(--color-primary);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+@keyframes site-intro-caret {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* While the intro runs only the particle field is on screen: main stays
+   visible for the hero's canvas, everything else waits for the entrance
+   animation, which takes over at intro:reveal. */
+html.intro-active.cm-armed main {
+  opacity: 1 !important;
+}
+
+html.intro-active main > :not(.landing-hero),
+html.intro-active .landing-hero > :not(.landing-streams),
+html.intro-active .site-status,
+html.intro-active .site-signature,
+html.intro-active .site-side-nav {
+  opacity: 0 !important;
+}
+
+html.intro-active .landing-streams {
+  opacity: 1;
+  transition: none;
+}
+
+/* After the intro the corner details ease in alongside the entrance animation. */
+body.is-home .site-status,
+body.is-home .site-signature,
+body.is-home .site-side-nav {
+  transition: opacity 700ms ease 250ms;
 }

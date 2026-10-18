@@ -59,6 +59,10 @@
   var visible = true;
   var booted = false;
   var last = 0;
+  // Travel speed multiplier: the first-visit intro runs the field at warp
+  // speed, then eases it back to 1 as the page appears.
+  var WARP = 9;
+  var speed = 1;
 
   function rand(min, max) {
     return min + Math.random() * (max - min);
@@ -158,9 +162,9 @@
     for (var i = 0; i < records.length; i += 1) {
       var r = records[i];
       if (r === selected) continue; // an inspected record holds still
-      r.x += r.vx * dt;
-      r.y += r.vy * dt;
-      r.z += r.vz * dt;
+      r.x += r.vx * dt * speed;
+      r.y += r.vy * dt * speed;
+      r.z += r.vz * dt * speed;
       r.age = Math.min(1, r.age + dt / 0.6);
       var p = project(r.x, r.y, r.z);
       // Only recycle once a record has fully faded out past an edge.
@@ -196,7 +200,8 @@
     var head = project(r.x, r.y, r.z);
     // The tail sits a short way back along the record's 3D velocity, so each
     // dash points the way it is travelling.
-    var back = 0.12;
+    // At warp speed the dashes stretch into streaks.
+    var back = 0.12 * (1 + (speed - 1) * 0.55);
     var tail = project(r.x - r.vx * back, r.y - r.vy * back, r.z - r.vz * back);
     var depth = Math.max(0, Math.min(1, 1 - r.z / FAR));
     // Fade in when spawned, and out toward the viewport edges and the camera,
@@ -411,15 +416,33 @@
   document.addEventListener("keydown", function (event) {
     if (event.key === "Escape") hideCard();
   });
-  // Start only after the page's entrance animation has settled (code-motion
-  // announces it), then on the next idle moment, so the two never compete
-  // for the first second. A fallback timer covers pages without it.
+  // First visit: start right away at warp speed behind the intro counter,
+  // then decelerate (ease-out) to cruising speed when the page appears.
   var boot = function () {
     if (booted) return;
     booted = true;
     canvas.classList.add("is-ready");
     start();
   };
+  if (root.classList.contains("intro-active") && !reduce) {
+    speed = WARP;
+    boot();
+    document.addEventListener("intro:reveal", function () {
+      var from = speed;
+      var t0 = performance.now();
+      var DURATION = 2200;
+      (function slow(now) {
+        var t = Math.min(1, (now - t0) / DURATION);
+        speed = 1 + (from - 1) * Math.pow(1 - t, 3);
+        if (t < 1) window.requestAnimationFrame(slow);
+      })(t0);
+    }, { once: true });
+    return;
+  }
+
+  // Otherwise start only after the page's entrance animation has settled
+  // (code-motion announces it), then on the next idle moment, so the two never
+  // compete for the first second. A fallback timer covers pages without it.
   var whenIdle = function () {
     if (window.requestIdleCallback) window.requestIdleCallback(boot, { timeout: 600 });
     else window.setTimeout(boot, 200);
