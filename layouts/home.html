@@ -10,7 +10,7 @@
         {{ with $banner.content }}
           <p class="landing-hero__summary">{{ . | markdownify }}</p>
         {{ end }}
-        <div class="landing-hero__actions">
+        <div class="landing-hero__actions" data-no-preview>
           {{ with $banner.button }}
             {{ if .enable }}
               <a class="landing-button landing-button--primary" href="{{ .link | relLangURL }}">
