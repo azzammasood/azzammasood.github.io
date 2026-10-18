@@ -4524,21 +4524,22 @@ body:not(.is-home) .section-page .content h2 {
   z-index: 200;
   display: none;
   background: var(--color-body);
-  transition: background-color 700ms ease;
 }
 
 html.intro-active .site-intro {
   display: block;
 }
 
-html.intro-active body {
-  overflow: hidden;
-}
+/* The page keeps its scrollbar during the intro: toggling it would shift the
+   layout sideways at the handover and misalign the assembled name. */
 
-/* While dissolving, the page shows through and the records fade out. */
+/* At the handover the backdrop drops at once: the real heading sits exactly
+   under the assembled records, which cross-fade into it, and the rest of the
+   page then types in with the normal entrance animation. */
 .site-intro.is-opening {
   background: transparent;
   pointer-events: none;
+  transition: none;
 }
 
 .site-intro__canvas {

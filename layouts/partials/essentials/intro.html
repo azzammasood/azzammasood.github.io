@@ -17,8 +17,8 @@
       return;
     }
 
-    var MIN_MS = 2200; // the assembly always gets this long, even when cached
-    var MAX_MS = 6000; // never hold a visitor on a slow network
+    var MIN_MS = 4200; // the assembly always gets this long, even when cached
+    var MAX_MS = 7500; // never hold a visitor on a slow network
     var canvas = intro.querySelector("[data-intro-canvas]");
     var countEl = intro.querySelector("[data-intro-count]");
     var ctx = canvas.getContext("2d");
@@ -63,17 +63,18 @@
         var cs = getComputedStyle(h1);
         o.font = cs.fontWeight + " " + cs.fontSize + " " + cs.fontFamily;
         var ascent = o.measureText("Mg").fontBoundingBoxAscent || parseFloat(cs.fontSize) * 0.8;
-        var text = h1.textContent;
+        // Each character is drawn at the exact box of the real one, so
+        // letter-spacing, kerning and line wrapping all match the heading.
         var node = h1.firstChild;
-        var re = /\S+/g;
-        var m;
-        while (node && node.nodeType === 3 && (m = re.exec(text))) {
+        var text = node && node.nodeType === 3 ? node.data : "";
+        for (var ci = 0; ci < text.length; ci += 1) {
+          if (!/\S/.test(text[ci])) continue;
           var range = document.createRange();
-          range.setStart(node, m.index);
-          range.setEnd(node, m.index + m[0].length);
+          range.setStart(node, ci);
+          range.setEnd(node, ci + 1);
           var r = range.getBoundingClientRect();
           if (r.width && r.bottom > 0 && r.top < H) {
-            o.fillText(m[0], r.left, r.top + ascent);
+            o.fillText(text[ci], r.left, r.top + ascent);
             drawn = true;
           }
         }
@@ -113,7 +114,7 @@
           sx: p[0] + Math.cos(angle) * dist,
           sy: p[1] + Math.sin(angle) * dist,
           // Letters assemble left to right, with a little jitter.
-          delay: ((p[0] - minX) / Math.max(1, maxX - minX)) * 0.45 + Math.random() * 0.12,
+          delay: ((p[0] - minX) / Math.max(1, maxX - minX)) * 0.38 + Math.random() * 0.1,
           size: Math.max(1.6, s.size * 0.75),
         };
       });
@@ -130,7 +131,7 @@
       ctx.fillStyle = colors.ink;
       for (var i = 0; i < records.length; i += 1) {
         var r = records[i];
-        var t = Math.max(0, Math.min(1, (progress - r.delay) / 0.45));
+        var t = Math.max(0, Math.min(1, (progress - r.delay) / 0.52));
         if (t >= 1) {
           ctx.fillRect(r.tx - r.size / 2, r.ty - r.size / 2, r.size, r.size);
         } else if (t > 0) {
@@ -166,13 +167,13 @@
       if (phase === "loading") {
         var cap = Math.min(1, elapsed / MIN_MS);
         var goal = elapsed > MAX_MS ? 1 : Math.min(target, cap);
-        shown += (goal - shown) * 0.08;
-        if (goal - shown < 0.003) shown = goal;
+        shown += (goal - shown) * 0.05;
+        if (goal - shown < 0.002) shown = goal;
         countEl.textContent = ("00" + Math.round(shown * 100)).slice(-3);
         draw(shown * 1.0, 1);
         if (shown >= 1) {
           phase = "hold";
-          fadeStart = now + 350;
+          fadeStart = now + 450;
         }
       } else if (phase === "hold") {
         draw(1, 1);
@@ -183,7 +184,7 @@
           document.dispatchEvent(new Event("intro:reveal"));
         }
       } else {
-        var t = Math.min(1, (now - fadeStart) / 700);
+        var t = Math.min(1, (now - fadeStart) / 420);
         draw(1, 1 - t);
         if (t >= 1) {
           done();
