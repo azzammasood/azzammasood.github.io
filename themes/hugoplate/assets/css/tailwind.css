@@ -6564,7 +6564,6 @@ body:not(.is-home) .section-page .content h2 {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.9rem;
   color: var(--color-text-dark);
   font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace !important;
   pointer-events: none;
@@ -6585,44 +6584,6 @@ body:not(.is-home) .section-page .content h2 {
   color: var(--color-primary);
   font-size: 0.45em;
   vertical-align: super;
-}
-.site-intro__line {
-  min-height: 1.3em;
-  color: var(--color-text-light);
-  font-size: 0.82rem;
-  letter-spacing: 0.08em;
-  transition: opacity 140ms ease, transform 140ms ease;
-}
-.site-intro__line::after {
-  content: "_";
-  margin-left: 0.15em;
-  color: var(--color-primary);
-  animation: site-intro-caret 0.9s steps(1) infinite;
-}
-.site-intro__line.is-swapping {
-  opacity: 0;
-  transform: translateY(-4px);
-}
-.site-intro__bar {
-  width: min(16rem, 60vw);
-  height: 2px;
-  overflow: hidden;
-  background: color-mix(in srgb, #717171 22%, transparent);
-  @supports (color: color-mix(in lab, red, red)) {
-    background: color-mix(in srgb, var(--color-text-light) 22%, transparent);
-  }
-}
-.site-intro__bar span {
-  display: block;
-  height: 100%;
-  background: var(--color-primary);
-  transform: scaleX(0);
-  transform-origin: left;
-}
-@keyframes site-intro-caret {
-  50% {
-    opacity: 0;
-  }
 }
 html.intro-active.cm-armed main {
   opacity: 1 !important;

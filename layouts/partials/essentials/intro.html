@@ -6,9 +6,7 @@
      the whole time. Home page only, once per browser (localStorage
      "intro-seen"); baseof.html decides. */}}
 <div class="site-intro" aria-hidden="true" data-site-intro>
-  <div class="site-intro__count"><span data-intro-count>000</span><span class="site-intro__pct">%</span></div>
-  <div class="site-intro__line" data-intro-line>Warming up</div>
-  <div class="site-intro__bar"><span data-intro-bar></span></div>
+  <div class="site-intro__count"><span data-intro-count>0</span><span class="site-intro__pct">%</span></div>
 </div>
 <script>
   (function () {
@@ -22,40 +20,16 @@
 
     var MIN_MS = 2600; // the warp always gets this long, even when cached
     var MAX_MS = 7000; // never hold a visitor on a slow network
-    var LINES = [
-      "Warming up",
-      "Waking up the pixels",
-      "Untangling the cables",
-      "Brewing fresh coffee",
-      "Aligning the stars",
-      "Polishing the buttons",
-      "Feeding the hamsters",
-      "Tuning the vibes",
-      "Almost there",
-    ];
     var countEl = intro.querySelector("[data-intro-count]");
-    var lineEl = intro.querySelector("[data-intro-line]");
-    var barEl = intro.querySelector("[data-intro-bar]");
     var start = performance.now();
     var target = 0.1;
     var shown = 0;
-    var lineIndex = 0;
     var finished = false;
 
     // Real progress: parsed DOM, fonts, then the full load event.
     document.addEventListener("DOMContentLoaded", function () { target = Math.max(target, 0.5); });
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { target = Math.max(target, 0.8); });
     window.addEventListener("load", function () { target = 1; });
-
-    function setLine(i) {
-      if (i === lineIndex) return;
-      lineIndex = i;
-      lineEl.classList.add("is-swapping");
-      window.setTimeout(function () {
-        lineEl.textContent = LINES[i];
-        lineEl.classList.remove("is-swapping");
-      }, 140);
-    }
 
     function frame(now) {
       if (finished) return;
@@ -65,9 +39,7 @@
       shown += (goal - shown) * 0.08;
       if (goal - shown < 0.004) shown = goal;
       var pct = Math.round(shown * 100);
-      countEl.textContent = ("00" + pct).slice(-3);
-      barEl.style.transform = "scaleX(" + shown.toFixed(3) + ")";
-      setLine(pct >= 100 ? LINES.length - 1 : Math.min(LINES.length - 2, Math.floor(shown * (LINES.length - 1))));
+      countEl.textContent = pct;
       if (shown >= 1) {
         finished = true;
         window.setTimeout(reveal, 260);
