@@ -109,26 +109,6 @@
     </ul>
 
     <div class="site-top-controls order-1 ml-auto flex flex-1 items-center justify-end gap-2 md:order-2 lg:ml-0 lg:max-w-none">
-      {{ with site.Params.search }}
-        {{ if .enable }}
-          <button
-            type="button"
-            class="site-search-trigger hidden items-center lg:flex"
-            data-command-palette-open
-            aria-label="Open search and commands">
-            <i class="fa-solid fa-magnifying-glass shrink-0 opacity-70"></i>
-            <kbd class="hidden shrink-0 xl:inline">/</kbd>
-          </button>
-          <button
-            type="button"
-            aria-label="Open search"
-            class="inline-flex shrink-0 items-center border-r border-border pr-3 text-xl text-text-dark hover:text-primary dark:border-darkmode-border dark:text-white dark:hover:text-darkmode-primary lg:hidden"
-            data-target="search-modal">
-            <i class="fa-solid fa-search"></i>
-          </button>
-        {{ end }}
-      {{ end }}
-
       <a class="top-contact-link" href="{{ `/contact/` | relLangURL }}">Contact Me</a>
 
       {{ partial "components/theme-switcher" (dict "Class" "top-theme-switcher") }}

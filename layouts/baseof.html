@@ -58,7 +58,12 @@
     {{ partialCached "announcement.html" . }}
 
     {{ partial "essentials/header.html" . }}
-    {{ partial "search-modal.html" (dict "Context" . ) }}
+
+    {{/* Home-page 3D hero (static/js/partition-scene.js, assets/css/press.css):
+         the name built from cubes. Present on every page so a page change
+         without reload can bring it back; hidden off home. */}}
+    <canvas class="pp-scene" data-pp-scene data-pp-name="{{ site.Params.logo_text | default .Site.Title }}" aria-hidden="true"></canvas>
+    <div class="pp-progress" data-pp-progress aria-hidden="true"></div>
 
     <main>
       {{ block "main" . }}{{ end }}
@@ -67,5 +72,10 @@
     {{ partial "essentials/footer.html" . }}
 
     {{ partialCached "essentials/script.html" . }}
+    {{/* Not deferred: the scene paints its first frame before the page's first
+         render, so a page change never shows an empty backdrop. */}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="{{ `js/partition-scene.js` | relURL }}"></script>
+    <script src="{{ `js/page-swap.js` | relURL }}"></script>
   </body>
 </html>

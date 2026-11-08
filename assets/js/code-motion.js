@@ -193,7 +193,7 @@
     var parts = split(el, "char");
     var chars = parts.units;
     var count = chars.length;
-    var duration = clamp(count * (opts.perChar || 30), 260, 1000);
+    var duration = clamp(count * (opts.perChar || 16), 180, 650);
     var shown = 0;
 
     el.classList.add("cm-typing");
@@ -232,7 +232,7 @@
     var parts = split(el, "word");
     var words = parts.units;
     var count = words.length;
-    var duration = clamp(count * 16, 260, 1200);
+    var duration = clamp(count * 9, 180, 700);
     var shown = 0;
 
     el.classList.add("cm-streaming");
@@ -271,18 +271,18 @@
   }
 
   function perChar(el) {
-    if (el.closest(".header")) return 30;
-    return /^H[12]$/.test(el.tagName) ? 36 : 30;
+    if (el.closest(".header")) return 16;
+    return /^H[12]$/.test(el.tagName) ? 22 : 16;
   }
 
   // Rough length of an item's animation, used to overlap the queue naturally.
   function estimate(item) {
     var length = (item.el.textContent || "").replace(/\s+/g, "").length;
     if (item.kind === "type")
-      return clamp(length * perChar(item.el), 260, 1000);
-    if (item.kind === "stream") return clamp((length / 5.5) * 16, 260, 1200);
-    if (item.kind === "render") return 700;
-    return 460;
+      return clamp(length * perChar(item.el), 180, 650);
+    if (item.kind === "stream") return clamp((length / 5.5) * 9, 180, 700);
+    if (item.kind === "render") return 450;
+    return 320;
   }
 
   function build(item) {
@@ -293,11 +293,11 @@
       case "stream":
         return stream(el);
       case "chip":
-        return cssAnimation(el, "cm-chip", 460);
+        return cssAnimation(el, "cm-chip", 320);
       case "render":
-        return cssAnimation(el, "cm-render", 700);
+        return cssAnimation(el, "cm-render", 450);
       default:
-        return cssAnimation(el, "cm-draw", 620);
+        return cssAnimation(el, "cm-draw", 450);
     }
   }
 
@@ -345,7 +345,7 @@
     // Fast scrolling can queue a lot at once; compress the stagger so nothing lags behind.
     var backlog = cursor - t;
     // The next item starts while this one is still finishing, like a fast typist.
-    var gap = backlog > 900 ? 24 : clamp(estimate(item) * 0.35, 60, 300);
+    var gap = backlog > 500 ? 16 : clamp(estimate(item) * 0.2, 30, 140);
     lanes[lane] = cursor + gap;
     tasks.push({ item: item, at: cursor });
     if (!running) {
@@ -376,7 +376,9 @@
           if (item) schedule(item);
         });
     },
-    { rootMargin: "0px 0px -6% 0px", threshold: 0.01 },
+    // Start a little before an element scrolls into view, so content is
+    // already typing when it arrives instead of waiting for the scroll to stop.
+    { rootMargin: "0px 0px 30% 0px", threshold: 0.01 },
   );
 
   // skip: an optional element to leave exactly as it is; everything else
@@ -401,6 +403,21 @@
 
     disarm();
   }
+
+  // Content swapped in without a page load (static/js/page-swap.js) types in
+  // the same way: arm everything inside the container.
+  window.codeMotion = {
+    arm: function (container) {
+      var found = collect(container, []);
+      found.forEach(function (item) {
+        if (items.has(item.el)) return;
+        if (!isRendered(item.el)) return;
+        item.el.classList.add("cm-pending");
+        items.set(item.el, item);
+        observer.observe(item.el);
+      });
+    },
+  };
 
   // On a first visit the page waits for the intro's counter to reach 100,
   // then types in while the particles behind it slow down.

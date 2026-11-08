@@ -1,0 +1,269 @@
+/* -------------------------------------------------------------------------- */
+/* Partition Press: the home page hero (layouts/home.html) over a 3D backdrop  */
+/* (layouts/baseof.html + static/js/partition-scene.js) in which the name is  */
+/* built from cubes. Colours, fonts and styles follow the theme switcher.     */
+/* -------------------------------------------------------------------------- */
+
+:root {
+  --pp-ink: var(--color-text-dark);
+  --pp-accent: var(--color-primary);
+  --pp-rule: 2px solid var(--color-text-dark);
+  --pp-ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+body {
+  background: var(--color-body);
+}
+
+/* Page changes swap <main> in place (static/js/page-swap.js): the old
+   content slips away, the new one types in, and the backdrop never restarts. */
+main {
+  transition:
+    opacity 280ms ease,
+    transform 280ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+main.is-leaving {
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+}
+
+/* The scene behind the page. */
+.pp-scene {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* The scene belongs to the home page only. */
+body:not(.is-home) .pp-scene {
+  display: none;
+}
+
+/* During the first-visit fly-in the page is hidden; the scene stays visible. */
+html.intro-active .pp-scene {
+  opacity: 1 !important;
+}
+
+main,
+footer {
+  position: relative;
+  z-index: 1;
+}
+
+/* Page sections used to paint their own opaque background; the body does now. */
+.projects-page,
+.section-page {
+  background-color: transparent !important;
+}
+
+.pp-wrap {
+  padding-inline: clamp(1.1rem, 5vw, 5rem);
+}
+
+.pp-mono {
+  font-family: var(--font-mono) !important;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.pp-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 60;
+  height: 3px;
+  width: 0;
+  background: var(--pp-accent);
+}
+
+/* ------------------------------------------------------------------ hero */
+
+/* Rows: stamp, the empty band the cube name occupies, summary and buttons;
+   everything is centred under the name. */
+.pp-hero {
+  display: grid;
+  min-height: 100svh;
+  grid-template-rows: auto minmax(48svh, 1fr) auto;
+  justify-items: center;
+  padding-block: 4.6rem 1.5rem;
+  text-align: center;
+}
+
+/* Fixed row heights, so switching the font preset never moves the name. */
+.pp-hero__top {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3rem;
+}
+
+.pp-stamp {
+  display: inline-block;
+  border: var(--pp-rule);
+  padding: 0.42rem 0.9rem;
+  background: var(--pp-accent);
+  color: var(--color-body);
+  font-size: 0.82rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.18em;
+  transform: rotate(-1.5deg);
+}
+
+.pp-hero__bottom {
+  grid-row: 3;
+  display: grid;
+  align-content: start;
+  justify-items: center;
+  max-width: 40rem;
+  min-height: 11rem;
+}
+
+.pp-lead {
+  max-width: 38rem;
+  margin: 0;
+  color: var(--color-text);
+  font-size: clamp(0.95rem, 1.15vw, 1.08rem);
+  line-height: 1.55;
+  text-wrap: balance;
+}
+
+.pp-actions {
+  justify-content: center;
+  margin-top: 1.3rem;
+}
+
+@media (min-width: 1301px) {
+  /* Clear the fixed status and signature lines in the bottom corners. */
+  .pp-hero {
+    padding-bottom: 4.6rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .pp-hero {
+    padding-top: 5rem;
+    grid-template-rows: auto minmax(34svh, 1fr) auto;
+  }
+}
+
+/* ------------------------------------------------- style presets (theme menu) */
+
+:root[data-ui-style="minimal"] {
+  --pp-rule: 1px solid var(--color-text-dark);
+}
+
+:root[data-ui-style="minimal"] .pp-stamp {
+  transform: none;
+}
+
+:root[data-ui-style="material"] .pp-stamp {
+  border: 0;
+  border-radius: 999px;
+  box-shadow:
+    0 2px 5px color-mix(in srgb, #000 22%, transparent),
+    0 10px 24px color-mix(in srgb, #000 18%, transparent);
+  transform: none;
+}
+
+:root[data-ui-style="neobrutalism"] .pp-stamp {
+  border: 2px solid var(--nb-shadow);
+  border-radius: 0;
+  box-shadow: 4.5px 4.5px 0 var(--nb-shadow);
+}
+
+:root[data-ui-style="windows-95"] .pp-stamp {
+  border: 2px solid;
+  border-color: #fff #404040 #404040 #fff;
+  border-radius: 0;
+  background: #c0c0c0;
+  box-shadow: 1px 1px 0 #000;
+  color: #000;
+  transform: none;
+}
+
+/* --------------------------------------------------------- minimal footer */
+
+.site-footer-min {
+  display: grid;
+  justify-items: center;
+  gap: 0.8rem;
+  padding: clamp(2.5rem, 5vw, 4rem) clamp(1.1rem, 5vw, 5rem) clamp(2rem, 4vw, 3.5rem);
+  color: var(--color-text-light);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.site-footer-min__menu {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.4rem 1.6rem;
+}
+
+.site-footer-min__menu a {
+  color: var(--color-text-light);
+  text-decoration: none;
+}
+
+.site-footer-min__menu a:hover,
+.site-footer-min__menu a:focus-visible {
+  color: var(--pp-accent);
+}
+
+.site-footer-min__copy {
+  margin: 0;
+}
+
+@media (min-width: 1301px) {
+  /* Stay above the fixed status and signature lines. */
+  .site-footer-min {
+    padding-bottom: 4.5rem;
+  }
+}
+
+/* ---------------------------------------------------- compact theme menu */
+
+/* A smaller, denser dropdown so it covers less of the page. */
+:root:root .code-theme-switcher__menu--combined {
+  width: min(21rem, calc(100vw - 2rem)) !important;
+  max-height: min(72vh, 32rem);
+  overflow: auto;
+  gap: 0.5rem;
+  padding: 0.4rem;
+}
+
+:root:root .code-theme-switcher__heading {
+  margin-bottom: 0.2rem;
+  font-size: 0.6rem;
+  letter-spacing: 0.06em;
+}
+
+:root:root .code-theme-switcher__heading--fonts {
+  margin-top: 0.5rem !important;
+}
+
+:root:root .code-theme-option {
+  gap: 0.5rem;
+  border-radius: 4px;
+  font-size: 0.76rem;
+  padding: 0.26rem 0.42rem;
+}
+
+:root:root .code-theme-option__swatches {
+  gap: 0.22rem;
+  padding: 0.1rem 0.2rem;
+}
+
+:root:root .code-theme-option__swatches i {
+  width: 0.42rem;
+  height: 0.42rem;
+}

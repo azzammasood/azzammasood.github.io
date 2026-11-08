@@ -1,13 +1,11 @@
-{{/* First-visit intro, "warp": the landing page's own particle field
-     (static/js/stream-field.js) races at warp speed while a counter runs from
-     0 to 100, paced by real load progress. At 100 the page types in with its
-     normal entrance animation and the particles ease down to cruising speed.
-     Nothing is swapped or cross-faded: the particles are the real background
-     the whole time. Home page only, once per browser (localStorage
+{{/* First-visit intro: the site's 125 background cells (static/js/partition-
+     scene.js) fly in from outside the screen and assemble into one cube at the
+     centre. Once the page has loaded (and the assembly has had its time), the
+     page types in with its normal entrance animation while the cube dissolves
+     into the home formation. Nothing is overlaid: the cells are the real
+     background the whole time. Home page only, once per browser (localStorage
      "intro-seen"); baseof.html decides. */}}
-<div class="site-intro" aria-hidden="true" data-site-intro>
-  <div class="site-intro__count"><span data-intro-count>0</span><span class="site-intro__pct">%</span></div>
-</div>
+<div class="site-intro" aria-hidden="true" data-site-intro></div>
 <script>
   (function () {
     var root = document.documentElement;
@@ -18,38 +16,29 @@
       return;
     }
 
-    var MIN_MS = 2600; // the warp always gets this long, even when cached
+    var MIN_MS = 3300; // the assembly always gets this long, even when cached
     var MAX_MS = 7000; // never hold a visitor on a slow network
-    var countEl = intro.querySelector("[data-intro-count]");
     var start = performance.now();
-    var target = 0.1;
-    var shown = 0;
-    var finished = false;
+    var loaded = false;
+    var done = false;
 
-    // Real progress: parsed DOM, fonts, then the full load event.
-    document.addEventListener("DOMContentLoaded", function () { target = Math.max(target, 0.5); });
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { target = Math.max(target, 0.8); });
-    window.addEventListener("load", function () { target = 1; });
+    window.addEventListener("load", function () {
+      loaded = true;
+    });
 
-    function frame(now) {
-      if (finished) return;
-      var elapsed = now - start;
-      var cap = Math.min(1, elapsed / MIN_MS);
-      var goal = elapsed > MAX_MS ? 1 : Math.min(target, cap);
-      shown += (goal - shown) * 0.08;
-      if (goal - shown < 0.004) shown = goal;
-      var pct = Math.round(shown * 100);
-      countEl.textContent = pct;
-      if (shown >= 1) {
-        finished = true;
-        window.setTimeout(reveal, 260);
+    function check() {
+      if (done) return;
+      var elapsed = performance.now() - start;
+      if ((loaded && elapsed >= MIN_MS) || elapsed >= MAX_MS) {
+        done = true;
+        reveal();
         return;
       }
-      window.requestAnimationFrame(frame);
+      window.setTimeout(check, 80);
     }
 
-    // The counter fades away, the page starts typing in (code-motion listens
-    // for intro:reveal) and the particles decelerate (stream-field listens too).
+    // The page starts typing in (code-motion listens for intro:reveal) and the
+    // assembled cube dissolves into the home cloud (partition-scene listens too).
     function reveal() {
       document.dispatchEvent(new Event("intro:reveal"));
       root.classList.remove("intro-active");
@@ -63,6 +52,6 @@
       }, 700);
     }
 
-    window.requestAnimationFrame(frame);
+    window.setTimeout(check, 80);
   })();
 </script>

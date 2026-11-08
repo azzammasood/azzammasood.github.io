@@ -1,43 +1,28 @@
 {{ define "main" }}
+  {{/* Home: the name is built from 3D cubes in the backdrop (layouts/baseof.html,
+       static/js/partition-scene.js); this hero holds the stamp above it and the
+       summary and buttons below it, all centred. Styles: assets/css/press.css. */}}
   {{ $banner := .Params.banner }}
-  <section class="landing-hero" aria-label="Introduction">
-    <div class="landing-hero__stripes" aria-hidden="true"></div>
-    <canvas class="landing-streams" aria-hidden="true" data-landing-streams></canvas>
-    <div class="landing-hero__inner">
-      <div class="landing-hero__name">
-        <p class="landing-hero__kicker">Data Engineer</p>
-        <h1>{{ site.Params.logo_text | default .Site.Title }}</h1>
-        {{ with $banner.content }}
-          <p class="landing-hero__summary">{{ . | markdownify }}</p>
-        {{ end }}
-        <div class="landing-hero__actions" data-no-preview>
-          {{ with $banner.button }}
-            {{ if .enable }}
-              <a class="landing-button landing-button--primary" href="{{ .link | relLangURL }}">
-                {{ .label }}
-              </a>
-            {{ end }}
+  {{ $name := site.Params.logo_text | default .Site.Title }}
+
+  <section class="pp-hero pp-wrap" aria-label="Introduction">
+    <div class="pp-hero__top">
+      <span class="pp-stamp pp-mono">Data engineer</span>
+    </div>
+    <h1 class="sr-only">{{ $name }}</h1>
+    <div class="pp-hero__bottom">
+      {{ with $banner.content }}
+        <p class="pp-lead">{{ . | markdownify }}</p>
+      {{ end }}
+      <div class="landing-hero__actions pp-actions" data-no-preview>
+        {{ with $banner.button }}
+          {{ if .enable }}
+            <a class="landing-button landing-button--primary" href="{{ .link | relLangURL }}">{{ .label }}</a>
           {{ end }}
-          <a class="landing-button" href="{{ `/contact/` | relLangURL }}">Contact Me</a>
-        </div>
-
-      </div>
-
-    </div>
-  </section>
-
-  <section class="landing-links" aria-label="Social and site links">
-    <div class="landing-links__inner">
-      <nav class="landing-link-group" aria-label="Socials">
-        <h3>Socials</h3>
-        {{ range site.Data.social.main }}
-          <a href="{{ .link | safeURL }}" target="_blank" rel="noopener">{{ .name | title }}</a>
         {{ end }}
-        <a href="https://substack.com/@azzamnow" target="_blank" rel="noopener">Substack</a>
-        <a href="mailto:ahmaduzzammasood@gmail.com">Email</a>
-      </nav>
-
+        <a class="landing-button" href="{{ `/projects/` | relLangURL }}">Projects</a>
+        <a class="landing-button" href="{{ `/contact/` | relLangURL }}">Contact Me</a>
+      </div>
     </div>
   </section>
-  <script src="{{ `js/stream-field.js` | relURL }}" defer></script>
 {{ end }}

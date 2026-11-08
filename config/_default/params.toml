@@ -44,7 +44,7 @@ link = "https://github.com/azzammasood"
 # search
 # search module: https://github.com/gethugothemes/hugo-modules/tree/master/search
 [search]
-enable = true
+enable = false
 primary_color = "#121212"
 include_sections = ["projects", "competitions", "about"]
 show_image = true

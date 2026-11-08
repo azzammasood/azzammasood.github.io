@@ -1,0 +1,11 @@
+{{/* Minimal footer: the footer menu and the copyright line, nothing else.
+     (Hidden on the home page by assets/css/custom.css.) Kept in both
+     layouts/partials and layouts/_partials so it overrides the theme's. */}}
+<footer class="footer bg-transparent site-footer-min">
+  <nav class="site-footer-min__menu" aria-label="Footer">
+    {{ range site.Menus.footer }}
+      <a href="{{ .URL | relLangURL }}">{{ .Name }}</a>
+    {{ end }}
+  </nav>
+  <p class="site-footer-min__copy">{{ site.Params.copyright | default "© Ahmad Uzzam" }}</p>
+</footer>
